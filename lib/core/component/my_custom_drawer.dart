@@ -1,0 +1,163 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:todo_apps/core/my_extention/my_extentions.dart';
+
+import '../../feature/ai_bot/presention/page/bot_screen.dart';
+import 'my_custom_linear_gradient.dart';
+class MyDrawer extends StatelessWidget {
+   MyDrawer({
+     Key? key,
+      required this.titleOfPage,
+     required this.page,
+     Widget? bottomNavigationBar
+
+
+   }) : _bottomNavigationBar = bottomNavigationBar ;
+   Widget? _bottomNavigationBar;
+
+   final Widget page;
+   final String titleOfPage;
+   AdvancedDrawerController _advancedDrawerController = AdvancedDrawerController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AdvancedDrawer(
+      backdrop: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration:  BoxDecoration(
+          gradient: MyLinearGradient,
+        ),
+      ),
+      controller: _advancedDrawerController,
+      animationCurve: Curves.easeInOut,
+      animationDuration: const Duration(milliseconds: 300),
+      animateChildDecoration: true,
+      rtlOpening: false,
+      // openScale: 1.0,
+      disabledGestures: false,
+      childDecoration: const BoxDecoration(
+
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+      ),
+      drawer: SafeArea(
+
+        child: Container(
+
+          child: ListTileTheme(
+            textColor: Colors.white,
+            iconColor: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: 128.0,
+                  height: 128.0,
+                  margin: const EdgeInsets.only(
+                    top: 24.0,
+                    bottom: 64.0,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    color: Colors.black26,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/images/logo_of_app/TAYSEER.png',
+                  ),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: const Icon(Icons.home),
+                  title: const Text('Home'),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: const Icon(Icons.account_circle_rounded),
+                  title: const Text('Profile'),
+                ),
+                ListTile(
+                  onTap: () {context.push(BotScreen());},
+                  leading: const Icon(Icons.question_answer_outlined),
+                  title: const Text('AI Bot'),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: const Icon(Icons.settings),
+                  title: const Text('Settings'),
+                ),
+                const Spacer(),
+                DefaultTextStyle(
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white54,
+                  ),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                    ),
+                    child: const Text('Terms of Service | Privacy Policy'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        appBar: AppBar(
+          title:  Text(titleOfPage,
+            style: const TextStyle(color: Colors.white, fontFamily: 'Tajawal', fontWeight: FontWeight.bold,),),
+          flexibleSpace:
+          Container(
+            decoration:  BoxDecoration(
+              gradient:MyLinearGradient,
+            ),
+          ),
+          leading: IconButton(
+            color: Colors.white,
+            onPressed: _handleMenuButtonPressed,
+            icon: ValueListenableBuilder<AdvancedDrawerValue>(
+              valueListenable: _advancedDrawerController,
+              builder: (_, value, __) {
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  child: Icon(
+                    value.visible ? Icons.clear : Icons.menu,
+                    key: ValueKey<bool>(value.visible),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              page,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding:EdgeInsets.symmetric(horizontal: 7,vertical: 7),
+                  child: _bottomNavigationBar!,
+                ),
+
+              )
+            ],
+          ),
+        ),
+
+      ),
+    );
+  }
+   void _handleMenuButtonPressed() {
+
+
+     _advancedDrawerController.showDrawer();
+   }
+}
