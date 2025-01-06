@@ -8,6 +8,7 @@ import 'package:todo_apps/feature/otherpages/page5.dart';
 import 'package:todo_apps/feature/reminder/presention/pages/alarm_page.dart';
 
 import '../../../../core/component/my_custom_drawer.dart';
+import '../../../centers/presention/pages/main_page_of_centers_list.dart';
 import '../../../home_page/presention/page/home_screen.dart';
 import '../management/navigation_page_bloc/navigation_page_cubit.dart';
 import '../management/navigation_page_bloc/navigation_page_state.dart';
@@ -29,7 +30,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
    List<BottomBarItem> bottomBarItemItems=[
      BottomBarItem(iconData: Icons.home,),
      BottomBarItem(iconData: Icons.share_arrival_time_sharp),
-     BottomBarItem(iconData: Icons.notifications),
+     BottomBarItem(iconData: Icons.home_work_rounded),
      BottomBarItem(iconData: Icons.calendar_month),
      BottomBarItem(iconData: Icons.settings,),
    ];
@@ -42,9 +43,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
         int indexOfSelection=BlocProvider.of<NavigationPageCubit>(context).selectedItemIndex;
         return MyDrawer(
           titleOfPage: indexOfSelection==0?'الصفحة الرئيسية':indexOfSelection==1?"المنبه":indexOfSelection==2?
-          "الصفحة الثالثة":indexOfSelection==3?"الصفحة الرابعة":"الصفحة الخامسة",
+          "المراكز":indexOfSelection==3?"الصفحة الرابعة":"الصفحة الخامسة",
           page: indexOfSelection==0? const HomeScreen():indexOfSelection==1?
-          const AlarmPage():indexOfSelection==2? const Page3():indexOfSelection==3? const Page4():Page5(),
+          const AlarmPage():indexOfSelection==2? const MainPageOfCentersList():indexOfSelection==3? const Page4():Page5(),
           bottomNavigationBar:BottomBarDoubleBullet(
             bubbleSize: 15,
             backgroundColor: Theme.of(context).colorScheme.background,

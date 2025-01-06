@@ -112,10 +112,10 @@ class _BotScreenState extends State<BotScreen> {
                   },
                 ),
               ),
-              if (isLoading)
-                const LinearProgressIndicator( color: Colors.blue,
+              //if (isLoading)
+                /*const LinearProgressIndicator( color: Colors.blue,
                   is_ShaderMask: true,
-                ),
+                ),*/
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
                 child: Row(

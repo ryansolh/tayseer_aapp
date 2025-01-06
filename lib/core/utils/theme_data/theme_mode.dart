@@ -63,6 +63,7 @@ ThemeData LightMode=ThemeData(
 
       ),
       labelMedium: const TextStyle(
+
         color: Colors.black87,
         fontFamily: 'Tajawal',
         fontWeight: FontWeight.normal,

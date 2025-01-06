@@ -12,57 +12,47 @@ class MapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MapCubit()..getCurrentLocation(LatLng(15.371763, 44.177131)),
-      child: Scaffold(
-        backgroundColor: Colors.black54,
-        appBar: AppBar(title: const Text('المسار الاقرب بين موقعي الحالي والموقع المحدد')),
-        body: BlocBuilder<MapCubit, MapState>(
-          builder: (context, state) {
-            if (state.currentLocation == null) {
-              return Container(
+      child:BlocBuilder<MapCubit, MapState>(
+        builder: (context, state) {
+          if (state.currentLocation == null) {
+            return Container(
                 color: Theme.of(context).colorScheme.surface,
-                  child: const Center(
-                      child: CircularProgressIndicator(color: Colors.blue)
-                  )
-              );
-            }
+                child: const Center(
+                    child: CircularProgressIndicator(color: Colors.blue)
+                )
+            );
+          }
 
-            return FlutterMap(
-              mapController: MapController(),
-              options: MapOptions(
+          return FlutterMap(
+            mapController: MapController(),
+            options: MapOptions(
                 initialCenter: LatLng(state.currentLocation!.latitude!, state.currentLocation!.longitude!),
                 initialZoom: 15.0,
                 onTap: (tapPosition,point) {
-                 // print(point);
+                  // print(point);
                 }
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                subdomains: const ['a', 'b', 'c'],
               ),
-              children: [
-                TileLayer(
-                  urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                  subdomains: const ['a', 'b', 'c'],
-                ),
-                MarkerLayer(
-                  markers: state.markers,
-                ),
-                PolylineLayer(
-                  polylines: [
-                    Polyline(
-                      points: state.routePoints,
-                      strokeWidth: 4.0,
-                      color: Colors.blueAccent,
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            context.read<MapCubit>().getCurrentLocation(LatLng(15.371763, 44.177131));
-          },
-          child: const Icon(Icons.my_location, color: Colors.white),
-        ),
-      ),
+              MarkerLayer(
+                markers: state.markers,
+              ),
+              PolylineLayer(
+                polylines: [
+                  Polyline(
+                    points: state.routePoints,
+                    strokeWidth: 4.0,
+                    color: Colors.blueAccent,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      )
     );
   }
 }

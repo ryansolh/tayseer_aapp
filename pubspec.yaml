@@ -75,7 +75,10 @@ dependencies:
   shared_preferences: ^2.3.3
   jwt_decoder: ^2.0.1
   google_generative_ai: ^0.4.6
+  marquee:
+  fab_circular_menu: ^1.0.2
 #############################
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
