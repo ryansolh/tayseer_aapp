@@ -14,6 +14,7 @@ class Description extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 15),
       child: Text(
+
         center!.description!,
         style:Theme.of(context).textTheme.labelSmall,
         textDirection: TextDirection.rtl,
