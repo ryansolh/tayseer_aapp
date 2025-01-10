@@ -1,181 +1,155 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_apps/core/my_extention/my_extentions.dart';
+
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
-import '../../../basic_navigation_page/presention/page/navigation_page.dart';
+import '../../../../core/services/user_services/user_services.dart';
 import '../widgets/input_widget.dart';
 
-// ignore: must_be_immutable
-class SignUp extends StatelessWidget {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+class SignupPage extends StatelessWidget {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
 
-  SignUp({super.key});
-
+  SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
 
-    Size sizeOfScreen = MediaQuery
-        .of(context)
-        .size;
+    Size sizeOfScreen = MediaQuery.of(context).size;
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .background,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .background,
+        backgroundColor: Theme.of(context).colorScheme.background,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: Theme
-              .of(context)
-              .colorScheme
-              .secondary,
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
       ),
-
-      body: SingleChildScrollView(
-        child: Container(
-          color: Theme
-              .of(context)
-              .colorScheme
-              .background,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      children: const <Widget>[
-                        MyTitle(textOfTitle: "تسجيل الدخول", startDelay: 500),
-                        SizedBox(height: 20,),
-                        MySubTitle(textOfSubTitle: "قم بإخال بيانات حسابك",
-                            startDelay: 700)
-                      ],
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Theme.of(context).colorScheme.background,
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            height: MediaQuery.of(context).size.height - 50,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  children: const <Widget>[
+                    MyTitle(textOfTitle: "إنشاء حساب", startDelay: 500),
+                    SizedBox(
+                      height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Column(
-                        children: <Widget>[
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 1200),
-                              child: makeInput(
-                                inputController: emailController,
-                                context: context,
-                                Height: sizeOfScreen.height * 0.1 * 0.75,
-                                Width: sizeOfScreen.width > sizeOfScreen.height
-                                    ? sizeOfScreen.height - 100
-                                    : double.infinity,
-                                sizeOfScreen: sizeOfScreen,
-                                label: "Email",
-                              )
-                          ),
-                          20.SH,
-                          FadeInUp(duration: const Duration(milliseconds: 1300),
-                              child: makeInput(
-                                  context: context,
-                                  sizeOfScreen: sizeOfScreen,
-                                  Height: sizeOfScreen.height * 0.1 * 0.75,
-                                  Width: sizeOfScreen.width >
-                                      sizeOfScreen.height ? sizeOfScreen
-                                      .height - 100 : double.infinity,
-                                  label: "Password",
-                                  inputController: passController,
-                                  obscureText: true)
-                          ),
-                        ],
-                      ),
-                    ),
-                    50.SH,
-                    FadeInUp(duration: const Duration(milliseconds: 1400),
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
-                            child: MyButtonWithBackground(
-                              context: context,
-                                textButton: 'Sign Up',
-                                height: sizeOfScreen.height * 0.1 * 0.75,
-                                width: sizeOfScreen.width > sizeOfScreen.height
-                                    ? sizeOfScreen.height - 100
-                                    : double.infinity,
-                                onPressed: () {
-                                  context.push(const NavigationScreen());
-
-                                }
-                            )
-                        )
-                    ),
-                    20.SH,
-                    FadeInUp(
-                        duration: const Duration(milliseconds: 1500),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const MySubTitle(
-                                textOfSubTitle: "?Don't have an account",
-                                startDelay: 800),
-                            GestureDetector(
-                              child: Text(
-                                "   Sign up",
-                                style: TextStyle(
-                                  color: const Color(0xFF75B6E3),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: sizeOfScreen.height * 0.019,
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        )
-                    ),
-
-                    Expanded(
-                      flex: 1,
-
-                      child: FadeInUp(
-                          duration: const Duration(milliseconds: 1200),
-                          child: SizedBox(
-                            height: sizeOfScreen.height / 4,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/ImagesForLoginAndSignupPages/Reset-password.png'),
-                                  )
-                              ),
-                            ),
-                          )
-                      ),
-                    )
-                    /////////////
+                    MySubTitle(
+                        textOfSubTitle: "قم بانشاء حسابك", startDelay: 700)
                   ],
                 ),
-              ),
-
-
-            ],
+                Column(
+                  children: <Widget>[
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 1200),
+                      child: makeInput(
+                        context: context,
+                        sizeOfScreen: sizeOfScreen,
+                        Height: sizeOfScreen.height * 0.1 * 0.75,
+                        Width: sizeOfScreen.width > sizeOfScreen.height
+                            ? sizeOfScreen.height - 100
+                            : double.infinity,
+                        label: "name",
+                        inputController:nameController,
+                      ),
+                    ),
+                    FadeInUp(
+                        duration: const Duration(milliseconds: 1200),
+                        child: makeInput(
+                          context: context,
+                          sizeOfScreen: sizeOfScreen,
+                          Height: sizeOfScreen.height * 0.1 * 0.75,
+                          Width: sizeOfScreen.width > sizeOfScreen.height
+                              ? sizeOfScreen.height - 100
+                              : double.infinity,
+                          label: "Email",
+                          inputController: emailController,
+                        ),
+                    ),
+                    FadeInUp(
+                        duration: const Duration(milliseconds: 1200),
+                        child: makeInput(
+                            context: context,
+                            sizeOfScreen: sizeOfScreen,
+                            Height: sizeOfScreen.height * 0.1 * 0.75,
+                            Width: sizeOfScreen.width > sizeOfScreen.height
+                                ? sizeOfScreen.height - 100
+                                : double.infinity,
+                            label: "Password",
+                            inputController: passController,
+                            obscureText: true)),
+                    FadeInUp(
+                        duration: const Duration(milliseconds: 1200),
+                        child: makeInput(
+                            context: context,
+                            sizeOfScreen: sizeOfScreen,
+                            Height: sizeOfScreen.height * 0.1 * 0.75,
+                            Width: sizeOfScreen.width > sizeOfScreen.height
+                                ? sizeOfScreen.height - 100
+                                : double.infinity,
+                            label: "Confirm Password",
+                            inputController: passController,
+                            obscureText: true)),
+                  ],
+                ),
+                FadeInUp(
+                    duration: const Duration(milliseconds: 1400),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: MyButtonWithBackground(
+                          context: context,
+                            textButton: 'Sign Up',
+                            height: sizeOfScreen.height * 0.1 * 0.75,
+                            width: sizeOfScreen.width > sizeOfScreen.height
+                                ? sizeOfScreen.height - 100
+                                : double.infinity,
+                            onPressed: () {
+                              SignUpAuth(nameController.text,emailController.text,passController.text);
+                            }))),
+                FadeInUp(
+                    duration: const Duration(milliseconds: 1500),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const MySubTitle(
+                            textOfSubTitle: "انا امتلك حسابا", startDelay: 300),
+                        GestureDetector(
+                          child: Text(
+                            "   تسجيل الدخول",
+                            style: TextStyle(
+                              color: const Color(0xFF75B6E3),
+                              fontWeight: FontWeight.w500,
+                              fontSize: sizeOfScreen.height * 0.019,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
           ),
         ),
       ),
-
-
     );
   }
 }

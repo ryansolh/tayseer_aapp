@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
-import 'package:todo_apps/feature/user_login/presention/pages/signin_page.dart';
+import 'package:todo_apps/feature/user_login/presention/pages/login_screen.dart';
 import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
@@ -86,12 +86,12 @@ class WelcomePage extends StatelessWidget {
                               delay: const Duration(milliseconds: 0),
                               child: MyButtonNoBackground(
                                 context,
-                                  textButton: 'Sign In',
+                                  textButton: 'Sign Up',
                                   Height: sizeOfScreen.height*0.1*0.75,
                                   Width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
 
                                   onPressed: (){
-                                    context.push(SignInPage());
+                                    context.push(SignupPage());
                                   }
                               )
                           ),
@@ -100,12 +100,12 @@ class WelcomePage extends StatelessWidget {
                               delay: const Duration(milliseconds: 0),
                               child: MyButtonWithBackground(
                                 context: context,
-                                  textButton: 'Sign Up',
+                                  textButton: 'Login',
                                   height: sizeOfScreen.height*0.1*0.75,
                                   width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
 
                                   onPressed: (){
-                                    context.push(SignUp());
+                                    context.push(LoginScreen());
                                   }
                               )
                           ),

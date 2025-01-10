@@ -8,11 +8,11 @@
 
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_apps/feature/centers/presention/widgets/show_map_bottom_sheet.dart';
 
-import '../../../map/presention/page/map_page.dart';
-Widget MoreServiceButton(BuildContext context,) {
+
+
+
+Widget MoreServiceButtonOfBlogApp(BuildContext context,) {
   return FabCircularMenu(
     // Cannot be `Alignment.center`
     alignment: Alignment.bottomRight,
@@ -43,42 +43,24 @@ Widget MoreServiceButton(BuildContext context,) {
         },
         shape: CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.looks_one, color: Colors.grey),
+        child: Icon(Icons.account_box_outlined, color: Colors.grey),
       ),
+
       RawMaterialButton(
         onPressed: () {
-          print("You pressed 2");
+
         },
         shape: CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.looks_two, color: Colors.grey),
+        child:Icon(Icons.add_circle_sharp,color: Colors.grey,),
       ),
       RawMaterialButton(
         onPressed: () {
-          print("You pressed 3");
+
         },
         shape: CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.looks_3, color: Colors.grey),
-      ),
-      RawMaterialButton(
-        onPressed: () {
-         showModalBottomSheet(
-           shape: RoundedRectangleBorder(borderRadius:BorderRadius.only(topLeft: Radius.circular(20),topRight:Radius.circular(20) ) ),
-             context: context,
-             builder: (context){
-               return Container(
-                 color: Theme.of(context).colorScheme.background,
-                 height: MediaQuery.of(context).size.height-100,
-                 width: double.infinity,
-                 child: MapScreen(),
-               );
-             }
-         );
-        },
-        shape: CircleBorder(),
-        padding: const EdgeInsets.all(24.0),
-        child:Icon(Icons.map,color: Colors.grey,),
+        child:Icon(Icons.add_circle_sharp,color: Colors.grey,),
       )
     ],
   );

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
-import '../../../feature/user_login/presention/pages/signup_page.dart';
+import '../../../feature/user_login/presention/pages/login_screen.dart';
 
 
 class DioHelper {
