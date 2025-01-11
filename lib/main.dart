@@ -9,7 +9,7 @@ import 'core/utils/theme_data/theme_mode.dart';
 import 'feature/basic_navigation_page/presention/management/navigation_page_bloc/navigation_page_cubit.dart';
 import 'feature/home_page/presention/management/home_screen_bloc/home_screen_cubit.dart';
 import 'feature/map/presention/management/map_bloc/map_page_cubit.dart';
-import 'feature/platform/presention/management/like_management/like_cubit.dart';
+import 'feature/platform/presention/management/main_page_of_platform_management/main_page_of_platform_cubit.dart';
 import 'feature/platform/presention/management/posts_management/blog_app_cubit.dart';
 import 'feature/splash_screen/presention/management/splash_screen_bloc/splash_screen_cubit.dart';
 import 'feature/splash_screen/presention/pages/splash_screen_page.dart';
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>NavigationPageCubit()),
         BlocProvider(create: (context)=>HomeScreenCubit()),
         BlocProvider(create: (context)=>BlogAppPostCubit()),
-       // BlocProvider(create: (context)=>BlogAppLikeCubit()),
+        BlocProvider(create: (context)=>MainPageOfPlatformCubit()),
       ],
 
       child:MaterialApp(

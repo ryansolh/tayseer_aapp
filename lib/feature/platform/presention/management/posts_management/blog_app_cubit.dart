@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/widgets.dart';
 import 'package:todo_apps/feature/platform/data/models/post_model.dart';
 
 import '../../../../../core/network/remote/remote_dio.dart';
@@ -19,7 +20,7 @@ class BlogAppPostCubit extends Cubit<BlogAppPostsState> {
 
  late List<PostModel> postsData=[];
 
-
+Icon? likeIcon;
 
   void GettingAllPosts()async{
    try{
@@ -36,8 +37,12 @@ class BlogAppPostCubit extends Cubit<BlogAppPostsState> {
     // print(e);
    }
   }
+
   void putOrDeleteLike(int postId)async{
+
+    //emit(SuccessfullyFetchingPost());
     try{
+
       DioHelper.init();
       var response=await DioHelper.post(
           url: baseUrl+postUrl+"${postId}/"+likeUrl,
@@ -50,7 +55,26 @@ class BlogAppPostCubit extends Cubit<BlogAppPostsState> {
     }catch(e){
       // print(e);
     }
+
   }
+
+  void addingComment(String comment,postId)async{
+ try{
+   DioHelper.init();
+   await DioHelper.post(
+       url: "$baseUrl$postUrl${postId}/$commentsUrl",
+       authorization: 'Bearer $token',
+       data: {
+         "content":comment
+       }
+   );
+   emit(SuccessfullyFetchingPost());
+ }catch(e){
+   print(e);
+ }
+
+
+}
 
 
 

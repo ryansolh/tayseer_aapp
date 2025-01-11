@@ -13,8 +13,6 @@ import '../../../../core/component/my_custom_shadermask.dart';
 import '../../../../core/network/remote/remote_dio.dart';
 import '../../../../core/services/blog_services/posts_services.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
-import '../management/like_management/like_cubit.dart';
-import '../management/like_management/like_state.dart';
 
 
 class PostsPage extends StatefulWidget {
@@ -31,24 +29,6 @@ List<Comment> parseComments(List<dynamic> jsonList) {
 
 List<PostModel> postsData=[];
 
-List<Comment> commentsData=[];
-
-void addComment(String comment,postId)async{
-  DioHelper.init();
-  var response=await DioHelper.post(
-      url: "$baseUrl$postUrl${postId}/$commentsUrl",
-      authorization: 'Bearer $token',
-    data: {
-        "content":comment
-    }
-  );
-  if(response.statusCode==200){
-    setState(() {
-      commentsData = parseComments(response.data);
-    });
-  }
-
-}
 
   bool gettingDataOfPost=false;
 
@@ -168,180 +148,347 @@ if(gettingDataOfPost==false){
                                            IconButton(
                                                onPressed: ()async{
 
-                                                 DioHelper.init();
-                                                 var response=await DioHelper.get(
-                                                     url: "$baseUrl$postUrl${postsData[index].id}/$commentsUrl",
-                                                     authorization: 'Bearer $token'
-                                                 );
-                                                 commentsData = parseComments(response.data);
-
-
-
                                                  showModalBottomSheet(
                                                      shape: const RoundedRectangleBorder(borderRadius:BorderRadius.only(topLeft: Radius.circular(20),topRight:Radius.circular(20) ) ),
                                                      context: context,
                                                      builder: (context){
+                                                       return BlocProvider(
+                                                           create: (context)=>BlogAppPostCubit(),
+                                                       child:BlocConsumer<BlogAppPostCubit,BlogAppPostsState>(
+                                                         builder: (context, Commentstate){
+                                                           return Commentstate is SuccessfullyFetchingPost?Stack(
+                                                             children: [
+                                                               Padding(
+                                                                 padding: EdgeInsets.only(bottom: 1),
+                                                                 child: Container(
 
+                                                                   color: Theme.of(context).colorScheme.background,
+                                                                   height: MediaQuery.of(context).size.height-100,
+                                                                   width: double.infinity,
+                                                                   child: postsData[index].comments.isEmpty?Center(
+                                                                     child: Column(
+                                                                       children: [
+                                                                         10.SH,
 
-
-                                                       return Stack(
-                                                         children: [
-                                                           Container(
-
-                                                             color: Theme.of(context).colorScheme.background,
-                                                             height: MediaQuery.of(context).size.height-100,
-                                                             width: double.infinity,
-                                                             child: commentsData.isEmpty?Center(
-                                                               child: Column(
-                                                                 children: [
-                                                                   10.SH,
-
-                                                                   SizedBox(
-                                                                     height: _h*0.03,
-                                                                     child: const Center(
-                                                                       child: Text('التعليقات'),
+                                                                         SizedBox(
+                                                                           height: _h*0.03,
+                                                                           child: const Center(
+                                                                             child: Text('التعليقات'),
+                                                                           ),
+                                                                         ),
+                                                                         100.SH,
+                                                                         Text('!لا يوجد تعليقات',style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.grey),),
+                                                                       ],
                                                                      ),
-                                                                   ),
-                                                                   100.SH,
-                                                                   Text('!لا يوجد تعليقات',style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.grey),),
-                                                                 ],
-                                                               ),
-                                                             ):Column(
-                                                               children: [
-                                                                 10.SH,
+                                                                   ):Column(
+                                                                     children: [
+                                                                       10.SH,
 
-                                                                 SizedBox(
-                                                                   height: _h*0.03,
-                                                                   child: const Center(
-                                                                     child: Text('التعليقات'),
-                                                                   ),
-                                                                 ),
-                                                                 Expanded(
-                                                                   child: AnimationLimiter(
-                                                                     child: ListView.builder(
-                                                                       //padding: EdgeInsets.all(_w / 30),
-                                                                       physics:
-                                                                       const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                                                                       itemCount: commentsData.length,
-                                                                       itemBuilder: (BuildContext context, int indexOfComment) {
-                                                                         return AnimationConfiguration.staggeredList(
-                                                                           position: index,
-                                                                           delay: const Duration(milliseconds: 100),
-                                                                           child: SlideAnimation(
-                                                                             duration: const Duration(milliseconds: 2500),
-                                                                             curve: Curves.fastLinearToSlowEaseIn,
-                                                                             child: FadeInAnimation(
-                                                                               curve: Curves.fastLinearToSlowEaseIn,
-                                                                               duration: const Duration(milliseconds: 2500),
-                                                                               child: Container(
-                                                                                 margin: const EdgeInsets.only(bottom: 1),
-                                                                                 decoration: BoxDecoration(
-                                                                                   color: Colors.white,
-                                                                                   boxShadow: [
-                                                                                     BoxShadow(
-                                                                                       color: Colors.grey.withOpacity(0.1),
-                                                                                       blurRadius: 40,
-                                                                                       spreadRadius: 10,
-                                                                                     ),
-                                                                                   ],
-                                                                                 ),
-                                                                                 child: Column(
-                                                                                   crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                   children: [
-
-                                                                                     Row(
-                                                                                       mainAxisAlignment: MainAxisAlignment.end,
-                                                                                       children: [
-
-                                                                                         Text("${commentsData[indexOfComment].user.name}"),//${postsData[index].comments[indexOfComment].us}
-                                                                                         // 5.SW,
-                                                                                         CircleAvatar(
-                                                                                           backgroundColor: Theme.of(context).colorScheme.background,
-                                                                                           child:const Icon(Icons.account_circle_outlined,color:Colors.grey ,) ,
+                                                                       SizedBox(
+                                                                         height: _h*0.03,
+                                                                         child: const Center(
+                                                                           child: Text('التعليقات'),
+                                                                         ),
+                                                                       ),
+                                                                       Expanded(
+                                                                         child: Padding(
+                                                                           padding: EdgeInsets.only(bottom: 100),
+                                                                           child: AnimationLimiter(
+                                                                             child: ListView.builder(
+                                                                               //padding: EdgeInsets.all(_w / 30),
+                                                                               physics:
+                                                                               const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                                               itemCount: postsData[index].comments.length,
+                                                                               itemBuilder: (BuildContext context, int indexOfComment) {
+                                                                                 return AnimationConfiguration.staggeredList(
+                                                                                   position: index,
+                                                                                   delay: const Duration(milliseconds: 100),
+                                                                                   child: SlideAnimation(
+                                                                                     duration: const Duration(milliseconds: 2500),
+                                                                                     curve: Curves.fastLinearToSlowEaseIn,
+                                                                                     child: FadeInAnimation(
+                                                                                       curve: Curves.fastLinearToSlowEaseIn,
+                                                                                       duration: const Duration(milliseconds: 2500),
+                                                                                       child: Container(
+                                                                                         margin: const EdgeInsets.only(bottom: 1),
+                                                                                         decoration: BoxDecoration(
+                                                                                           color: Colors.white,
+                                                                                           boxShadow: [
+                                                                                             BoxShadow(
+                                                                                               color: Colors.grey.withOpacity(0.1),
+                                                                                               blurRadius: 40,
+                                                                                               spreadRadius: 10,
+                                                                                             ),
+                                                                                           ],
                                                                                          ),
+                                                                                         child: Column(
+                                                                                           crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                           children: [
+
+                                                                                             Row(
+                                                                                               mainAxisAlignment: MainAxisAlignment.end,
+                                                                                               children: [
+
+                                                                                                 Text("${postsData[index].comments[indexOfComment].user.name}"),//${postsData[index].comments[indexOfComment].us}
+                                                                                                 // 5.SW,
+                                                                                                 CircleAvatar(
+                                                                                                   backgroundColor: Theme.of(context).colorScheme.background,
+                                                                                                   child:const Icon(Icons.account_circle_outlined,color:Colors.grey ,) ,
+                                                                                                 ),
 
 
-                                                                                       ],
-                                                                                     ),
-                                                                                     Padding(
-                                                                                       padding: const EdgeInsets.only(right: 30),
-                                                                                       child: Text(
-                                                                                         commentsData[indexOfComment].content,
-                                                                                         style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                                                                                             color: Colors.grey,
-                                                                                             fontSize: _h*0.015
+                                                                                               ],
+                                                                                             ),
+                                                                                             Padding(
+                                                                                               padding: const EdgeInsets.only(right: 30),
+                                                                                               child: Text(
+                                                                                                 postsData[index].comments[indexOfComment].content,
+                                                                                                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                                                                                                     color: Colors.grey,
+                                                                                                     fontSize: _h*0.015
+                                                                                                 ),
+                                                                                                 textDirection: TextDirection.rtl,
+                                                                                                 textAlign: TextAlign.justify,
+                                                                                               ),
+                                                                                             ),
+                                                                                             5.SH
+
+                                                                                           ],
                                                                                          ),
-                                                                                         textDirection: TextDirection.rtl,
-                                                                                         textAlign: TextAlign.justify,
                                                                                        ),
                                                                                      ),
-                                                                                     5.SH
-
-                                                                                   ],
-                                                                                 ),
-                                                                               ),
+                                                                                   ),
+                                                                                 );
+                                                                               },
                                                                              ),
                                                                            ),
-                                                                         );
-                                                                       },
-                                                                     ),
+                                                                         ),
+                                                                       ),
+                                                                     ],
                                                                    ),
                                                                  ),
-                                                               ],
-                                                             ),
-                                                           ),
-                                                           Positioned(
-                                                               bottom: 10,
-                                                               right: 0,
-                                                               left: 7,
-                                                               child: Row(
-                                                                 children: [
-                                                                   Expanded(
-                                                                     flex: 15,
-                                                                     child: TextFormField(
+                                                               ),
+                                                               Positioned(
+                                                                   bottom: 10,
+                                                                   right: 0,
+                                                                   left: 7,
+                                                                   child: Row(
+                                                                     children: [
+                                                                       Expanded(
+                                                                         flex: 15,
+                                                                         child: TextFormField(
 
-                                                                       controller: _commentController,
+                                                                           controller: _commentController,
 
-                                                                       //textDirection: TextDirection.rtl,
-                                                                       textAlign: TextAlign.right,
-                                                                       decoration: InputDecoration(
-                                                                         filled: true,
-                                                                         fillColor: Theme.of(context).colorScheme.secondary.withAlpha(24),
-                                                                         border: OutlineInputBorder(
-                                                                           borderRadius: BorderRadius.circular(25),
-                                                                           borderSide: BorderSide.none,
+                                                                           //textDirection: TextDirection.rtl,
+                                                                           textAlign: TextAlign.right,
+                                                                           decoration: InputDecoration(
+                                                                             filled: true,
+                                                                             fillColor: Theme.of(context).colorScheme.secondary.withAlpha(24),
+                                                                             border: OutlineInputBorder(
+                                                                               borderRadius: BorderRadius.circular(25),
+                                                                               borderSide: BorderSide.none,
+                                                                             ),
+                                                                             hintText: "...قم بكتابة تعليقك",
+                                                                             contentPadding: const EdgeInsets.symmetric(
+                                                                                 horizontal: 20, vertical: 15),
+                                                                           ),
+                                                                           validator: (value) {
+                                                                             //_scrollToBottom();
+                                                                             if(value!.isEmpty ){
+                                                                               return 'يجب تعبئة الحقل';
+                                                                             }
+
+                                                                           },
                                                                          ),
-                                                                         hintText: "...قم بكتابة تعليقك",
-                                                                         contentPadding: const EdgeInsets.symmetric(
-                                                                             horizontal: 20, vertical: 15),
                                                                        ),
-                                                                       validator: (value) {
-                                                                         //_scrollToBottom();
-                                                                         if(value!.isEmpty ){
-                                                                           return 'يجب تعبئة الحقل';
-                                                                         }
-
-                                                                       },
-                                                                     ),
-                                                                   ),
-                                                                   const Spacer(),
-                                                                   MyShaderMask(
-                                                                       toolWidget: IconButton(
-                                                                         padding: const EdgeInsets.all(15),
-                                                                         iconSize: 30,
-                                                                         splashRadius: 25,
-                                                                         //color: MyTheme.primaryColor,
-                                                                         icon: const Icon(Icons.send, color: Colors.black),
-                                                                         onPressed: () {
-                                                                           addComment(_commentController.text, postsData[index].id);
-                                                                         },
-                                                                       ),
-                                                                       radius: 1.5
+                                                                       const Spacer(),
+                                                                       MyShaderMask(
+                                                                           toolWidget: IconButton(
+                                                                             padding: const EdgeInsets.all(15),
+                                                                             iconSize: 30,
+                                                                             splashRadius: 25,
+                                                                             //color: MyTheme.primaryColor,
+                                                                             icon: const Icon(Icons.send, color: Colors.black),
+                                                                             onPressed: () {
+                                                                               BlocProvider.of<BlogAppPostCubit>(context).addingComment(_commentController.text, postsData[index].id);
+                                                                               BlocProvider.of<BlogAppPostCubit>(context).GettingAllPosts();
+                                                                             },
+                                                                           ),
+                                                                           radius: 1.5
+                                                                       )
+                                                                     ],
                                                                    )
-                                                                 ],
                                                                )
-                                                           )
-                                                         ],
+                                                             ],
+                                                           ):Stack(
+                                                             children: [
+                                                               Padding(
+                                                                 padding: EdgeInsets.only(bottom: 1),
+                                                                 child: Container(
+
+                                                                   color: Theme.of(context).colorScheme.background,
+                                                                   height: MediaQuery.of(context).size.height-100,
+                                                                   width: double.infinity,
+                                                                   child: postsData[index].comments.isEmpty?Center(
+                                                                     child: Column(
+                                                                       children: [
+                                                                         10.SH,
+
+                                                                         SizedBox(
+                                                                           height: _h*0.03,
+                                                                           child: const Center(
+                                                                             child: Text('التعليقات'),
+                                                                           ),
+                                                                         ),
+                                                                         100.SH,
+                                                                         Text('!لا يوجد تعليقات',style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.grey),),
+                                                                       ],
+                                                                     ),
+                                                                   ):Column(
+                                                                     children: [
+                                                                       10.SH,
+
+                                                                       SizedBox(
+                                                                         height: _h*0.03,
+                                                                         child: const Center(
+                                                                           child: Text('التعليقات'),
+                                                                         ),
+                                                                       ),
+                                                                       Expanded(
+                                                                         child: Padding(
+                                                                           padding: EdgeInsets.only(bottom: 100),
+                                                                           child: AnimationLimiter(
+                                                                             child: ListView.builder(
+                                                                               //padding: EdgeInsets.all(_w / 30),
+                                                                               physics:
+                                                                               const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                                               itemCount: postsData[index].comments.length,
+                                                                               itemBuilder: (BuildContext context, int indexOfComment) {
+                                                                                 return AnimationConfiguration.staggeredList(
+                                                                                   position: index,
+                                                                                   delay: const Duration(milliseconds: 100),
+                                                                                   child: SlideAnimation(
+                                                                                     duration: const Duration(milliseconds: 2500),
+                                                                                     curve: Curves.fastLinearToSlowEaseIn,
+                                                                                     child: FadeInAnimation(
+                                                                                       curve: Curves.fastLinearToSlowEaseIn,
+                                                                                       duration: const Duration(milliseconds: 2500),
+                                                                                       child: Container(
+                                                                                         margin: const EdgeInsets.only(bottom: 1),
+                                                                                         decoration: BoxDecoration(
+                                                                                           color: Colors.white,
+                                                                                           boxShadow: [
+                                                                                             BoxShadow(
+                                                                                               color: Colors.grey.withOpacity(0.1),
+                                                                                               blurRadius: 40,
+                                                                                               spreadRadius: 10,
+                                                                                             ),
+                                                                                           ],
+                                                                                         ),
+                                                                                         child: Column(
+                                                                                           crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                           children: [
+
+                                                                                             Row(
+                                                                                               mainAxisAlignment: MainAxisAlignment.end,
+                                                                                               children: [
+
+                                                                                                 Text("${postsData[index].comments[indexOfComment].user.name}"),//${postsData[index].comments[indexOfComment].us}
+                                                                                                 // 5.SW,
+                                                                                                 CircleAvatar(
+                                                                                                   backgroundColor: Theme.of(context).colorScheme.background,
+                                                                                                   child:const Icon(Icons.account_circle_outlined,color:Colors.grey ,) ,
+                                                                                                 ),
+
+
+                                                                                               ],
+                                                                                             ),
+                                                                                             Padding(
+                                                                                               padding: const EdgeInsets.only(right: 30),
+                                                                                               child: Text(
+                                                                                                 postsData[index].comments[indexOfComment].content,
+                                                                                                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                                                                                                     color: Colors.grey,
+                                                                                                     fontSize: _h*0.015
+                                                                                                 ),
+                                                                                                 textDirection: TextDirection.rtl,
+                                                                                                 textAlign: TextAlign.justify,
+                                                                                               ),
+                                                                                             ),
+                                                                                             5.SH
+
+                                                                                           ],
+                                                                                         ),
+                                                                                       ),
+                                                                                     ),
+                                                                                   ),
+                                                                                 );
+                                                                               },
+                                                                             ),
+                                                                           ),
+                                                                         ),
+                                                                       ),
+                                                                     ],
+                                                                   ),
+                                                                 ),
+                                                               ),
+                                                               Positioned(
+                                                                   bottom: 10,
+                                                                   right: 0,
+                                                                   left: 7,
+                                                                   child: Row(
+                                                                     children: [
+                                                                       Expanded(
+                                                                         flex: 15,
+                                                                         child: TextFormField(
+
+                                                                           controller: _commentController,
+
+                                                                           //textDirection: TextDirection.rtl,
+                                                                           textAlign: TextAlign.right,
+                                                                           decoration: InputDecoration(
+                                                                             filled: true,
+                                                                             fillColor: Theme.of(context).colorScheme.secondary.withAlpha(24),
+                                                                             border: OutlineInputBorder(
+                                                                               borderRadius: BorderRadius.circular(25),
+                                                                               borderSide: BorderSide.none,
+                                                                             ),
+                                                                             hintText: "...قم بكتابة تعليقك",
+                                                                             contentPadding: const EdgeInsets.symmetric(
+                                                                                 horizontal: 20, vertical: 15),
+                                                                           ),
+                                                                           validator: (value) {
+                                                                             //_scrollToBottom();
+                                                                             if(value!.isEmpty ){
+                                                                               return 'يجب تعبئة الحقل';
+                                                                             }
+
+                                                                           },
+                                                                         ),
+                                                                       ),
+                                                                       const Spacer(),
+                                                                       MyShaderMask(
+                                                                           toolWidget: IconButton(
+                                                                             padding: const EdgeInsets.all(15),
+                                                                             iconSize: 30,
+                                                                             splashRadius: 25,
+                                                                             //color: MyTheme.primaryColor,
+                                                                             icon: const Icon(Icons.send, color: Colors.black),
+                                                                             onPressed: () {
+                                                                               BlocProvider.of<BlogAppPostCubit>(context).addingComment(_commentController.text, postsData[index].id);
+                                                                             },
+                                                                           ),
+                                                                           radius: 1.5
+                                                                       )
+                                                                     ],
+                                                                   )
+                                                               )
+                                                             ],
+                                                           );
+                                                         },
+                                                         listener: (BuildContext context, BlogAppPostsState state) {  },
+                                                       ),
                                                        );
                                                      }
                                                  );
@@ -363,9 +510,9 @@ if(gettingDataOfPost==false){
                                  IconButton(
                                      onPressed: (){
 
-                                       setState(() {
                                          BlocProvider.of<BlogAppPostCubit>(context).putOrDeleteLike(postsData[index].id);
-                                       });
+
+
                                      },
                                      icon: state is SuccessfullyFetchingPost?
                                postsData[index].likes.any((like) => like.userId == userId)? const Icon(Icons.favorite,color: Colors.red,)

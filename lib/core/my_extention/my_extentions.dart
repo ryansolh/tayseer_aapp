@@ -27,6 +27,7 @@ extension IntExtension on int{
 extension NavigatorHelper on BuildContext {
   // دفع صفحة جديدة إلى مكدس التنقل
   Future<T?> push<T>(Widget page) {
+
     return Navigator.of(this).push<T>(
       MaterialPageRoute(builder: (context) => page),
     );
@@ -85,7 +86,6 @@ extension NavigatorHelper on BuildContext {
 //     ),
 //   ],
 // ));
-
 
 
 
