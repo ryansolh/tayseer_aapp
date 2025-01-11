@@ -36,6 +36,22 @@ class BlogAppPostCubit extends Cubit<BlogAppPostsState> {
     // print(e);
    }
   }
+  void putOrDeleteLike(int postId)async{
+    try{
+      DioHelper.init();
+      var response=await DioHelper.post(
+          url: baseUrl+postUrl+"${postId}/"+likeUrl,
+          authorization: 'Bearer $token'
+      );
+      GettingAllPosts();
+
+      emit(SuccessfullyFetchingPost());
+
+    }catch(e){
+      // print(e);
+    }
+  }
+
 
 
 }

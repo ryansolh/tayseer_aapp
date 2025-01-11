@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>NavigationPageCubit()),
         BlocProvider(create: (context)=>HomeScreenCubit()),
         BlocProvider(create: (context)=>BlogAppPostCubit()),
-        BlocProvider(create: (context)=>BlogAppLikeCubit()),
+       // BlocProvider(create: (context)=>BlogAppLikeCubit()),
       ],
 
       child:MaterialApp(

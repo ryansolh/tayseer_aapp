@@ -1,5 +1,5 @@
 
-String baseUrl="http://192.168.1.36:8000/api/";
+String baseUrl="http://192.168.137.227:8000/api/";
 String signUpUrl='signup';
 String loginUrl='login';
 String postUrl='posts/';

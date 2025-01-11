@@ -1,71 +1,108 @@
+/* ******************************************
+                 *** START***
+****************************************** *//*
 
 
-// for calling this tool => floatingActionButton: MoreService().MoreServiceButton(),
-
-
-
-
-
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 
+class LFLow extends StatefulWidget {
+  const LFLow({super.key});
 
-
-
-Widget MoreServiceButtonOfBlogApp(BuildContext context,) {
-  return FabCircularMenu(
-    // Cannot be `Alignment.center`
-    alignment: Alignment.bottomRight,
-    ringColor: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-    ringDiameter: 500.0,
-    ringWidth: 150.0,
-    fabSize: 64.0,
-    fabElevation: 0,
-    fabIconBorder: CircleBorder(),
-    // Also can use specific color based on wether
-    // the menu is open or not:
-    // fabOpenColor: Colors.white
-    // fabCloseColor: Colors.white
-    // These properties take precedence over fabColor
-    fabColor: Color(0x9D6CAE),
-    fabOpenIcon: Icon(Icons.more_vert, color: Colors.white,),
-    fabCloseIcon: Icon(Icons.close, color: Colors.white,),
-    fabMargin: const EdgeInsets.all(16.0),
-    animationDuration: const Duration(milliseconds: 800),
-    animationCurve: Curves.easeInOutCirc,
-    onDisplayChange: (isOpen) {
-      print("The menu is ${isOpen ? "open" : "closed"}");
-    },
-    children: <Widget>[
-      RawMaterialButton(
-        onPressed: () {
-          print("You pressed 1");
-        },
-        shape: CircleBorder(),
-        padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.account_box_outlined, color: Colors.grey),
-      ),
-
-      RawMaterialButton(
-        onPressed: () {
-
-        },
-        shape: CircleBorder(),
-        padding: const EdgeInsets.all(24.0),
-        child:Icon(Icons.add_circle_sharp,color: Colors.grey,),
-      ),
-      RawMaterialButton(
-        onPressed: () {
-
-        },
-        shape: CircleBorder(),
-        padding: const EdgeInsets.all(24.0),
-        child:Icon(Icons.add_circle_sharp,color: Colors.grey,),
-      )
-    ],
-  );
-
-
+  @override
+  State<LFLow> createState() => _LFLowState();
 }
 
+class _LFLowState extends State<LFLow> with SingleTickerProviderStateMixin {
+  late AnimationController menuAnimation;
+  IconData lastTapped = Icons.notifications;
+  final List<IconData> menuItems = <IconData>[
+    Icons.home,
+    Icons.camera,
+    Icons.chat,
+    Icons.map,
+    Icons.menu,
+  ];
 
+  void _updateMenu(IconData icon) {
+    if (icon != Icons.menu) {
+      setState(() => lastTapped = icon);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    menuAnimation = AnimationController(
+      duration: const Duration(milliseconds: 250),
+      vsync: this,
+    );
+  }
+
+  Widget flowMenuItem(IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: RawMaterialButton(
+          fillColor: lastTapped == icon
+              ? Theme.of(context).primaryColor
+              : Theme.of(context).colorScheme.secondary,
+          splashColor: Theme.of(context).colorScheme.primary,
+          shape: const CircleBorder(),
+          constraints: BoxConstraints.tight(const Size(64, 64)),
+          onPressed: () {
+            _updateMenu(icon);
+            menuAnimation.status == AnimationStatus.completed
+                ? menuAnimation.reverse()
+                : menuAnimation.forward();
+          },
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 32.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Flow(
+        delegate: FlowMenuDelegate(menuAnimation: menuAnimation),
+        children: menuItems
+            .map<Widget>((IconData icon) => flowMenuItem(icon))
+            .toList(),
+      ),
+    );
+  }
+}
+
+class FlowMenuDelegate extends FlowDelegate {
+  FlowMenuDelegate({required this.menuAnimation})
+      : super(repaint: menuAnimation);
+  final Animation<double> menuAnimation;
+
+  @override
+  bool shouldRepaint(FlowMenuDelegate oldDelegate) {
+    return menuAnimation != oldDelegate.menuAnimation;
+  }
+
+  @override
+  void paintChildren(FlowPaintingContext context) {
+    double dx = 0.0;
+    for (int i = 0; i < context.childCount; ++i) {
+      dx = context.getChildSize(i)!.width * i;
+      context.paintChild(
+        i,
+        transform: Matrix4.translationValues(
+          dx * menuAnimation.value,
+          dx * menuAnimation.value,
+          dx * menuAnimation.value,
+        ),
+      );
+    }
+  }
+}
+*/
