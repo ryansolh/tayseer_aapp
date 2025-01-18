@@ -7,7 +7,7 @@ import 'package:todo_apps/feature/platform/presention/pages/posts_screen.dart';
 
 import '../management/main_page_of_platform_management/main_page_of_platform_cubit.dart';
 import '../management/main_page_of_platform_management/main_page_of_platform_state.dart';
-import 'add_post_page.dart';
+import 'add_and_edit_post_page.dart';
 
 class MainPageOfPlatform extends StatefulWidget {
   //static String tag = "/DemoMWTabBarScreen2";

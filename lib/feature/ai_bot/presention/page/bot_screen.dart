@@ -1,5 +1,4 @@
 
-//import 'package:agricultural_advisor/core/utils/constant/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
@@ -112,10 +111,10 @@ class _BotScreenState extends State<BotScreen> {
                   },
                 ),
               ),
-              //if (isLoading)
-                /*const LinearProgressIndicator( color: Colors.blue,
-                  is_ShaderMask: true,
-                ),*/
+              if (isLoading)
+                const LinearProgressIndicator( color: Colors.blue,
+                  isShaderMask: true,
+                ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
                 child: Row(

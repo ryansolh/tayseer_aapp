@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_apps/core/component/my_custom_buttons.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../core/network/remote/remote_dio.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
@@ -45,16 +46,30 @@ class _PostFormState extends State<PostForm> {
     return base64Encode(file.readAsBytesSync());
   }
 
-  void _createPost() async {
-    DioHelper.init();
-    await DioHelper.post(
-        url: "$baseUrl$postUrl",
-        authorization: 'Bearer $token',
-        data: {
-          "content":_txtControllerBody.text,
-          "image":getStringImage(_imageFile)
-        }
-    );
+  Future _createPost() async {
+    // final imageRequest=await convertImageToBase64(_imageFile!);
+    try{
+      final request = http.MultipartRequest('POST', Uri.parse("$baseUrl$postUrl"));
+      request.headers['authorization']='Bearer $token';
+      request.fields['content']=_txtControllerBody.text;
+      request.files.add(await http.MultipartFile.fromPath('image', _imageFile!.path));
+      var response=await request.send();
+      /*DioHelper.init();
+      var response= await DioHelper.post(
+          url: "$baseUrl$postUrl",
+          authorization: 'Bearer $token',
+          data: {
+            "content":_txtControllerBody.text,
+            "image":base64Image
+          }
+
+      );*/
+      print("/////////////////");
+      print(response.statusCode);
+      print("/////////////////");
+    }catch(e){
+      print(e);
+    }
 
   }
 
@@ -103,13 +118,15 @@ class _PostFormState extends State<PostForm> {
             child: Padding(
               padding: EdgeInsets.all(8),
               child: TextFormField(
+                cursorColor: Colors.grey,
+                textDirection: TextDirection.rtl,
                 controller: _txtControllerBody,
                 keyboardType: TextInputType.multiline,
                 maxLines: 9,
                 validator: (val) => val!.isEmpty ? 'Post body is required' : null,
                 decoration: InputDecoration(
                     hintText: "Post body...",
-                    border: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.black38))
+                    border: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.grey),)
                 ),
               ),
             ),
@@ -120,6 +137,7 @@ class _PostFormState extends State<PostForm> {
                context: context,
              textButton: "نشر",
              onPressed: (){
+               _createPost();
 
              }
            ),

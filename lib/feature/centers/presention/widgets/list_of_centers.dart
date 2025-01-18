@@ -2,12 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:provider/provider.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
-
-import '../../../../core/services/map_service/get_distance_function.dart';
 import '../../data/centers_data.dart';
 import '../../data/model.dart';
 import '../pages/center_details.dart';

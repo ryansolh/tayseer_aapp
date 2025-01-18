@@ -21,15 +21,15 @@ Widget MoreServiceButton(BuildContext context,) {
     ringWidth: 150.0,
     fabSize: 64.0,
     fabElevation: 0,
-    fabIconBorder: CircleBorder(),
+    fabIconBorder: const CircleBorder(),
     // Also can use specific color based on wether
     // the menu is open or not:
     // fabOpenColor: Colors.white
     // fabCloseColor: Colors.white
     // These properties take precedence over fabColor
-    fabColor: Color(0x9D6CAE),
-    fabOpenIcon: Icon(Icons.more_vert, color: Colors.white,),
-    fabCloseIcon: Icon(Icons.close, color: Colors.white,),
+    fabColor: const Color(0x9D6CAE),
+    fabOpenIcon: const Icon(Icons.more_vert, color: Colors.white,),
+    fabCloseIcon: const Icon(Icons.close, color: Colors.white,),
     fabMargin: const EdgeInsets.all(16.0),
     animationDuration: const Duration(milliseconds: 800),
     animationCurve: Curves.easeInOutCirc,
@@ -41,44 +41,44 @@ Widget MoreServiceButton(BuildContext context,) {
         onPressed: () {
           print("You pressed 1");
         },
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.looks_one, color: Colors.grey),
+        child: const Icon(Icons.looks_one, color: Colors.grey),
       ),
       RawMaterialButton(
         onPressed: () {
           print("You pressed 2");
         },
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.looks_two, color: Colors.grey),
+        child: const Icon(Icons.looks_two, color: Colors.grey),
       ),
       RawMaterialButton(
         onPressed: () {
           print("You pressed 3");
         },
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: Icon(Icons.looks_3, color: Colors.grey),
+        child: const Icon(Icons.looks_3, color: Colors.grey),
       ),
       RawMaterialButton(
         onPressed: () {
          showModalBottomSheet(
-           shape: RoundedRectangleBorder(borderRadius:BorderRadius.only(topLeft: Radius.circular(20),topRight:Radius.circular(20) ) ),
+           shape: const RoundedRectangleBorder(borderRadius:BorderRadius.only(topLeft: Radius.circular(20),topRight:Radius.circular(20) ) ),
              context: context,
              builder: (context){
                return Container(
                  color: Theme.of(context).colorScheme.background,
                  height: MediaQuery.of(context).size.height-100,
                  width: double.infinity,
-                 child: MapScreen(),
+                 child: const MapScreen(),
                );
              }
          );
         },
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child:Icon(Icons.map,color: Colors.grey,),
+        child:const Icon(Icons.map,color: Colors.grey,),
       )
     ],
   );
