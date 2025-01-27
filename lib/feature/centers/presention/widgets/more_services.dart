@@ -9,10 +9,12 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timezone/tzdata.dart';
+import 'package:todo_apps/feature/centers/data/model.dart';
 import 'package:todo_apps/feature/centers/presention/widgets/show_map_bottom_sheet.dart';
 
 import '../../../map/presention/page/map_page.dart';
-Widget MoreServiceButton(BuildContext context,) {
+Widget MoreServiceButton(BuildContext context, {  CentersModel? center }) {
   return FabCircularMenu(
     // Cannot be `Alignment.center`
     alignment: Alignment.bottomRight,
@@ -59,7 +61,7 @@ Widget MoreServiceButton(BuildContext context,) {
         },
         shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: const Icon(Icons.looks_3, color: Colors.grey),
+        child: const Icon(Icons.call, color: Colors.grey),
       ),
       RawMaterialButton(
         onPressed: () {
@@ -71,7 +73,7 @@ Widget MoreServiceButton(BuildContext context,) {
                  color: Theme.of(context).colorScheme.background,
                  height: MediaQuery.of(context).size.height-100,
                  width: double.infinity,
-                 child: const MapScreen(),
+                 child:  MapScreen(centerLocation:center!.location),
                );
              }
          );

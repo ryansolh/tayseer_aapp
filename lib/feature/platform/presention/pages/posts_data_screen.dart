@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:todo_apps/core/component/my_custom_buttons.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
+import 'package:todo_apps/core/component/my_custom_loading.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import 'package:todo_apps/feature/platform/data/editing_post_data.dart';
 import 'package:todo_apps/feature/platform/data/models/post_model.dart';
 import 'package:todo_apps/feature/platform/presention/management/posts_management/blog_app_cubit.dart';
 import 'package:todo_apps/feature/platform/presention/management/posts_management/blog_app_state.dart';
@@ -13,14 +16,16 @@ import '../../../../core/component/my_custom_shadermask.dart';
 import '../../../../core/network/remote/remote_dio.dart';
 import '../../../../core/services/blog_services/posts_services.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../management/main_page_of_platform_management/main_page_of_platform_cubit.dart';
+import 'add_and_edit_post_page.dart';
 
 
-class PostsPage extends StatefulWidget {
+class PostsDataScreen extends StatefulWidget {
   @override
-  State<PostsPage> createState() => _PostsPageState();
+  State<PostsDataScreen> createState() => _PostsDataScreenState();
 }
 
-class _PostsPageState extends State<PostsPage> {
+class _PostsDataScreenState extends State<PostsDataScreen> {
 
 final TextEditingController _commentController=TextEditingController();
 
@@ -44,7 +49,7 @@ Future addingComment(String comment,postId)async{
           "content":comment
         }
     );
-    await GettingAllPosts();
+    await gettingAllPosts();
     setState(() {
       isLoadingForSendComment=false;
     });
@@ -66,7 +71,7 @@ void putOrDeleteLike(int postId)async{
         url: baseUrl+postUrl+"${postId}/"+likeUrl,
         authorization: 'Bearer $token'
     );
-    GettingAllPosts();
+    gettingAllPosts();
 
   }catch(e){
     // print(e);
@@ -74,7 +79,7 @@ void putOrDeleteLike(int postId)async{
 
 }
 
-Future GettingAllPosts()async{
+Future gettingAllPosts()async{
   try{
     DioHelper.init();
     var response=await DioHelper.get(
@@ -93,16 +98,34 @@ Future GettingAllPosts()async{
     print(e);
   }
 }
+Future deletingPost(int postId)async{
+  try{
+    DioHelper.init();
+     await DioHelper.delete(
+        url: baseUrl+postUrl+"$postId",
+        authorization: 'Bearer $token'
+    );
+     gettingAllPosts();
+  }catch(e){
+    print(e);
+  }
+}
+
 
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    GettingAllPosts();
+    gettingAllPosts();
   }
   @override
   Widget build(BuildContext context) {
-   // GettingAllPosts();
+  if(isSuccessSendPost==true){
+    gettingAllPosts();
+    setState(() {
+      isSuccessSendPost=false;
+    });
+  }
 
    double _w= MediaQuery.of(context).size.width;
    double _h=MediaQuery.of(context).size.height;
@@ -112,14 +135,15 @@ Future GettingAllPosts()async{
          const Duration(seconds: 1)
      );
 
-     GettingAllPosts();
+     gettingAllPosts();
    },
-     child: Scaffold(
-       body: gettingDataOfPost==true?
-       Stack(
+     child: gettingDataOfPost==true?
+     Container(
+       color: Theme.of(context).colorScheme.background,
+       child: Stack(
          children: [
            Padding(
-             padding: const EdgeInsets.only(bottom: 50),
+             padding: const EdgeInsets.only(bottom: 50,top: 30),
              child: Container(
                color: Theme.of(context).colorScheme.background,
                child: AnimationLimiter(
@@ -181,16 +205,15 @@ Future GettingAllPosts()async{
                                  ),
                                  10.SH,
                                  if(postsData[index].image!=null)
-                                 SizedBox(
-                                   height: _w/2,
-                                   child:   CustomImageViewer.show(
-                                       context: context,
-                                      url: "http://192.168.137.43:8000/storage/posts/AbTHwbU9c8EJI8g3cSUk82G58jzdnvmXdP66BPkr.jpg"
-                                      // url: "https://th.bing.com/th/id/R.d8ebb637bde9e2920c1a914c921c0710?rik=jztSavTaBuAXVQ&pid=ImgRaw&r=0"
+                                   SizedBox(
+                                     height: _w/2,
+                                     child:   CustomImageViewer.show(
+                                         context: context,
+                                         url: "${postsData[index].image}"
+                                     ),
                                    ),
-                                 ),
                                  if(postsData[index].image!=null)
-                                 10.SH,
+                                   10.SH,
                                  Row(
                                    //crossAxisAlignment: CrossAxisAlignment.,
                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -207,13 +230,16 @@ Future GettingAllPosts()async{
                                        onSelected: (value)  {
                                          if (value == "تعديل المنشور") {
                                            setState(() {
-
+                                             editingPostData=postsData[index];
+                                             isNavigatingForEdittingPost=true;
+                                           context.push(PostForm(title: "تعديل المنشور",post: editingPostData,),);
                                            });
 
-                                         } else if (value == "حذف المنشور") {
-                                           setState(() {
+                                         }
+                                         else if (value == "حذف المنشور") {
 
-                                           });
+                                           deletingPost(postsData[index].id);
+
                                          }else if (value == "حفظ الصورة") {
                                            setState(() {
 
@@ -223,14 +249,16 @@ Future GettingAllPosts()async{
                                        itemBuilder: (BuildContext context) {
 
                                          return [
-                                           const PopupMenuItem(
-                                             value: "تعديل المنشور",
-                                             child: Text("تعديل المنشور"),
-                                           ),
-                                           const PopupMenuItem(
-                                             value: "حذف المنشور",
-                                             child: Text("حذف المنشور"),
-                                           ),
+                                           if(postsData[index].userId==userId)
+                                             const PopupMenuItem(
+                                               value: "تعديل المنشور",
+                                               child: Text("تعديل المنشور"),
+                                             ),
+                                           if(postsData[index].userId==userId)
+                                             const PopupMenuItem(
+                                               value: "حذف المنشور",
+                                               child: Text("حذف المنشور"),
+                                             ),
                                            const PopupMenuItem(
                                              value: "حفظ الصورة",
                                              child: Text("حفظ الصورة"),
@@ -464,16 +492,16 @@ Future GettingAllPosts()async{
                                                    postsData[index].likes.removeWhere((like) => like.userId == userId);
                                                  });
                                                } else {
-                                               setState(() {
-                                                 Like like= Like(
-                                                     id: 2000,
-                                                     userId: userId,
-                                                     postId:postsData[index].id ,
-                                                     createdAt: "2025-01-16T20:13:21.000000Z",
-                                                     updatedAt: "2025-01-16T20:13:21.000000Z"
-                                                 );
-                                                 postsData[index].likes.add(like);
-                                               });
+                                                 setState(() {
+                                                   Like like= Like(
+                                                       id: 2000,
+                                                       userId: userId,
+                                                       postId:postsData[index].id ,
+                                                       createdAt: "2025-01-16T20:13:21.000000Z",
+                                                       updatedAt: "2025-01-16T20:13:21.000000Z"
+                                                   );
+                                                   postsData[index].likes.add(like);
+                                                 });
                                                }
                                                ///////////////////////////////////////////////
 
@@ -507,13 +535,56 @@ Future GettingAllPosts()async{
                ),
              ),
            ),
+           Container(
+             color: Theme.of(context).colorScheme.background,
+             child: Padding(
+               padding: const EdgeInsets.all(8.0),
+               child: SizedBox(
+                 height: 40,
+                 child: Row(
+                   children: [
+
+                     Expanded(
+                       child: MaterialButton(
+                         minWidth: double.infinity,
+                         height: 50,
+                         onPressed: (){
+                           context.push(PostForm(title: "إضافة منشور",));
+                         },
+                         shape: RoundedRectangleBorder(
+                             side:  BorderSide(color:  Theme.of(context).colorScheme.secondary),
+                             borderRadius: BorderRadius.circular(50)),
+                         child: Align(
+                           alignment: Alignment.centerRight,
+                           child: Text(
+                             ". . .   فيما تفكر؟ ",
+                             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16,color: Colors.grey),
+                           ),
+                         )
+                       ),
+                     ),
+
+                     MyShaderMask(
+                         toolWidget:  IconButton(
+                             onPressed: (){
+
+                             },
+                             icon: Icon(Icons.account_circle ,size: _h*0.035,)
+                         ),
+                         radius: 1.3
+                     ),
+                   ],
+                 ),
+               ),
+             ),
+           ),
 
          ],
-       ):Container(
-         color: Theme.of(context).colorScheme.background,
-         child: Center(child: CircularProgressIndicator()),
        ),
-     )
+     ):Container(
+       color: Theme.of(context).colorScheme.background,
+       child: Center(child: MyCustomLoading()),
+     ),
    );
   }
 }

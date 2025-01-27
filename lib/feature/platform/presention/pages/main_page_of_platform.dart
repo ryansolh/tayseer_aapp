@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_apps/core/component/my_custom_shadermask.dart';
-import 'package:todo_apps/feature/platform/presention/pages/posts_screen.dart';
+import 'package:todo_apps/feature/platform/data/editing_post_data.dart';
+import 'package:todo_apps/feature/platform/presention/pages/posts_data_screen.dart';
 
 import '../management/main_page_of_platform_management/main_page_of_platform_cubit.dart';
 import '../management/main_page_of_platform_management/main_page_of_platform_state.dart';
@@ -17,17 +18,7 @@ class MainPageOfPlatform extends StatefulWidget {
 }
 
 class _MainPageOfPlatformState extends State<MainPageOfPlatform> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  init() async {}
-
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
-  }
+final TextEditingController postContentController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,149 +28,69 @@ class _MainPageOfPlatformState extends State<MainPageOfPlatform> {
       length: 3,
       child:BlocConsumer<MainPageOfPlatformCubit,MainPageOfPlatformState>(
           builder: (context,state){
-            return  Scaffold(
-              backgroundColor: Theme.of(context).colorScheme.background,
-              appBar: AppBar(
-                backgroundColor: Theme.of(context).colorScheme.background,
-                title: TabBar(
-                  //automaticIndicatorColorAdjustment: false,
+            return  Container(
+              color: Theme.of(context).colorScheme.background,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                    child: Row(
+                      children: [
 
-                  onTap: (index) {
-                    BlocProvider.of<MainPageOfPlatformCubit>(context).changePageOfTabBar(index);
-                    print(index);
-                  },
+                        Expanded(
+                          child: TextFormField(
+                            cursorColor: Colors.grey.withOpacity(0.4),
+                            autofocus: false,
+                            style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
+                            onChanged: (value) {
+                              //filterSearchResults(value);
+                            },
+                            controller: postContentController,
+                            decoration: InputDecoration(
+                                hintText: "Search Store",
+                                filled: true,
+                                fillColor: Theme.of(context).colorScheme.background,
+                                hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                prefixIcon: MyShaderMask(
+                                  toolWidget: Icon(
+                                    Icons.search,
+                                    color: Colors.black,
+                                  ),
+                                  radius: 1.3,
+                                ),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(25.0)
+                                    )
+                                )
+                            ),
 
-                  labelStyle: const TextStyle(fontSize: 16),
-                  indicatorColor: const Color(0xFF75B6E3),
-                  physics: const BouncingScrollPhysics(),
-                  labelColor: Theme.of(context).textTheme.labelSmall!.color,
-                  tabs: [
-                    state is ChangeTabBarNumberState && BlocProvider.of<MainPageOfPlatformCubit>(context).numofPage==0?
-                    const Tab(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
+                          ),
+                        ),
 
                         MyShaderMask(
-                            toolWidget:  Icon(Icons.mark_unread_chat_alt_sharp, color: Colors.grey,),
-                            radius: 1),
-                          SizedBox(width: 5,),
-                          /*MyShaderMask(
-                              toolWidget: Text('المنشورات')
-                              , radius: 3)*/
-                        ],
-                      ),
-                    ):const Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+                            toolWidget:  IconButton(
+                                onPressed: (){
 
-                        Icon(Icons.mark_unread_chat_alt_sharp, color: Colors.grey,),
-                        SizedBox(width: 5,),
-                        /*Text(
-                          'المنشورات',
-                        ),*/
-                      ],
-                    ),
-                  ),
-                  state is ChangeTabBarNumberState && BlocProvider.of<MainPageOfPlatformCubit>(context).numofPage==1?
-                const Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
 
-                      MyShaderMask(
-                          toolWidget:  Icon(Icons.add_circle_sharp, color: Colors.grey,),
-                          radius: 1),
-                      SizedBox(width: 5,),
-                      /*MyShaderMask(
-                          toolWidget: Text('اضافة منشور')
-                          , radius: 3)*/
-                    ],
-                  ),
-                ):const Tab(
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-
-                  Icon(Icons.add_circle_sharp, color: Colors.grey,),
-                  SizedBox(width: 5,),
-                  /*Text(
-                    'اضافة منشور',
-                  ),*/
-                ],
-              ),
-            ),
-                    state is ChangeTabBarNumberState && BlocProvider.of<MainPageOfPlatformCubit>(context).numofPage==2?
-                    const Tab(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-
-                          MyShaderMask(
-                              toolWidget:  Icon(Icons.account_box_outlined, color: Colors.grey,),
-                              radius: 1),
-                          SizedBox(width: 5,),
-                         /* MyShaderMask(
-                              toolWidget: Text('الملف الشخصي')
-                              , radius: 3)*/
-                        ],
-                      ),
-                    ):const Tab(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-
-                          Icon(Icons.account_box_outlined, color: Colors.grey,),
-                          SizedBox(width: 5,),
-                         /* Text(
-                            'الملف الشخصي',
-                          ),*/
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                automaticallyImplyLeading: false,
-
-              ),
-              body: TabBarView(
-                children: [
-                  PostsPage(),
-                  PostForm(),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    alignment: Alignment.center,
-                    width: width,
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'User',
-
+                                },
+                                icon: Icon(Icons.shopping_cart_checkout)
+                            ),
+                            radius: 1.3
                         ),
-                        SizedBox(height: 15,),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [],
-                        )
                       ],
                     ),
+                  ),
+                  Expanded(
+                    child: PostsDataScreen(),
                   ),
                 ],
               ),

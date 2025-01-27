@@ -1,11 +1,17 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
+import '../../../../core/component/my_custom_shadermask.dart';
 import '../../data/centers_data.dart';
 import '../../data/model.dart';
+import '../../services.dart';
 import '../pages/center_details.dart';
 class SlideAnimation4 extends StatefulWidget {
   @override
@@ -13,126 +19,277 @@ class SlideAnimation4 extends StatefulWidget {
 }
 
 class _SlideAnimation4State extends State<SlideAnimation4> {
-  List<CentersModel>? _centers;
+ late List<CentersModel>? _centers;
 
-  String distance='';
+  //String distance='';
+  final TextEditingController _searchController=TextEditingController();
 
-  Future calculateDistance(var centerLocation)async{
-
-
+  bool successfulGettingDistance=false;
+  Future calculateDistance()async{
     var location=Location();
     var userLocation;
-
     userLocation= await location.getLocation();
-    List<String> _centerLocation=centerLocation.split(',');
 
+    for(int i=0;i<_centers!.length;i++) {
+        setState(() {
+          _centers![i].distance=Geolocator.distanceBetween(userLocation!.latitude!, userLocation!.longitude!,_centers![i].location.latitude,_centers![i].location.longitude).toInt()/1000;
 
-    distance= await Geolocator.distanceBetween(userLocation!.latitude!, userLocation!.longitude!, double.parse(_centerLocation[0]),double.parse(_centerLocation[1])).toString();
+        });
 
+      // print(_centers![i].distance!);
+
+    }
+
+    setState(() {
+      successfulGettingDistance=true;
+    });
 
   }
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _centers=centersData.map((data) => CentersModel.fromJson(data)).toList();
+    calculateDistance();
+  }
+
       Widget build(BuildContext context) {
-   _centers=Centers().items;
+
+
     double _w = MediaQuery.of(context).size.width;
+   double _h = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
+        height: _h,
+        width: _w,
         color: Theme.of(context).colorScheme.background,
-        child: AnimationLimiter(
-          child: ListView.builder(
-            padding: EdgeInsets.all(_w / 30),
-            physics:
-            BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            itemCount: _centers!.length,
-            itemBuilder: (BuildContext context, int index) {
-              calculateDistance(_centers![index].location);
-
-
-              return AnimationConfiguration.staggeredList(
-                position: index,
-                delay: Duration(milliseconds: 100),
-                child: SlideAnimation(
-                  duration: Duration(milliseconds: 2500),
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  verticalOffset: -250,
-                  child: ScaleAnimation(
-                    duration: Duration(milliseconds: 1500),
-                    curve: Curves.fastLinearToSlowEaseIn,
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                          return CenterDetailsScreen(center:_centers![index] );
-                        }));
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller:_searchController,
+                      focusNode:FocusNode(canRequestFocus: false)  ,
+                      cursorColor: Colors.grey.withOpacity(0.4),
+                      autofocus: false,
+                      style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
+                      onChanged: (value) {
+                        //filterSearchResults(value);
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.symmetric(vertical: 7,),
-                        //  width: SizeConfig.screenWidth * 0.78,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: Theme.of(context).colorScheme.background.withOpacity(0.8),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                                  spreadRadius: 3,
-                                  blurRadius: 7,
-                                  offset: Offset(0,0)
+                      // controller: serchController,
+                      decoration: InputDecoration(
+                          hintText: "Search Store",
+                          filled: true,
+
+                          fillColor: Theme.of(context).colorScheme.background,
+                          hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                          focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          prefixIcon: const MyShaderMask(
+                            toolWidget: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
+                            radius: 1.3,
+                          ),
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)
                               )
-                            ]
-                        ),
-                       child:Column(
-                         children: [
-                           Row(
-
-                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                             children: [
-
-
-                               SizedBox(
-                                 width: _w-150,
-                                 child: Column(
-                                   children: [
-
-                                     Align(
-                                         alignment: Alignment.topRight,
-                                         child: Text('${_centers![index].name}',textDirection: TextDirection.rtl,)
-                                     ),
-                                     Align(
-                                         alignment: Alignment.topRight,
-                                         child: Text('${_centers![index].description}',textDirection: TextDirection.rtl,overflow: TextOverflow.ellipsis,style: TextStyle(
-                                           fontSize: MediaQuery.of(context).size.height*0.015
-                                         ),)
-                                     ),
-                                     Align(
-                                         alignment: Alignment.topRight,
-                                         child: Text('المسافة:${distance} متر',textDirection: TextDirection.rtl,overflow: TextOverflow.ellipsis,style: TextStyle(
-                                             fontSize: MediaQuery.of(context).size.height*0.015
-                                         ),)
-                                     ),
-                                   ],
-                                 )
-                               ),
-                               Container(
-                                 height: 100,
-                                 width: 100,
-                                 child:   CustomImageViewer.show(
-                                     context: context,
-                                     url: '${_centers![index].imageUrl}'
-                                 ),
-
-
-                               ),
-                             ],
-                           ),
-                         ],
-                       ) ,
+                          )
                       ),
-                    )
+
+                    ),
+                  ),
+
+
+                  MyShaderMask(
+                      toolWidget:  PopupMenuButton<String>(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                        ),
+                        color: Theme.of(context).colorScheme.background,
+                        // color: Get.isDarkMode ? darkGreyColor : Colors.white,
+                        icon: const Icon(Icons.sort,color: Colors.grey,),
+                        padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                        tooltip: "More",
+                        onSelected: (value)  {
+                          if (value == "فرز حسب الاقرب مسافة") {
+                           setState(() {
+                             _centers!.sort((a, b) => a.distance.compareTo(b.distance));
+                           });
+
+
+                          }
+                          else if (value == "فرز حسب الابعد مسافة") {
+                            setState(() {
+                              _centers!.sort((a, b) => b.distance.compareTo(a.distance));
+                            });
+                             // sortByTheFurthest();
+
+                          }
+                          else if (value == "فرز حسب الابجدية تصاعديا") {
+                            setState(() {
+                              _centers!.sort((a, b) => a.name.compareTo(b.name));
+                            });
+                            // sortByTheFurthest();
+
+                          }
+                          else if (value == "فرز حسب الابجدية تنازليا") {
+                            setState(() {
+                              _centers!.sort((a, b) => b.name.compareTo(a.name));
+                            });
+                            // sortByTheFurthest();
+
+                          }
+                        },
+                        itemBuilder: (BuildContext context) {
+
+                          return [
+
+                              const PopupMenuItem(
+                                value: "فرز حسب الاقرب مسافة",
+                                child: Text("فرز حسب الاقرب مسافة"),
+                              ),
+
+                              const PopupMenuItem(
+                                value: "فرز حسب الابعد مسافة",
+                                child: Text("فرز حسب الابعد مسافة"),
+                              ),
+                            const PopupMenuItem(
+                              value: "فرز حسب الابجدية تصاعديا",
+                              child: Text("فرز حسب الابجدية تصاعديا"),
+                            ),
+                            const PopupMenuItem(
+                              value: "فرز حسب الابجدية تنازليا",
+                              child: Text("فرز حسب الابجدية تنازليا"),
+                            ),
+
+
+                          ];
+                        },
+                      ),
+                      radius: 1.3
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 12,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: AnimationLimiter(
+                  child: ListView.builder(
+
+                    padding: EdgeInsets.all(_w / 30),
+                    physics:
+                    const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: _centers!.length,
+                    itemBuilder: (BuildContext context, int index) {
+
+                     // calculateDistance(_centers![index].location);
+
+
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        delay: const Duration(milliseconds: 100),
+                        child: SlideAnimation(
+                          duration: const Duration(milliseconds: 2500),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          verticalOffset: -250,
+                          child: ScaleAnimation(
+                              duration: const Duration(milliseconds: 1500),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                    return CenterDetailsScreen(center:_centers![index] );
+                                  }));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  padding: const EdgeInsets.symmetric(vertical: 7,),
+                                  //  width: SizeConfig.screenWidth * 0.78,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                                            spreadRadius: 3,
+                                            blurRadius: 7,
+                                            offset: const Offset(0,0)
+                                        )
+                                      ]
+                                  ),
+                                  child:Column(
+                                    children: [
+                                      Row(
+
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+
+
+                                          SizedBox(
+                                              width: _w-150,
+                                              child: Column(
+                                                children: [
+
+                                                  Align(
+                                                      alignment: Alignment.topRight,
+                                                      child: Text('${_centers![index].name}',textDirection: TextDirection.rtl,)
+                                                  ),
+                                                  Align(
+                                                      alignment: Alignment.topRight,
+                                                      child: Text('${_centers![index].description}',textDirection: TextDirection.rtl,overflow: TextOverflow.ellipsis,style: TextStyle(
+                                                          fontSize: MediaQuery.of(context).size.height*0.015
+                                                      ),)
+                                                  ),
+                                                  Align(
+                                                      alignment: Alignment.topRight,
+                                                      child: Text('المسافة:${_centers![index].distance} كيلو',textDirection: TextDirection.rtl,overflow: TextOverflow.ellipsis,style: TextStyle(
+                                                          fontSize: MediaQuery.of(context).size.height*0.015
+                                                      ),)
+                                                  ),
+                                                ],
+                                              )
+                                          ),
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            child:   CustomImageViewer.show(
+                                                context: context,
+                                                url: '${_centers![index].imageUrl}'
+                                            ),
+
+
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ) ,
+                                ),
+                              )
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

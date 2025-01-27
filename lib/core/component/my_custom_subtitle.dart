@@ -22,7 +22,7 @@ class MySubTitle extends StatelessWidget {
           softWrap: true,
           textAlign: TextAlign.justify,
 
-          style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: height*0.020,wordSpacing: -5),
+          style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: height*0.020,wordSpacing: -2),
           textDirection: TextDirection.rtl,
 
 

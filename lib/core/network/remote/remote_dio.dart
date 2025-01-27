@@ -97,9 +97,14 @@ class DioHelper {
 
   static Future<Response<dynamic>> delete({
     required String url,
-    Map<String, dynamic>? data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
+    String? authorization,
   }) async {
+    dio!.options.headers = {
+      'Accept': 'application/json',
+      'Authorization': authorization,
+    };
     return await dio!.delete(
       url,
       data: data,

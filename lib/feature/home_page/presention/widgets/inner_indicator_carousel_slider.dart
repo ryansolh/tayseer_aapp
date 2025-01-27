@@ -18,8 +18,6 @@ class InnerIndicatorCarouselSlider extends StatelessWidget {
   InnerIndicatorCarouselSlider({super.key});
 
   @override
-  @override
-  @override
   Widget build(BuildContext context) {
     innerCarouselController = CarouselSliderController();
     var homeScreenDate = BlocProvider.of<HomeScreenCubit>(context);

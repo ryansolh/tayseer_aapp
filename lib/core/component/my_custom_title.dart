@@ -44,6 +44,7 @@ class MyTitle extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: height*0.024,
 
+
           ),
           textDirection: TextDirection.rtl,
 

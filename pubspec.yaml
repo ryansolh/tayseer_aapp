@@ -78,6 +78,7 @@ dependencies:
   marquee:
   fab_circular_menu: ^1.0.2
   image_picker: ^0.8.8+7
+  loading_animation_widget:
 #############################
 
 dev_dependencies:

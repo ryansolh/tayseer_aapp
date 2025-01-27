@@ -8,7 +8,7 @@ import '../../../../core/component/my_custom_drawer.dart';
 import '../../../centers/presention/pages/main_page_of_centers_list.dart';
 import '../../../home_page/presention/page/home_screen.dart';
 import '../../../platform/presention/pages/main_page_of_platform.dart';
-import '../../../platform/presention/pages/posts_screen.dart';
+import '../../../platform/presention/pages/posts_data_screen.dart';
 import '../management/navigation_page_bloc/navigation_page_cubit.dart';
 import '../management/navigation_page_bloc/navigation_page_state.dart';
 class NavigationScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
      BottomBarItem(iconData: Icons.home,),
      BottomBarItem(iconData: Icons.share_arrival_time_sharp),
      BottomBarItem(iconData: Icons.home_work_rounded),
-     BottomBarItem(iconData: Icons.calendar_month),
+     BottomBarItem(iconData: Icons.shopping_cart),
      BottomBarItem(iconData: Icons.amp_stories_outlined,),
    ];
 
@@ -44,7 +44,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           titleOfPage: indexOfSelection==0?'الصفحة الرئيسية':indexOfSelection==1?"المنبه":indexOfSelection==2?
           "المراكز":indexOfSelection==3?"الصفحة الرابعة":"المنشورات",
           page: indexOfSelection==0? const HomeScreen():indexOfSelection==1?
-          const AlarmPage():indexOfSelection==2? const MainPageOfCentersList():indexOfSelection==3? const Page4():MainPageOfPlatform(),
+          const AlarmPage():indexOfSelection==2? const MainPageOfCentersList():indexOfSelection==3? const Page4():PostsDataScreen(),
           bottomNavigationBar:BottomBarDoubleBullet(
             bubbleSize: 15,
             backgroundColor: Theme.of(context).colorScheme.background,

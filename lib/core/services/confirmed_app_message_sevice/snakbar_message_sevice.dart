@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-void confirmedSnakBarMessage(String title,String subTitle){
-  Get.snackbar("", "",
-    titleText:  Text("${title}",
-        textDirection: TextDirection.rtl,
-        style: TextStyle(color: Color(0xFFE0DADA),
-            fontWeight: FontWeight.bold)
-    ),
-    messageText:Text("${subTitle}",
+void showCustomSnackbar({
+  required String title,
+  required String subTitle,
+  Color backgroundColor = const Color(0xFF81A7D6),
+  Color textColor = const Color(0xFFE0DADA),
+}) {
+  Get.snackbar(
+    "", "",
+    titleText: Text(
+      title,
       textDirection: TextDirection.rtl,
-      style: TextStyle(color: Color(0xFFE0DADA),
+      style: TextStyle(
+        color: textColor,
+        fontWeight: FontWeight.bold,
       ),
-    ) ,
-    backgroundColor:Color(0xFF81A7D6) ,
+    ),
+    messageText: Text(
+      subTitle,
+      textDirection: TextDirection.rtl,
+      style: TextStyle(color: textColor),
+    ),
 
     colorText: Colors.white,
   );
