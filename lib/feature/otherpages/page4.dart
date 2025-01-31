@@ -7,7 +7,7 @@ class Page4 extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Center(
-        child: Text('page 4'),
+        child: Text('سيتوفر قريباً'),
       ),
     );
   }

@@ -552,7 +552,7 @@ Future deletingPost(int postId)async{
                            context.push(PostForm(title: "إضافة منشور",));
                          },
                          shape: RoundedRectangleBorder(
-                             side:  BorderSide(color:  Theme.of(context).colorScheme.secondary),
+                             side:  BorderSide(color:  Colors.grey),
                              borderRadius: BorderRadius.circular(50)),
                          child: Align(
                            alignment: Alignment.centerRight,

@@ -11,7 +11,6 @@ import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
 import '../../../../core/component/my_custom_shadermask.dart';
 import '../../data/centers_data.dart';
 import '../../data/model.dart';
-import '../../services.dart';
 import '../pages/center_details.dart';
 class SlideAnimation4 extends StatefulWidget {
   @override

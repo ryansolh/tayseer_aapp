@@ -84,35 +84,30 @@ class _AlarmPageState extends State<AlarmPage> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     // print(filterTaskList[0].updatedAt);
-    return GetMaterialApp(
-      locale: Locale('ar'),
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: themeData,
-      home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
-        body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          child: Container(
-            height: height,
-            width: width,
-            color: Theme.of(context).colorScheme.background ,
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Container(
+          height: height,
+          width: width,
+          color: Theme.of(context).colorScheme.background ,
 
-            child: SingleChildScrollView(
-              child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _addTaskBar(),
-                  5.SH,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _addTaskBar(),
+                5.SH,
 
-                  if(randomOrderView==false)
+                if(randomOrderView==false)
 
-                    _dateBar(),
+                  _dateBar(),
 
 
-                 Stack(
-                   children: [
+                Stack(
+                  children: [
 
                     Column(
                       children: [
@@ -125,8 +120,8 @@ class _AlarmPageState extends State<AlarmPage> {
 
                       ],
                     ),
-                     Positioned(
-                       bottom: 60,
+                    /* Positioned(
+                       top: 20,
                        right: 10,
                        child: Card(
                          shape: RoundedRectangleBorder(
@@ -176,44 +171,31 @@ class _AlarmPageState extends State<AlarmPage> {
                            ),
                          ),
                        ),
-                     ),
-                   ],
-                 ),
+                     ),*/
+                  ],
+                ),
 
 
 
 
 
-                ],
-              ),
+              ],
             ),
           ),
         ),
-      )
+      ),
     );
   }
 
   _addTaskBar() {
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
 
-              MyTitle(
-                startDelay: 0,
-                textOfTitle: DateFormat("EEE, d MMM yyyy",'ar').format(DateTime.now()).toString(),
-              ),
-              MyTitle(
-                startDelay: 0,
-               textOfTitle: "Today",
-              )
-            ],
-          ),
+
          Column(
            children: [
              MyButtonWithBackground(
@@ -240,8 +222,64 @@ class _AlarmPageState extends State<AlarmPage> {
                  }
              ),
 
+
            ],
          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              MyShaderMask(
+                radius: 1,
+                toolWidget: PopupMenuButton<String>(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                  color: Theme.of(context).colorScheme.background,
+                  // color: Get.isDarkMode ? darkGreyColor : Colors.white,
+                  icon: const Icon(Icons.sort_rounded,size: 27,),
+                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                  tooltip: "More",
+                  onSelected: (value)  {
+                    if (value == "عرض كل المنبهات عشوائيا") {
+                      setState(() {
+                        randomOrderView=true;
+                      });
+
+                    } else if (value == "عرض المنبهات بشكل منظم") {
+                      setState(() {
+                        randomOrderView=false;
+                      });
+
+
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+
+                    return [
+                      const PopupMenuItem(
+                        value: "عرض كل المنبهات عشوائيا",
+                        child: Text("عرض كل المنبهات عشوائيا"),
+                      ),
+                      const PopupMenuItem(
+                        value: "عرض المنبهات بشكل منظم",
+                        child: Text("عرض المنبهات بشكل منظم"),
+                      ),
+
+                    ];
+                  },
+                ),
+              ),
+              5.SH,
+              MyTitle(
+                startDelay: 0,
+                textOfTitle: DateFormat("EEE, d MMM yyyy",'ar').format(DateTime.now()).toString(),
+              ),
+              MyTitle(
+                startDelay: 0,
+                textOfTitle: "Today",
+              )
+            ],
+          ),
 
 
         ],
@@ -256,6 +294,7 @@ class _AlarmPageState extends State<AlarmPage> {
 
       margin: const EdgeInsets.only(top: 0, left: 16,right: 0),
       child:DatePicker(
+
 
 
         locale: 'ar',

@@ -36,11 +36,55 @@ class TaskTile extends StatelessWidget {
           ]
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Row(children: [
+              RotatedBox(
+                quarterTurns: 3,
+                child: Row(
 
+                  children: [
+                    task!.isCompleted == 1
+                        ? const Icon(Icons.done_rounded)
+                        : Container(),
+                    Text(
+                      task!.isCompleted == 1 ? "اكتمل" : "${task!.reminderType}${task!.reminderType=="دواء"?" - ${task!.medicineType}":"" }",
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: size.height*0.018,wordSpacing: 0)
+                      ,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                height: task!.isCompleted == 1 ? 105 : 90,
+                width: 0.9,
+                color: Theme.of(context).textTheme.labelSmall!.color,
+              ),
+              RotatedBox(
+                quarterTurns: 3,
+                child: Chip(
+                  shape: RoundedRectangleBorder(
+                      borderRadius:BorderRadius.all(Radius.circular(10)),
+                      side: BorderSide(
 
+                        color: Theme.of(context).textTheme.labelSmall!.color!,
+                      )),
+                  label: Text(
+                      "${task!.repeat}",
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: size.height*0.0150,wordSpacing: 0,)
+                  ),
+
+                  clipBehavior: Clip.antiAlias,
+                  shadowColor: Colors.grey,
+                  padding: const EdgeInsets.only(
+                    top: 0,
+                    bottom: 0,
+                    left: 4,
+                    right: 4,
+                  ),
+                ),
+              ),
 
 
               Expanded(
@@ -153,52 +197,9 @@ class TaskTile extends StatelessWidget {
                   ],
                 ),
               ),
-              RotatedBox(
-                quarterTurns: 3,
-                child: Chip(
-                  shape: RoundedRectangleBorder(
-                    borderRadius:BorderRadius.all(Radius.circular(10)),
-                      side: BorderSide(
 
-                      color: Theme.of(context).textTheme.labelSmall!.color!,
-                  )),
-                  label: Text(
-                    "${task!.repeat}",
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: size.height*0.0150,wordSpacing: 0,)
-                  ),
 
-                  clipBehavior: Clip.antiAlias,
-                  shadowColor: Colors.grey,
-                  padding: const EdgeInsets.only(
-                    top: 0,
-                    bottom: 0,
-                    left: 4,
-                    right: 4,
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                height: task!.isCompleted == 1 ? 105 : 90,
-                width: 0.9,
-                color: Theme.of(context).textTheme.labelSmall!.color,
-              ),
-              RotatedBox(
-                quarterTurns: 3,
-                child: Row(
 
-                  children: [
-                    task!.isCompleted == 1
-                        ? const Icon(Icons.done_rounded)
-                        : Container(),
-                    Text(
-                      task!.isCompleted == 1 ? "اكتمل" : "${task!.reminderType}${task!.reminderType=="دواء"?" - ${task!.medicineType}":"" }",
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: size.height*0.018,wordSpacing: 0)
-                      ,
-                    ),
-                  ],
-                ),
-              ),
 
             ]),
             if(task!.medicineType=='حبوب')

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/component/my_custom_image_viewer.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
-import '../data.dart';
+import '../../data/data.dart';
 import '../management/home_screen_bloc/home_screen_cubit.dart';
 import '../management/home_screen_bloc/home_screen_state.dart';
 class OuterIndicatorCarouselSlider extends StatelessWidget {

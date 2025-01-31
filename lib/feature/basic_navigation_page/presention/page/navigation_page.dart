@@ -42,7 +42,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         int indexOfSelection=BlocProvider.of<NavigationPageCubit>(context).selectedItemIndex;
         return MyDrawer(
           titleOfPage: indexOfSelection==0?'الصفحة الرئيسية':indexOfSelection==1?"المنبه":indexOfSelection==2?
-          "المراكز":indexOfSelection==3?"الصفحة الرابعة":"المنشورات",
+          "المراكز":indexOfSelection==3?"المتجر":"المنشورات",
           page: indexOfSelection==0? const HomeScreen():indexOfSelection==1?
           const AlarmPage():indexOfSelection==2? const MainPageOfCentersList():indexOfSelection==3? const Page4():PostsDataScreen(),
           bottomNavigationBar:BottomBarDoubleBullet(

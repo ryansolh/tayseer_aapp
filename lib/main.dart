@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'cache/cache_helper.dart';
@@ -52,8 +53,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>MainPageOfPlatformCubit()),
       ],
 
-      child:MaterialApp(
-
+      child:GetMaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: themeData,

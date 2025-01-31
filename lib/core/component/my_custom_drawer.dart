@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import 'package:todo_apps/feature/guidances_service/guidances_service.dart';
 
 import '../../feature/ai_bot/presention/page/bot_screen.dart';
 import 'my_custom_linear_gradient.dart';
@@ -67,24 +68,26 @@ class MyDrawer extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
-                  leading: const Icon(Icons.home),
-                  title: const Text('Home'),
+                  onTap: () {
+                    context.push(GuidancesServicePage());
+                  },
+                  leading: const Icon(Icons.question_mark),
+                  title: const Text('المرشد المهني'),
                 ),
                 ListTile(
                   onTap: () {},
                   leading: const Icon(Icons.account_circle_rounded),
-                  title: const Text('Profile'),
+                  title: const Text('الملف الشخصي'),
                 ),
                 ListTile(
                   onTap: () {context.push(BotScreen());},
                   leading: const Icon(Icons.question_answer_outlined),
-                  title: const Text('AI Bot'),
+                  title: const Text('مساعد ذكي'),
                 ),
                 ListTile(
                   onTap: () {},
-                  leading: const Icon(Icons.settings),
-                  title: const Text('Settings'),
+                  leading: const Icon(Icons.sunny),
+                  title: const Text('المظهر'),
                 ),
                 const Spacer(),
                 DefaultTextStyle(
@@ -138,16 +141,17 @@ class MyDrawer extends StatelessWidget {
           child: Stack(
             children: [
               page,
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding:EdgeInsets.symmetric(horizontal: 7,vertical: 7),
-                  child: _bottomNavigationBar!,
-                ),
+              if(_bottomNavigationBar!=null)
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Padding(
+                    padding:EdgeInsets.symmetric(horizontal: 7,vertical: 7),
+                    child: _bottomNavigationBar!,
+                  ),
 
-              )
+                )
             ],
           ),
         ),

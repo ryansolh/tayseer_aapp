@@ -23,8 +23,8 @@ List<Map<String, dynamic>> centersData = [
       },
     ],
     "location": {
-      "latitude": 15.369445,
-      "longitude": 44.191006,
+      "latitude": 15.378050,
+      "longitude": 44.205238,
     },
     "address": "صنعاء ـ الحصبة ـ أمام اللجنة الدائمة",
     "contactNumber": "770402500",
@@ -172,6 +172,7 @@ List<Map<String, dynamic>> centersData = [
     "contactNumber": "01209725",
     "whatsappNumber": "777216770",
   },
+
 
 
 

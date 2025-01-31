@@ -9,9 +9,10 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timezone/tzdata.dart';
+import 'package:todo_apps/core/services/center_services/connection_services.dart';
 import 'package:todo_apps/feature/centers/data/model.dart';
-import 'package:todo_apps/feature/centers/presention/widgets/show_map_bottom_sheet.dart';
 
 import '../../../map/presention/page/map_page.dart';
 Widget MoreServiceButton(BuildContext context, {  CentersModel? center }) {
@@ -39,25 +40,18 @@ Widget MoreServiceButton(BuildContext context, {  CentersModel? center }) {
       print("The menu is ${isOpen ? "open" : "closed"}");
     },
     children: <Widget>[
+
       RawMaterialButton(
         onPressed: () {
-          print("You pressed 1");
+          whatsAppCommunicationServiceWithCenter("967"+center!.whatsappNumber);
         },
         shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),
-        child: const Icon(Icons.looks_one, color: Colors.grey),
+        child: const Icon(FontAwesomeIcons.whatsapp, color: Colors.grey),
       ),
       RawMaterialButton(
         onPressed: () {
-          print("You pressed 2");
-        },
-        shape: const CircleBorder(),
-        padding: const EdgeInsets.all(24.0),
-        child: const Icon(Icons.looks_two, color: Colors.grey),
-      ),
-      RawMaterialButton(
-        onPressed: () {
-          print("You pressed 3");
+          makePhoneCallServeceWithCenter(center!.contactNumber);
         },
         shape: const CircleBorder(),
         padding: const EdgeInsets.all(24.0),

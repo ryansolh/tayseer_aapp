@@ -1,25 +1,42 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:pdf/pdf.dart' as llll;
+import 'package:pdf/widgets.dart';
 
 import '../../../feature/reminder/models/task.dart';
-import 'package:pdf/widgets.dart' as ggg;
 
 Future<void> exportTasksToPDF(List<Task> tasks) async {
-  final pdf = pw.Document();
-  //final font = await  pw.Document.load(pw.Font().fontName())
+
+  late Font arFont;
+  arFont =Font.ttf((await rootBundle.load("assets/fonts/Tajawal-Font/ArbFONTS-Tajawal-Medium.ttf")));
+  final pdf = pw.Document(
+
+    theme: pw.ThemeData.withFont(
+
+      base:arFont,
+
+
+    ),
+
+
+
+  );
+
   pdf.addPage(
 
     pw.MultiPage(
+
       header: (context) => pw.Center(
         child: pw.Header(
           level: 0,
           child: pw.Text('تقرير خاص المواعيد التي تم تخصيصها مسبقاً وما تم تنفيذه من الاجراءات الخاصة بها ',
-              style:
-                  pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold,)
+
           ),
         ),
       ),
@@ -45,22 +62,24 @@ Future<void> exportTasksToPDF(List<Task> tasks) async {
 }
 
 pw.Widget _buildTaskRow(pw.Context context, Task task) {
+
   return pw.Padding(
     padding: const pw.EdgeInsets.all(5.0),
     child:pw.Column(
+
       children: [
         pw.Text('يهدف هذا التقرير إلى تقديم نظرة شاملة حول مواعيد وتذكيرات المهام التي يتم إدخالها عبر التطبيق سواء كانت متعلقة بالعمل أو بتنظيم مواعيد تناول الأدوية. يُتيح التطبيق للمستخدمين جدولة مهامهم اليومية وتلقي التذكيرات لضمان الالتزام بالمهام والمواعيد المحددة مسبقًا.',
-            style:
-            pw.TextStyle(fontSize: 12, )),
+         textDirection: pw.TextDirection.rtl
+          ),
         pw.Text('حيث يتم تضمين هذه المواعيد في الجداول التالية: ',
-            style:
-            pw.TextStyle(fontSize: 12,)),
+            textDirection: pw.TextDirection.rtl
+         ),
 
         pw.SizedBox(height: 10),
         if(task.reminderType=='عمل')
           pw.Text('جدول خاص بمواعيد الاعمال او الانشطة:',
-              style:
-              pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold,)),
+              textDirection: pw.TextDirection.rtl
+         ),
 
         if(task.reminderType=='عمل')
         pw.Table(
@@ -69,37 +88,39 @@ pw.Widget _buildTaskRow(pw.Context context, Task task) {
             pw.TableRow(
 
               children: [
-                pw.Text('المعرف:'),
-                pw.Text(task.id.toString()),
+                pw.Text('المعرف:',
+                    textDirection: pw.TextDirection.rtl
+                ),
+                pw.Text(task.id.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('عنوان المنبه:'),
-                pw.Text(task.title),
+                pw.Text('عنوان المنبه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.title,textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('ملاحضه:'),
-                pw.Text(task.note),
+                pw.Text('ملاحضه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.note,textDirection: pw.TextDirection.rtl),
               ],
             ),
 
             pw.TableRow(
               children: [
-                pw.Text('التاريخ:' ,),
-                pw.Text(task.date.toString()),
+                pw.Text('التاريخ:' ,textDirection: pw.TextDirection.rtl),
+                pw.Text(task.date.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('الاوقات'),
-                pw.Text(task.startTime.toString()),
+                pw.Text('الاوقات',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.startTime.toString(),textDirection: pw.TextDirection.rtl),
                 if(task.startTime2!=null)
-                  pw.Text(task.startTime2.toString()),
+                  pw.Text(task.startTime2.toString(),textDirection: pw.TextDirection.rtl),
                 if(task.startTime3!=null)
-                  pw.Text(task.startTime3.toString()),
+                  pw.Text(task.startTime3.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             /*pw.TableRow(
@@ -110,29 +131,29 @@ pw.Widget _buildTaskRow(pw.Context context, Task task) {
             ),*/
             pw.TableRow(
               children: [
-                pw.Text('مدة الغفوة:'),
-                pw.Text(task.remind.toString()),
+                pw.Text('مدة الغفوة:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.remind.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('التكرار:'),
-                pw.Text(task.repeat.toString()),
+                pw.Text('التكرار:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.repeat.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
 
             pw.TableRow(
               children: [
-                pw.Text('هل اكتمل:'),
+                pw.Text('هل اكتمل:',textDirection: pw.TextDirection.rtl),
                 task.isCompleted==1?
-                    pw.Text('نعم')
-                    :pw.Text('لا')
+                    pw.Text('نعم',textDirection: pw.TextDirection.rtl)
+                    :pw.Text('لا',textDirection: pw.TextDirection.rtl)
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('تاريخ انشاءه:'),
-                pw.Text(task.createdAt.toString()),
+                pw.Text('تاريخ انشاءه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.createdAt.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             /*pw.TableRow(
@@ -152,8 +173,7 @@ pw.SizedBox(height: 10),
 
         if( task.reminderType=='مقابلة طبيب')
           pw.Text('جدول خاص بمواعيد مقابلة الطبيب:',
-              style:
-              pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold,)),
+              textDirection: pw.TextDirection.rtl),
 
        if( task.reminderType=='مقابلة طبيب')
         pw.Table(
@@ -161,36 +181,36 @@ pw.SizedBox(height: 10),
           children: [
             pw.TableRow(
               children: [
-                pw.Text('المعرف:'),
-                pw.Text(task.id.toString()),
+                pw.Text('المعرف:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.id.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('عنوان المنبه:'),
-                pw.Text(task.title),
+                pw.Text('عنوان المنبه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.title,textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('ملاحضه:'),
-                pw.Text(task.note),
+                pw.Text('ملاحضه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.note,textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('التاريخ:'),
-                pw.Text(task.date.toString()),
+                pw.Text('التاريخ:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.date.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('الاوقات'),
-                pw.Text(task.startTime.toString()),
+                pw.Text('الاوقات',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.startTime.toString(),textDirection: pw.TextDirection.rtl),
                 if(task.startTime2!=null)
-                  pw.Text(task.startTime2.toString()),
+                  pw.Text(task.startTime2.toString(),textDirection: pw.TextDirection.rtl),
                 if(task.startTime3!=null)
-                  pw.Text(task.startTime3.toString()),
+                  pw.Text(task.startTime3.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             /*pw.TableRow(
@@ -201,29 +221,29 @@ pw.SizedBox(height: 10),
             ),*/
             pw.TableRow(
               children: [
-                pw.Text('مدة الغفوة:'),
-                pw.Text(task.remind.toString()),
+                pw.Text('مدة الغفوة:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.remind.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('التكرار:'),
-                pw.Text(task.repeat.toString()),
+                pw.Text('التكرار:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.repeat.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
 
             pw.TableRow(
               children: [
-                pw.Text('هل اكتمل:'),
+                pw.Text('هل اكتمل:',textDirection: pw.TextDirection.rtl),
                 task.isCompleted==1?
-                pw.Text('نعم')
-                    :pw.Text('لا')
+                pw.Text('نعم',textDirection: pw.TextDirection.rtl)
+                    :pw.Text('لا',textDirection: pw.TextDirection.rtl)
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('تاريخ انشاءه:'),
-                pw.Text(task.createdAt.toString()),
+                pw.Text('تاريخ انشاءه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.createdAt.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             /*pw.TableRow(
@@ -242,8 +262,8 @@ pw.SizedBox(height: 10),
         if( task.reminderType=='دواء')
 
           pw.Text('جدول خاص بمواعيد استخدام الادوية:',
-              style:
-              pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold,)),
+              textDirection: pw.TextDirection.rtl
+          ),
 
        if( task.reminderType=='دواء')
         pw.Table(
@@ -251,61 +271,61 @@ pw.SizedBox(height: 10),
           children: [
             pw.TableRow(
               children: [
-                pw.Text('المعرف:'),
-                pw.Text(task.id.toString()),
+                pw.Text('المعرف:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.id.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('عنوان المنبه:'),
-                pw.Text(task.title),
+                pw.Text('عنوان المنبه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.title,textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('ملاحضه:'),
-                pw.Text(task.note),
+                pw.Text('ملاحضه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.note,textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('نوع الدواء:'),
-                pw.Text(task.medicineType.toString()),
+                pw.Text('نوع الدواء:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.medicineType.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('كم حبة في المرة'),
+                pw.Text('كم حبة في المرة',textDirection: pw.TextDirection.rtl),
                 task.medicineType=='حبوب'?
-                pw.Text(task.numberOfPills.toString()):
-                pw.Text('/////////'),
+                pw.Text(task.numberOfPills.toString(),textDirection: pw.TextDirection.rtl):
+                pw.Text('/////////',textDirection: pw.TextDirection.rtl),
 
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('عدد حبوب الشريط المتبقية:'),
+                pw.Text('عدد حبوب الشريط المتبقية:',textDirection: pw.TextDirection.rtl),
                 task.medicineType=='حبوب'?
-                pw.Text(task.numberOfStripPills.toString()):
-                pw.Text('/////////'),
+                pw.Text(task.numberOfStripPills.toString(),textDirection: pw.TextDirection.rtl):
+                pw.Text('/////////',textDirection: pw.TextDirection.rtl),
 
               ],
             ),
 
             pw.TableRow(
               children: [
-                pw.Text('التاريخ:'),
-                pw.Text(task.date.toString()),
+                pw.Text('التاريخ:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.date.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('الاوقات'),
-                pw.Text(task.startTime.toString()),
+                pw.Text('الاوقات',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.startTime.toString(),textDirection: pw.TextDirection.rtl),
                 if(task.startTime2!=null)
-                  pw.Text(task.startTime2.toString()),
+                  pw.Text(task.startTime2.toString(),textDirection: pw.TextDirection.rtl),
                 if(task.startTime3!=null)
-                  pw.Text(task.startTime3.toString()),
+                  pw.Text(task.startTime3.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             /*pw.TableRow(
@@ -316,29 +336,29 @@ pw.SizedBox(height: 10),
             ),*/
             pw.TableRow(
               children: [
-                pw.Text('مدة الغفوة:'),
-                pw.Text(task.remind.toString()),
+                pw.Text('مدة الغفوة:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.remind.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('التكرار:'),
-                pw.Text(task.repeat.toString()),
+                pw.Text('التكرار:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.repeat.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
 
             pw.TableRow(
               children: [
-                pw.Text('هل اكتمل:'),
+                pw.Text('هل اكتمل:',textDirection: pw.TextDirection.rtl),
                 task.isCompleted==1?
-                pw.Text('نعم')
-                    :pw.Text('لا')
+                pw.Text('نعم',textDirection: pw.TextDirection.rtl)
+                    :pw.Text('لا',textDirection: pw.TextDirection.rtl)
               ],
             ),
             pw.TableRow(
               children: [
-                pw.Text('تاريخ انشاءه:'),
-                pw.Text(task.createdAt.toString()),
+                pw.Text('تاريخ انشاءه:',textDirection: pw.TextDirection.rtl),
+                pw.Text(task.createdAt.toString(),textDirection: pw.TextDirection.rtl),
               ],
             ),
             /*pw.TableRow(

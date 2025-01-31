@@ -106,13 +106,31 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Scaffold(
 
       backgroundColor: context.theme.colorScheme.background,
-      appBar: _appBar(context),
+
       body: Container(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              30.SH,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+
+                  MyTitle(startDelay: 0,textOfTitle: widget.task == null ? "إضافة موعد" : "تعديل موعد",),
+                  MyShaderMask(
+                    toolWidget: IconButton(
+                      onPressed: (){
+                        Get.back();
+                      }, icon: Icon(Icons.arrow_forward),
+
+
+                    ),
+                    radius: 1,
+                  ),
+                ],
+              ),
              // _titleBar(),
               _inputField(),
               50.SH
@@ -123,27 +141,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
-  AppBar _appBar(BuildContext context) {
-    return AppBar(
-     title: MyTitle(startDelay: 0,textOfTitle: widget.task == null ? "إضافة موعد" : "تعديل موعد",),
-      backgroundColor: context.theme.colorScheme.background,
-      elevation: 0,
-      leading: GestureDetector(
-        onTap: () {
-          Get.back();
-        },
-        child: MyShaderMask(
-          toolWidget: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Get.isDarkMode ? Colors.white : Colors.black,
-          ),
-          radius: 3,
-        )
-      ),
-
-    );
-  }
 
 
 
@@ -212,6 +209,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       ),
       child: SingleChildScrollView(
         child: Column(
+
           children: [
             MyInputField(
               title: "العنوان",
@@ -288,48 +286,50 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   Expanded(
                     child: MyInputField(
                       title: "نوع الدواء",
-                      hint: _medicineType!,
-                      widget: DropdownButton(
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.grey,
-                        ),
-                        iconSize: 32,
-                        elevation: 4,
-                        padding: const EdgeInsets.only(right: 5),
-                       // style: subTitleStyle,
-                        underline: Container(
-                          height: 0,
-                          color: Colors.transparent,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _medicineType = newValue!;
-                          });
-                          if(_medicineType=="حبوب"){
-                            setState((){
-                              _numberOfStripPills=8;
-                              _numberOfPills=1;
+                      hint: _medicineType!.toString(),
+                      widget: Align(
+                        child: DropdownButton(
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.grey,
+                          ),
+                          iconSize: 32,
+                          elevation: 4,
+                          padding: const EdgeInsets.only(right: 5),
+                         // style: subTitleStyle,
+                          underline: Container(
+                            height: 0,
+                            color: Colors.transparent,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _medicineType = newValue!;
                             });
-                          }
-                          else{
-                            setState((){
-                              _numberOfStripPills=null;
-                              _numberOfPills=null;
-                              print(_numberOfPills);
-                            });
-                          }
-        
-                        },
-                        items: medicineType.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                             // style: subTitleStyle,
-                            ),
-                          );
-                        }).toList(),
+                            if(_medicineType=="حبوب"){
+                              setState((){
+                                _numberOfStripPills=8;
+                                _numberOfPills=1;
+                              });
+                            }
+                            else{
+                              setState((){
+                                _numberOfStripPills=null;
+                                _numberOfPills=null;
+                                print(_numberOfPills);
+                              });
+                            }
+
+                          },
+                          items: medicineType.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                               // style: subTitleStyle,
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                   ),
@@ -360,7 +360,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           setState(() {
                             _numberOfStripPills = int.parse(newValue!);
                           });
-        
+
                         },
                         items: numberOfStripPills.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
@@ -860,6 +860,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
       await _taskController.updateTaskInfo(task);
     }
     // Navigate back to the task list
-    Get.back();
+    //Get.back();
   }
 }

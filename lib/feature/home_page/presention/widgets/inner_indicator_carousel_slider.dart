@@ -5,18 +5,34 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_image_viewer.dart';
 import '../../../../core/component/my_custom_title.dart';
-import '../data.dart';
+import '../../data/data.dart';
+import '../../data/model/models.dart';
 import '../management/home_screen_bloc/home_screen_cubit.dart';
 import '../management/home_screen_bloc/home_screen_state.dart';
+import '../page/events_page.dart';
 
-class InnerIndicatorCarouselSlider extends StatelessWidget {
-  late CarouselSliderController innerCarouselController;
+class InnerIndicatorCarouselSlider extends StatefulWidget {
 
   InnerIndicatorCarouselSlider({super.key});
 
+  @override
+  State<InnerIndicatorCarouselSlider> createState() => _InnerIndicatorCarouselSliderState();
+}
+
+class _InnerIndicatorCarouselSliderState extends State<InnerIndicatorCarouselSlider> {
+  late CarouselSliderController innerCarouselController;
+  int indexOfEventData=0;
+  List<EventsModel>? _events;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _events=eventsAndSuggestions.map((data) => EventsModel.fromJson(data)).toList();
+  }
   @override
   Widget build(BuildContext context) {
     innerCarouselController = CarouselSliderController();
@@ -27,6 +43,7 @@ class InnerIndicatorCarouselSlider extends StatelessWidget {
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
+
     return BlocConsumer<HomeScreenCubit, HomeScreenStete>(
         builder: (context, state) {
           return SizedBox(
@@ -43,10 +60,8 @@ class InnerIndicatorCarouselSlider extends StatelessWidget {
                     //////////////////////////////////
                     child: CachedNetworkImage(
                       imageUrl: state is onChangeinnerCurrentPageState
-                          ? AppData
-                              .innerStyleImages[homeScreenDate.innerCurrentPage]
-                          : AppData.innerStyleImages[
-                              homeScreenDate.innerCurrentPage],
+                         ?_events![homeScreenDate.innerCurrentPage].imageUrl
+                          : _events![homeScreenDate.innerCurrentPage].imageUrl,
                       imageBuilder: (context, imageProvider) {
                         return Container(
                           key: state is onChangeinnerCurrentPageState
@@ -154,24 +169,29 @@ class InnerIndicatorCarouselSlider extends StatelessWidget {
                           viewportFraction: 0.8,
                           onPageChanged: (index, reason) {
                             /* setState(() {*/
+                            setState(() {
+                              indexOfEventData=index;
+                            });
                             homeScreenDate.onChangeinnerCurrentPage(index);
                             /*   });*/
                           },
                         ),
 
                         /// Items
-                        items: AppData.innerStyleImages.map((imagePath) {
+                        items: _events!.map((imagePath) {
                           return Builder(
                             builder: (BuildContext context) {
                               /// Custom Image Viewer widget
-                              ///////////////////////////
-                              ///////////////////////////
-                              ///////////////////////////
-                              ///////////////////////////
-                              return CustomImageViewer.show(
-                                context: context,
-                                url: imagePath,
-                                fit: BoxFit.fill,
+
+                              return InkWell(
+                                onTap: (){
+                                  context.push(EventDetailsScreen(event: _events![indexOfEventData],));
+                                },
+                                child: CustomImageViewer.show(
+                                  context: context,
+                                  url: imagePath.imageUrl,
+                                  fit: BoxFit.fill,
+                                ),
                               );
                               ///////////////////////////
                               ///////////////////////////
@@ -184,42 +204,7 @@ class InnerIndicatorCarouselSlider extends StatelessWidget {
                     ),
 
                     /// Indicators
-                    /*Positioned(
-                      bottom: height * .02,
-                      child: Row(
-                        children: List.generate(
-                          AppData.innerStyleImages.length,
-                          (index) {
-                            bool isSelected =
-                                homeScreenDate.innerCurrentPage == index;
-                            return GestureDetector(
-                              onTap: () {
-                                innerCarouselController.animateToPage(index);
-                                homeScreenDate.emit(onChangeinnerCurrentPageState());
-                              },
-                              child: AnimatedContainer(
-                                width: isSelected ? 55 : 17,
-                                height: 10,
-                                margin: EdgeInsets.symmetric(
 
-                                    horizontal: isSelected ? 6 : 3),
-
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ?  Colors.grey.shade300
-                                      : Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(
-                                    40,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.ease,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),*/
                   ],
                 ),
               ),

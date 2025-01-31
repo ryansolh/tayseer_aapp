@@ -72,14 +72,14 @@ class _PostFormState extends State<PostForm> {
       request.fields['content']=_txtControllerBody.text;
       request.files.add(await http.MultipartFile.fromPath('image', _imageFile!.path));
       var response=await request.send();
-     if(response.statusCode==200||response.statusCode==201){
-       context.pop();
-       showCustomSnackbar(title: ".تم نشر المنشور", subTitle: "تم انشاء ونشر المنشور الخاص بك بنجاح.");
-       setState(() {
-         isSuccessSendPost=true;
-       });
-       context.pop();
-     }
+      if(response.statusCode==200||response.statusCode==201){
+        context.pop();
+        showCustomSnackbar(title: ".تم نشر المنشور", subTitle: "تم انشاء ونشر المنشور الخاص بك بنجاح.");
+        setState(() {
+          isSuccessSendPost=true;
+        });
+        context.pop();
+      }
 
       print("/////////////////");
       print(response.statusCode);
@@ -105,73 +105,71 @@ class _PostFormState extends State<PostForm> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("${widget.title}",
-            style: TextStyle(color: Colors.white, fontFamily: 'Tajawal', fontWeight: FontWeight.bold,),),
-          leading: Container(),
-          actions: [IconButton(onPressed: (){context.pop();}, icon: Icon(Icons.chevron_right_sharp,size: 40,color: Colors.white,))],
-          flexibleSpace:
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("${widget.title}",
+          style: TextStyle(color: Colors.white, fontFamily: 'Tajawal', fontWeight: FontWeight.bold,),),
+        leading: Container(),
+        actions: [IconButton(onPressed: (){context.pop();}, icon: Icon(Icons.chevron_right_sharp,size: 40,color: Colors.white,))],
+        flexibleSpace:
+        Container(
+          decoration:  BoxDecoration(
+            gradient:MyLinearGradient,
+          ),
+        ),
+
+      ),
+      body:_loading ? Center(child: MyCustomLoading(),) :  ListView(
+        children: [
+          widget.post != null ? SizedBox() :
           Container(
-            decoration:  BoxDecoration(
-              gradient:MyLinearGradient,
+            width: MediaQuery.of(context).size.width,
+            height: 200,
+            decoration: BoxDecoration(
+                image: _imageFile == null ? null : DecorationImage(
+                    image: FileImage(_imageFile ?? File('')),
+                    fit: BoxFit.cover
+                )
+            ),
+            child: Center(
+              child: IconButton(
+                icon: Icon(Icons.image, size:50, color: Colors.black38),
+                onPressed: (){
+                  getImage();
+                },
+              ),
             ),
           ),
+          Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: TextFormField(
 
-        ),
-        body:_loading ? Center(child: MyCustomLoading(),) :  ListView(
-          children: [
-            widget.post != null ? SizedBox() :
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              decoration: BoxDecoration(
-                  image: _imageFile == null ? null : DecorationImage(
-                      image: FileImage(_imageFile ?? File('')),
-                      fit: BoxFit.cover
-                  )
-              ),
-              child: Center(
-                child: IconButton(
-                  icon: Icon(Icons.image, size:50, color: Colors.black38),
-                  onPressed: (){
-                    getImage();
-                  },
+                cursorColor: Colors.grey,
+                textDirection: TextDirection.rtl,
+                controller: _txtControllerBody,
+                keyboardType: TextInputType.multiline,
+                maxLines: 9,
+                validator: (val) => val!.isEmpty ? 'Post body is required' : null,
+                decoration: InputDecoration(
+                    hintText: "Post body...",
+                    border: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.grey),)
                 ),
               ),
             ),
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: TextFormField(
-
-                  cursorColor: Colors.grey,
-                  textDirection: TextDirection.rtl,
-                  controller: _txtControllerBody,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 9,
-                  validator: (val) => val!.isEmpty ? 'Post body is required' : null,
-                  decoration: InputDecoration(
-                      hintText: "Post body...",
-                      border: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.grey),)
-                  ),
-                ),
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 30,right: 30,top: 30),
+            child: MyButtonWithBackground(
+                context: context,
+                textButton: "نشر",
+                onPressed: (){
+                  _createPost();
+                }
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 30,right: 30,top: 30),
-              child: MyButtonWithBackground(
-                  context: context,
-                  textButton: "نشر",
-                  onPressed: (){
-                    _createPost();
-                  }
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

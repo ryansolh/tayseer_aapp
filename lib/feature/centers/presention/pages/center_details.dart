@@ -11,7 +11,6 @@ import 'package:todo_apps/feature/centers/presention/widgets/more_services.dart'
 import '../../../../core/component/my_custom_linear_gradient.dart';
 
 import '../../data/model.dart';
-import '../widgets/center_description.dart';
 
 const kDefaultPadding = 20.0;
 const kTextColor = Color(0xFF535353);
@@ -87,7 +86,7 @@ class CenterDetailsScreen extends StatelessWidget {
                             Align(
                               alignment: Alignment.topRight,
                               child: MyTitle(
-                                  textOfTitle: "عن المركز او الموسسة",
+                                  textOfTitle: "عن المركز او المؤسسة",
                                   startDelay: 0
                               ),
                             ),

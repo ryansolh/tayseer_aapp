@@ -20,9 +20,12 @@ class MyInputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: MediaQuery.of(context).size.height*0.0190,wordSpacing: 0),
+        Align(
+          alignment: Alignment.topRight,
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: MediaQuery.of(context).size.height*0.0190,wordSpacing: 0,),
+          ),
         ),
         Container(
           height: 52,
@@ -36,20 +39,24 @@ class MyInputField extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 10.0),
-              ),
+
+
+              widget ??
+                  Container(
+                    child: widget,
+                  ),
               Expanded(
                 child: TextFormField(
                   readOnly: widget != null ? true : false,
                   autofocus: false,
                   cursorColor:
-                      Get.isDarkMode ? Colors.grey[200] : Colors.grey[700],
+                  Get.isDarkMode ? Colors.grey[200] : Colors.grey[700],
                   controller: controller,
-    style:Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: MediaQuery.of(context).size.height*0.0180,wordSpacing: 0),
+                  style:Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: MediaQuery.of(context).size.height*0.0180,wordSpacing: 0),
                   decoration: InputDecoration(
+                    hintTextDirection: TextDirection.rtl,
                     hintText: hint,
-                   // hintStyle: subTitleStyle,
+                    // hintStyle: subTitleStyle,
                     focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Colors.transparent,
@@ -63,10 +70,9 @@ class MyInputField extends StatelessWidget {
                   ),
                 ),
               ),
-              widget ??
-                  Container(
-                    child: widget,
-                  ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+              ),
             ],
           ),
         ),

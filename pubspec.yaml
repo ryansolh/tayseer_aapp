@@ -79,6 +79,10 @@ dependencies:
   fab_circular_menu: ^1.0.2
   image_picker: ^0.8.8+7
   loading_animation_widget:
+  font_awesome_flutter: ^10.0.0
+  url_launcher: ^6.1.11
+  appinio_video_player: ^1.2.2
+  video_player: ^2.0.0
 #############################
 
 dev_dependencies:
