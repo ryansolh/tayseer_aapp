@@ -4,12 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
 import 'cache/cache_helper.dart';
 import 'core/db/db.helper.dart';
 import 'core/utils/theme_data/theme_mode.dart';
 import 'feature/basic_navigation_page/presention/management/navigation_page_bloc/navigation_page_cubit.dart';
 import 'feature/home_page/presention/management/home_screen_bloc/home_screen_cubit.dart';
 import 'feature/map/presention/management/map_bloc/map_page_cubit.dart';
+import 'feature/market/data/data_sources/products.dart';
+import 'feature/market/data/model/cart.dart';
+import 'feature/market/data/model/orders.dart';
 import 'feature/platform/presention/management/main_page_of_platform_management/main_page_of_platform_cubit.dart';
 import 'feature/platform/presention/management/posts_management/blog_app_cubit.dart';
 import 'feature/splash_screen/presention/management/splash_screen_bloc/splash_screen_cubit.dart';
@@ -43,7 +47,7 @@ class MyApp extends StatelessWidget {
 
 
 
-    return MultiBlocProvider(
+    return MultiProvider(
       providers:[
         BlocProvider(create: (context)=>SplashScreenCubit()),
         BlocProvider(create: (context)=>MapCubit()),
@@ -51,8 +55,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>HomeScreenCubit()),
         BlocProvider(create: (context)=>BlogAppPostCubit()),
         BlocProvider(create: (context)=>MainPageOfPlatformCubit()),
+        ChangeNotifierProvider.value(
+          value: Products(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Cart(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Orders(),
+        ),
       ],
-
+    
       child:GetMaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -64,3 +77,18 @@ class MyApp extends StatelessWidget {
 }
 
 
+/*
+providers: [
+// ChangeNotifierProvider.value(
+//   value: Categories(),
+// ),
+ChangeNotifierProvider.value(
+value: Products(),
+),
+ChangeNotifierProvider.value(
+value: Cart(),
+),
+ChangeNotifierProvider.value(
+value: Orders(),
+),
+],*/
