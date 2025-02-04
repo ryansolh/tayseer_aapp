@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_subtitle.dart';
-import '../widgets/inner_indicator_carousel_slider.dart';
-import '../widgets/outter_indicator_carousel_slider.dart';
+import '../widgets/carousel_slider_with_background.dart';
+import '../widgets/carousel_slider_without_background.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child:SingleChildScrollView(
         child: Column(
           children:  [
-            InnerIndicatorCarouselSlider(),
+            CarouselSliderWithBackground(),
             20.SH,
             const MySubTitle(textOfSubTitle:
             "نقدم لكم مجموعة من الفعاليات والأنشطة التي تنظمها "
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 "الاقتراحات ما يلبي احتياجاتكم ويساهم في تحقيق أهدافكم."
               ,startDelay: 700,),
 
-            OuterIndicatorCarouselSlider(),
+            CarouselSliderWithoutBackground(),
             100.SH
           ],
         ),

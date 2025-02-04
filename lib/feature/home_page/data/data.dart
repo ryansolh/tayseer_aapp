@@ -30,7 +30,7 @@ List<Map<String, dynamic>> eventsAndSuggestions = [
   {
     "id": 1,
     "name": "لمؤتمر الوطني الثاني لمؤسسة نهضة فكر",
-    "imageUrl": "https://scontent.fsah1-1.fna.fbcdn.net/v/t39.30808-6/475254424_493109087153735_8630181226141095597_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=JAmjZnhxSaMQ7kNvgEERffr&_nc_zt=23&_nc_ht=scontent.fsah1-1.fna&_nc_gid=ArUblB2Y4d9-wUxVoMPE3xl&oh=00_AYCpwJVFl4GvUTdl7kwaR1zqQxbcqlt9Ueu4hCFK-9kt8w&oe=679DDA0F",
+    "imageUrl": "https://evrcsn.com/storage/images/%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D8%A7%D9%87%D9%8A%D9%84%20%20%D8%B5%D9%88%D8%B1%D8%A9_2.jpg",
     "description": "سيُعقد المؤتمر الوطني الثاني لمؤسسة نهضة فكر يوم الخميس، 30 يناير 2025، في تمام الساعة التاسعة صباحًا، في قاعة المؤتمرات بالنادي الترفيهي بشارع كلية الشرطة.",
     "address": "قاعة المؤتمرات بالنادي الترفيهي بشارع كلية الشرطة.",
     "videoUrl":"https://l.top4top.io/m_3315pn3370.mp4",
@@ -38,14 +38,14 @@ List<Map<String, dynamic>> eventsAndSuggestions = [
   {
     "id": 2,
     "name": "يوم ترفيهي مع مؤسسة البسمة",
-    "imageUrl": "https://scontent.fsah1-1.fna.fbcdn.net/v/t39.30808-6/454457215_1002917694962689_341516811163340311_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=FjLMwohO7xoQ7kNvgEoUhL8&_nc_zt=23&_nc_ht=scontent.fsah1-1.fna&_nc_gid=AYXJzrremVghasmoO11-Qf8&oh=00_AYAXiivQNOT3UMw8TvwDlqPzI245YHVujy-1QSs5JWTHVg&oe=679DEBD2",
+    "imageUrl": "https://evrcsn.com/storage/images/%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D8%A7%D9%87%D9%8A%D9%84%20%20%D8%B5%D9%88%D8%B1%D8%A9_2.jpg",
     "description": "امت مؤسسة البسمة لذوي الإحتياجات الخاصة برحلة ترفيهية تعليمية لطلابها من ذوي الاحتياجات الخاصة لمختلف الفصول الدراسية إلي المتحف الوطني لتعريف الطلاب بحضارة اليمن السعيد و كان في إستقبالنا المرشدين في المتحف الوطني حيث و قد قاموا بشرح ما يضم المتحف من معدات عسكرية و خرائط و غيرها من معالم الوطن الحبيب و ما يحتويه من معلومات ثمينة و قد بدا التفاعل الإيجابي و الحماس من قبل الطلاب من ذوي الإعاقة بزيارتهم للمتحف.",
     "address": "شارع حده جولة الرويشان المدخل المقابل ليمن مول جوار نادي هاواي, Sanaa, Yemen",
   },
   {
     "id": 3,
     "name": "لمؤتمر الوطني الثاني لمؤسسة نهضة فكر",
-    "imageUrl": "https://scontent.fsah1-1.fna.fbcdn.net/v/t39.30808-6/475254424_493109087153735_8630181226141095597_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=JAmjZnhxSaMQ7kNvgEERffr&_nc_zt=23&_nc_ht=scontent.fsah1-1.fna&_nc_gid=ArUblB2Y4d9-wUxVoMPE3xl&oh=00_AYCpwJVFl4GvUTdl7kwaR1zqQxbcqlt9Ueu4hCFK-9kt8w&oe=679DDA0F",
+    "imageUrl": "https://evrcsn.com/storage/images/%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D8%A7%D9%87%D9%8A%D9%84%20%20%D8%B5%D9%88%D8%B1%D8%A9_2.jpg",
     "description": "سيُعقد المؤتمر الوطني الثاني لمؤسسة نهضة فكر يوم الخميس، 30 يناير 2025، في تمام الساعة التاسعة صباحًا، في قاعة المؤتمرات بالنادي الترفيهي بشارع كلية الشرطة.",
     "address": "قاعة المؤتمرات بالنادي الترفيهي بشارع كلية الشرطة.",
     "videoUrl":"https://l.top4top.io/m_3315pn3370.mp4",
@@ -53,7 +53,7 @@ List<Map<String, dynamic>> eventsAndSuggestions = [
   {
     "id": 4,
     "name": "يوم ترفيهي مع مؤسسة البسمة",
-    "imageUrl": "https://scontent.fsah1-1.fna.fbcdn.net/v/t39.30808-6/454457215_1002917694962689_341516811163340311_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=FjLMwohO7xoQ7kNvgEoUhL8&_nc_zt=23&_nc_ht=scontent.fsah1-1.fna&_nc_gid=AYXJzrremVghasmoO11-Qf8&oh=00_AYAXiivQNOT3UMw8TvwDlqPzI245YHVujy-1QSs5JWTHVg&oe=679DEBD2",
+    "imageUrl": "https://evrcsn.com/storage/images/%D9%85%D8%B1%D9%83%D8%B2%20%D8%A7%D9%84%D8%AA%D8%A7%D9%87%D9%8A%D9%84%20%20%D8%B5%D9%88%D8%B1%D8%A9_2.jpg",
     "description": "امت مؤسسة البسمة لذوي الإحتياجات الخاصة برحلة ترفيهية تعليمية لطلابها من ذوي الاحتياجات الخاصة لمختلف الفصول الدراسية إلي المتحف الوطني لتعريف الطلاب بحضارة اليمن السعيد و كان في إستقبالنا المرشدين في المتحف الوطني حيث و قد قاموا بشرح ما يضم المتحف من معدات عسكرية و خرائط و غيرها من معالم الوطن الحبيب و ما يحتويه من معلومات ثمينة و قد بدا التفاعل الإيجابي و الحماس من قبل الطلاب من ذوي الإعاقة بزيارتهم للمتحف.",
     "address": "شارع حده جولة الرويشان المدخل المقابل ليمن مول جوار نادي هاواي, Sanaa, Yemen",
   },

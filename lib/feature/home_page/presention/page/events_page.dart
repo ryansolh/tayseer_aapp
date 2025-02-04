@@ -1,14 +1,10 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
 import 'package:todo_apps/core/component/my_custom_loading.dart';
-import 'package:todo_apps/core/component/my_custom_shadermask.dart';
 import 'package:todo_apps/core/component/my_custom_subtitle.dart';
 import 'package:todo_apps/core/component/my_custom_title.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
-import 'package:todo_apps/feature/centers/presention/widgets/more_services.dart';
 import 'package:todo_apps/feature/home_page/data/model/models.dart';
 
 import '../../../../core/component/my_custom_linear_gradient.dart';
@@ -59,17 +55,19 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
  /* Uri videoUri = Uri.parse(
       "https://l.top4top.io/m_3315pn3370.mp4");*/
 
-  late bool isLoadingVideo = true;
+  late bool isLoadingVideo = false;
 
   @override
   void initState() {
     super.initState();
-    initializeVideoPlayer(widget.event!.videoUrl!);
+    (widget.event!.videoUrl)!=null&&(widget.event!.videoUrl)!="null"&&(widget.event!.videoUrl)!=''?
+    initializeVideoPlayer(widget.event!.videoUrl!):print('');
   }
 
   @override
   void dispose() {
-    _customVideoPlayerController.dispose();
+    (widget.event!.videoUrl)!=null&&(widget.event!.videoUrl)!="null"&&(widget.event!.videoUrl)!=''?
+    _customVideoPlayerController.dispose():print('');
     super.dispose();
   }
   @override
@@ -166,11 +164,20 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                 textOfSubTitle:  widget.event!.address,
                               ),
                             ),
+                            (widget.event!.videoUrl)!=null&&(widget.event!.videoUrl)!="null"&&(widget.event!.videoUrl)!=''?
                             isLoadingVideo==true?
-                                MyCustomLoading():
+                                Container(
+                                  color:Colors.black,
+                                  width: double.infinity,
+                                    height: 210,
+                                    child: Center(
+                                      child:MyCustomLoading()
+                                    )
+                                ):
                             CustomVideoPlayer(
                               customVideoPlayerController: _customVideoPlayerController,
-                            ),
+                            ):
+                                SizedBox(),
 
                             30.SH
 
