@@ -11,7 +11,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.43.93/phpconn/',
+        baseUrl: 'http://192.168.60.93/phpconn/',
         receiveDataWhenStatusError: true,
       ),
     );

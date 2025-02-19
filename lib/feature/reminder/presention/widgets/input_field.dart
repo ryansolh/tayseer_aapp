@@ -38,19 +38,22 @@ class MyInputField extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
+mainAxisSize: MainAxisSize.min,
             children: [
 
 
               widget ??
-                  Container(
-                    child: widget,
-                  ),
+                 Container(
+
+                   child: widget,
+                 ),
+
               Expanded(
                 child: TextFormField(
+                  cursorColor: Colors.grey,
+                  textDirection: TextDirection.rtl,
                   readOnly: widget != null ? true : false,
                   autofocus: false,
-                  cursorColor:
-                  Get.isDarkMode ? Colors.grey[200] : Colors.grey[700],
                   controller: controller,
                   style:Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: MediaQuery.of(context).size.height*0.0180,wordSpacing: 0),
                   decoration: InputDecoration(

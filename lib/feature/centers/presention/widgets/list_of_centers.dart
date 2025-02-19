@@ -19,9 +19,12 @@ class SlideAnimation4 extends StatefulWidget {
 
 class _SlideAnimation4State extends State<SlideAnimation4> {
  late List<CentersModel>? _centers;
+ late List<CentersModel>? _originalCenters;
+ late List<CentersModel>? _permanentCenters;
 
   //String distance='';
   final TextEditingController _searchController=TextEditingController();
+ bool _emptySearchText=true;
 
   bool successfulGettingDistance=false;
   Future calculateDistance()async{
@@ -39,8 +42,10 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
 
     }
 
+
     setState(() {
       successfulGettingDistance=true;
+      _originalCenters=_centers;
     });
 
   }
@@ -52,6 +57,7 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
     super.initState();
     _centers=centersData.map((data) => CentersModel.fromJson(data)).toList();
     calculateDistance();
+
   }
 
       Widget build(BuildContext context) {
@@ -72,18 +78,34 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      textDirection: TextDirection.rtl,
                       controller:_searchController,
-                      focusNode:FocusNode(canRequestFocus: false)  ,
+
                       cursorColor: Colors.grey.withOpacity(0.4),
                       autofocus: false,
+
                       style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
                       onChanged: (value) {
-                        //filterSearchResults(value);
+                        if(value.isNotEmpty){
+                          setState(() {
+                            _centers=_originalCenters!
+                                .where((center) => center.name.contains(value))
+                                .toList();
+                            _emptySearchText=false;
+                          });
+                        }
+                        else{
+                          setState(() {
+                            _centers=_originalCenters!;
+                            _emptySearchText=true;
+                          });
+                        }
                       },
                       // controller: serchController,
                       decoration: InputDecoration(
-                          hintText: "Search Store",
-                          filled: true,
+                        hintTextDirection: TextDirection.rtl,
+                          hintText: "ابحث عن مركز معين",
+                         // filled: true,
 
                           fillColor: Theme.of(context).colorScheme.background,
                           hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
@@ -96,7 +118,7 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
                             borderSide: const BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(24),
                           ),
-                          prefixIcon: const MyShaderMask(
+                          suffixIcon: const MyShaderMask(
                             toolWidget: Icon(
                               Icons.search,
                               color: Colors.black,

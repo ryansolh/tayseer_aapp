@@ -10,12 +10,15 @@ class MyDrawer extends StatelessWidget {
      Key? key,
       required this.titleOfPage,
      required this.page,
-     Widget? bottomNavigationBar
+     Widget? bottomNavigationBar,
+     this.goBack=false
+
 
 
    }) : _bottomNavigationBar = bottomNavigationBar ;
    Widget? _bottomNavigationBar;
 
+   final bool? goBack;
    final Widget page;
    final String titleOfPage;
    AdvancedDrawerController _advancedDrawerController = AdvancedDrawerController();
@@ -134,8 +137,17 @@ class MyDrawer extends StatelessWidget {
               },
             ),
           ),
+          actions: [
+            goBack==true?
+            IconButton(
+                onPressed: (){context.pop();},
+                icon: Icon(Icons.chevron_right_sharp,
+                  size: 40,color: Colors.white,))
+          :Container()
+          ],
         ),
         body: Container(
+          color: Theme.of(context).colorScheme.background,
           height: double.infinity,
           width: double.infinity,
           child: Stack(
@@ -147,8 +159,11 @@ class MyDrawer extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Padding(
-                    padding:EdgeInsets.symmetric(horizontal: 7,vertical: 7),
-                    child: _bottomNavigationBar!,
+                    padding:EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                    child: Container(
+                      color: Theme.of(context).colorScheme.background,
+                        child: _bottomNavigationBar!
+                    ),
                   ),
 
                 )

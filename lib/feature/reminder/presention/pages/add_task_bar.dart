@@ -6,6 +6,7 @@ import 'package:todo_apps/core/component/my_custom_buttons.dart';
 import 'package:todo_apps/core/component/my_custom_shadermask.dart';
 import 'package:todo_apps/core/component/my_custom_title.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../core/task_db_controllers/device_info.dart';
 import '../../../../core/task_db_controllers/task.controller.dart';
 import '../../models/task.dart';
@@ -119,15 +120,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 children: [
 
                   MyTitle(startDelay: 0,textOfTitle: widget.task == null ? "إضافة موعد" : "تعديل موعد",),
+
                   MyShaderMask(
                     toolWidget: IconButton(
                       onPressed: (){
                         Get.back();
-                      }, icon: Icon(Icons.arrow_forward),
+                      }, icon: Icon(Icons.chevron_right_sharp,size: 40,color: Colors.white,),
 
 
                     ),
-                    radius: 1,
+                    radius: 1.5,
                   ),
                 ],
               ),
@@ -615,6 +617,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   _validateData() {
+
     if (_titleController.text.isNotEmpty && _noteController.text.isNotEmpty) {
       // Add to database
       final _taskController = Get.put(TaskController());
@@ -812,18 +815,31 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
 
     } else if (_titleController.text.isEmpty || _noteController.text.isEmpty) {
-      Get.snackbar(
-        "Required",
-        "All field is required!",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Get.isDarkMode ? Colors.white : Colors.grey,
-        icon: const Icon(
-          Icons.warning_amber_rounded,
-          color: Colors.red,
-          size: 35,
-        ),
-        colorText: Colors.red,
-      );
+     if(_titleController.text.isEmpty&&_noteController.text.isEmpty){
+       showCustomSnackbar(
+         backgroundColor: Colors.red,
+           title:"لايمكن إضافة المنبه!!",
+           subTitle: "يجب عليك إدخال عنوان المنبه والملاحضة."
+
+       );
+     }
+     else if(_titleController.text.isEmpty&&_noteController.text.isNotEmpty){
+       showCustomSnackbar(
+         backgroundColor: Colors.red,
+           title:"لايمكن إضافة المنبه!!",
+           subTitle: "يجب عليك إدخال عنوان المنبه."
+
+       );
+     }
+     else if(_titleController.text.isNotEmpty&&_noteController.text.isEmpty){
+       showCustomSnackbar(
+         backgroundColor: Colors.red,
+           title:"لايمكن إضافة المنبه!!",
+           subTitle: "يجب عليك إدخال الملاحضة."
+
+       );
+     }
+
     }
   }
 

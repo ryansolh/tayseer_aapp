@@ -317,7 +317,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         borderRadius: BorderRadius.circular(50),
                         boxShadow: [
                           BoxShadow(
-
                               color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                               // spreadRadius: 3,
                               blurRadius: 7,
@@ -353,7 +352,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   borderSide: BorderSide(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(24),
                                 ),
-
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(24),

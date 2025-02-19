@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_image_viewer.dart';
+import '../../../../core/component/my_custom_shimmer.dart';
 import '../../../../core/component/my_custom_title.dart';
 import '../../data/data.dart';
 import '../../data/model/models.dart';
@@ -84,23 +85,9 @@ class _CarouselSliderWithBackgroundState extends State<CarouselSliderWithBackgro
                           ),
                         );
                       },
-                      placeholder: (context, url) => Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(0.08),
-                      ),
+                      placeholder: (context, url) => Center(child: MyShimmer(context: context,shimmerBorderRadius: 0),),
                       errorWidget: (context, url, error) {
-                        return Container(
-                          height: double.infinity,
-                          width: double.infinity,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondary
-
-                        );
+                        return Center(child: MyShimmer(context: context,shimmerBorderRadius: 0),);
                       },
                     )),
                 //////////////////////////////////

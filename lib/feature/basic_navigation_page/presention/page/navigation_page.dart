@@ -46,6 +46,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           page: indexOfSelection==0? const HomeScreen():indexOfSelection==1?
           const AlarmPage():indexOfSelection==2? const MainPageOfCentersList():indexOfSelection==3? ExploreScreen():PostsDataScreen(),
           bottomNavigationBar:BottomBarDoubleBullet(
+
             bubbleSize: 15,
             backgroundColor: Theme.of(context).colorScheme.background,
             circle1Color: const Color(0xFF9D6CAE),
