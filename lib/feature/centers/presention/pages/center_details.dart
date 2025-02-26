@@ -133,7 +133,7 @@ class CenterDetailsScreen extends StatelessWidget {
                                         Align(
                                           alignment: Alignment.topRight,
                                           child: MySubTitle(
-                                              textOfSubTitle: '▪ ${center!.services[index].name}.',
+                                              textOfSubTitle: '▪ ${center!.services[index].serviceTypeName}.',
                                               startDelay: 700
                                           ),
                                         ),
@@ -148,7 +148,7 @@ class CenterDetailsScreen extends StatelessWidget {
                                               return Align(
                                                 alignment: Alignment.topRight,
                                                 child: MySubTitle(
-                                                    textOfSubTitle: '   -  ${center!.services[index].subServices[indexOfSubServices]}.',
+                                                    textOfSubTitle: '   -  ${center!.services[index].subServices![indexOfSubServices]}.',
                                                     startDelay: 700
                                                 ),
                                               );

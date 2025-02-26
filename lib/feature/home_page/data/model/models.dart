@@ -1,10 +1,10 @@
 class EventsModel {
-  final int id;
-  final String name;
-  final String imageUrl;
-  final String description;
-  final String address;
-  String? videoUrl;
+  final int id;//الid الخاص بالحدث
+  final String name;//اسم الحدث
+  final String imageUrl;//صورة تعبر عن الحدث
+  final String description;// وصف مع تفاصيل الحدث
+  final String address;// المكان الذي سيقام فيه الحدث مثلا شارع الرباط - كذا كذا - كذا كذا
+  String? videoUrl;// فيديو خاص باعلان الحدث ان وجد (ليس اجباري)
   EventsModel({
     required this.id,
     required this.name,

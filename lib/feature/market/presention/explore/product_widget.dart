@@ -11,6 +11,10 @@ import '../../data/model/product.dart';
 
 
 class ProductWidget extends StatelessWidget {
+  final GlobalKey widgetKey = GlobalKey();
+  final void Function(GlobalKey) onClick;
+
+  ProductWidget({super.key, required this.onClick,});
   // final Product product;
   //
   // const ProductWidget({Key key, this.product}) : super(key: key);
@@ -62,6 +66,7 @@ class ProductWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child:  Container(
+                key: widgetKey,
                 decoration: BoxDecoration(
                   color: Theme.of(context).dialogBackgroundColor,
 
@@ -112,6 +117,7 @@ class ProductWidget extends StatelessWidget {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
+                  onClick(widgetKey);
                   addProductToCart(context, product, cart);
                   print("Total Cart: " + cart.itemCount.toString());
 
@@ -127,6 +133,7 @@ class ProductWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
                     child: Container(
+
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.background,
                             borderRadius: BorderRadius.circular(50),

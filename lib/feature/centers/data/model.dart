@@ -1,13 +1,13 @@
 class CentersModel {
-  final int id;
-  final String name;
-  final String imageUrl;
-  final String description;
-  final List<Service> services;
-  final CenterLocation location;
-  final String address;
-  final String contactNumber;
-  final String whatsappNumber;
+  final int id; // الid الخاص بالمركز
+  final String name;// اسم المركز
+  final String imageUrl;//صورة المركز او شعارة
+  final String description;// وصف عن المركز
+  final List<Service> services;// الخدمات هذه معاها موديل لحالها موضح تحت
+  final CenterLocation location;// الموقع حق الاحداثيات وهذه برضو معاها موديل لحالها موضحة تحت
+  final String address;//العنوان بالنص مثلا الستين - السنينه - امام مستشفى الشيباني
+  final String contactNumber;//رقم المركز الخاص بالاتصال
+  final String whatsappNumber;//رقم المركز الخاص بالواتساب
    double distance;
 
   CentersModel({
@@ -57,15 +57,28 @@ class CentersModel {
 }
 
 class Service {
-  final String name;
-  final List<String> subServices;
+  final String serviceTypeName;
+  /*
+  اذا كان سمعية اي خدمة للمعاقين السمعيين او للمكفوفين او معاقين الحركه
+  بحيث المركز الواحد يمكن ان يقدم اكثر من خدمه مثلا سمعية وبصرية او الكل
+  */
 
-  Service({required this.name, required this.subServices});
+
+   List<String>? subServices;
+   /*
+   الخدمات التي تندرج تحت الخدمه الاصل
+   مثلا اذا تم اختيار serviceTypeName خدمات للمكفوفين
+   ايش الخدمات التي ممكن تقدمها للمكفوفين
+   هل خدمات تعليمية وتاهيلية اوخدمات اجتماعية
+    او غيرها ويمكن اختيار اكثر من خيار
+   */
+
+  Service({required this.serviceTypeName,  this.subServices});
 
   // تحويل JSON إلى كائن من نوع Service
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
-      name: json['name'],
+      serviceTypeName: json['name'],
       subServices: List<String>.from(json['subServices']),
     );
   }
@@ -73,15 +86,16 @@ class Service {
   // تحويل كائن Service إلى JSON
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
+      'name': serviceTypeName,
       'subServices': subServices,
     };
   }
 }
 
 class CenterLocation {
-  final double latitude;
-  final double longitude;
+  //هولا حق تحديد موقع المركز
+  final double latitude;//احداثيات العرض
+  final double longitude;//احداثيات الطول
 
   CenterLocation({required this.latitude, required this.longitude});
 

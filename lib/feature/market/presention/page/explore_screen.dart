@@ -1,4 +1,6 @@
 
+import 'package:add_to_cart_animation/add_to_cart_animation.dart';
+import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:flutter/material.dart';
 
 
@@ -29,6 +31,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
   List<Product>? _products;
   List<Product>? _permanentProducts;
   List<Product>? _originalProducts;
+
+  GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
+  late Function(GlobalKey) runAddToCartAnimation;
 
   int _indexOfCatogry=0;
 
@@ -122,6 +127,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   flex: 5,
                                   child: MyButtonNoBackground(
                                       context,
+                                    Height: 40,
                                     Width: 200,
                                     textButton: "طلباتي",
                                     onPressed: (){
@@ -150,12 +156,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   child: Stack(
                                     children: [
                                      MyShaderMask(
-                                         toolWidget:  IconButton(
-                                             onPressed: (){
-                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                                         toolWidget:  AddToCartIcon(
+                                           key: cartKey,
+                                           icon: IconButton(
+                                               onPressed: (){
+                                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
 
-                                             },
-                                             icon: Icon(Icons.shopping_cart_checkout,size:size.height*0.032 ,)
+                                               },
+                                               icon: Icon(Icons.shopping_cart_checkout,size:size.height*0.032 ,)
+                                           ),
                                          ),
                                          radius: 1.3
                                      ),
@@ -267,30 +276,44 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 
                           Expanded(
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              itemBuilder: (_, index) {
-                                Product product = _products![index];
-                                return ChangeNotifierProvider.value(
-                                  value: product,
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(10),
-                                    onTap: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                                        return ProductDetailsScreen(product: product);
-                                      }));
-                                    },
-                                    child: ProductWidget(),
-                                  ),
-                                );
+                            child: AddToCartAnimation(
+                              cartKey: cartKey,
+                              height: 30,
+                              width: 30,
+                              opacity: 0.85,
+                              dragAnimation: const DragToCartAnimationOptions(
+                                rotation: true,
+                              ),
+                              jumpAnimation: const JumpAnimationOptions(),
+                              createAddToCartAnimation: (runAddToCartAnimation) {
+                                // You can run the animation by addToCartAnimationMethod, just pass trough the the global key of  the image as parameter
+                                this.runAddToCartAnimation = runAddToCartAnimation;
                               },
-                              itemCount: _products!.length,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:2,
-                                // childAspectRatio: 200 / 220,
-                                crossAxisSpacing: 16.0,
-                                mainAxisSpacing: 16.0,
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                itemBuilder: (_, index) {
+                                  Product product = _products![index];
+                                  return ChangeNotifierProvider.value(
+                                    value: product,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(10),
+                                      onTap: () {
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                          return ProductDetailsScreen(product: product);
+                                        }));
+                                      },
+                                      child: ProductWidget(onClick: listClick,),
+                                    ),
+                                  );
+                                },
+                                itemCount: _products!.length,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:2,
+                                  // childAspectRatio: 200 / 220,
+                                  crossAxisSpacing: 16.0,
+                                  mainAxisSpacing: 16.0,
+                                ),
                               ),
                             ),
                           ),
@@ -387,4 +410,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
+  void listClick(GlobalKey widgetKey) async {
+    await runAddToCartAnimation(widgetKey);
+    await cartKey.currentState!
+        .runCartAnimation();
+  }
 }
