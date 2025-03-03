@@ -24,7 +24,7 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
 
   //String distance='';
   final TextEditingController _searchController=TextEditingController();
- bool _emptySearchText=true;
+
 
   bool successfulGettingDistance=false;
   Future calculateDistance()async{
@@ -32,15 +32,17 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
     var userLocation;
     userLocation= await location.getLocation();
 
-    for(int i=0;i<_centers!.length;i++) {
-        setState(() {
-          _centers![i].distance=Geolocator.distanceBetween(userLocation!.latitude!, userLocation!.longitude!,_centers![i].location.latitude,_centers![i].location.longitude).toInt()/1000;
+   setState(() {
+     for(int i=0;i<_centers!.length;i++) {
 
-        });
+       _centers![i].distance=  Geolocator.distanceBetween(userLocation.latitude, userLocation.longitude,_centers![i].location.latitude,_centers![i].location.longitude).toInt()/1000;
 
-      // print(_centers![i].distance!);
 
-    }
+
+       // print(_centers![i].distance!);
+
+     }
+   });
 
 
     setState(() {
@@ -91,13 +93,11 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
                             _centers=_originalCenters!
                                 .where((center) => center.name.contains(value))
                                 .toList();
-                            _emptySearchText=false;
                           });
                         }
                         else{
                           setState(() {
                             _centers=_originalCenters!;
-                            _emptySearchText=true;
                           });
                         }
                       },

@@ -30,13 +30,7 @@ class _CartCounterState extends State<CartCounter> {
     super.initState();
     numOfItems=0;
   }
-  void addProductToCart(BuildContext context, Product product, Cart cart) {
-    cart.addItem(product.id, product.price, product.title, product.imageUrl);
-    }
 
-  void removeProductToCart(BuildContext context, Product product, Cart cart) {
-    cart.removeSingleItem(product.id);
-  }
 
   @override
   Widget build(BuildContext context) {

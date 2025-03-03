@@ -1,4 +1,7 @@
+import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
@@ -7,20 +10,51 @@ import 'package:todo_apps/core/my_extention/my_extentions.dart';
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
+import '../../../../core/services/market_services/add_or_remove_product_to_cart.dart';
+import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
 import '../widgets/details/cart_counter.dart';
 const kDefaultPadding = 20.0;
 const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final Product? product;
+
 
   const ProductDetailsScreen({Key? key, this.product}) : super(key: key);
 
   @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+   int productQuantity=0;
+
+  @override
   Widget build(BuildContext context) {
+
+    final cart = Provider.of<Cart>(context);
     Size size = MediaQuery.of(context).size;
+
+    if(cart.items.containsKey(widget.product!.id)){
+
+
+      for(int i=0;i<cart.itemCount;i++){
+
+        if(cart.items.keys.toList()[i]==widget.product!.id) {
+          setState(() {
+            productQuantity=cart.items.values.toList()[i].quantity;
+          });
+        }
+      }
+    }else{
+      setState(() {
+        productQuantity=0;
+      });
+    }
+
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
@@ -33,12 +67,14 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Hero(
-                    tag: "${product!.id}",
+                    tag: "${widget.product!.id}",
                     child: Container(
                       // height: size.height * 0.3,
                       child: CustomImageViewer.show(
                           context: context,
-                          url: product!.imageUrl
+                          url: widget.product!.imageUrl,
+                        fit:BoxFit.fill
+
                       )
                     ),
                   ),
@@ -64,7 +100,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product!.title,
+                              widget.product!.name,
                               style:Theme.of(context).textTheme.labelSmall ,
                             ),
                             SizedBox(height: kDefaultPadding),
@@ -82,7 +118,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                           TextSpan(
 
                                             locale: Locale('ar'),
-                                            text:  ' ${product!.price.toString()}  ',
+                                            text:  ' ${widget.product!.price.toString()}  ',
 
                                           ),
                                         ],
@@ -118,12 +154,13 @@ class ProductDetailsScreen extends StatelessWidget {
                         //description
                       MySubTitle(
                         startDelay: 0,
-                        textOfSubTitle: product!.description!,
+                        textOfSubTitle: widget.product!.description!,
                       ),
 
 
                         10.SH,
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Container(
                             //padding: EdgeInsets.all(6),
@@ -135,38 +172,27 @@ class ProductDetailsScreen extends StatelessWidget {
                               child: IconButton(
                                 icon: Icon(Icons.remove,color: Colors.white,),
                                 onPressed: (){
-
+                                  if(productQuantity>1){
+                                    cart.removeSingleItem(widget.product!.id);
+                                  }
+                                  else{
+                                    cart.clear();
+                                  }
                                 },
                               ),
                             ),
 
                           ),
-                          /*  buildOutlineButton(
 
-          icon: Icons.remove,
-          press: () {
-            if(numOfItems>0){
-              setState(() {
-                numOfItems--;
-              });
-               removeProductToCart(context, widget.product!, cart);
-            }
-
-
-
-
-          },
-        ),*/
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                             child: Text(
                               // if our item is less  then 10 then  it shows 01 02 like that
-                              numOfItems.toString(),
-
+                              productQuantity.toString()
                             ),
                           ),
                           Container(
-                            // padding: EdgeInsets.all(6),
+
                             decoration:BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 gradient:MyLinearGradient
@@ -175,7 +201,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               child: IconButton(
                                 icon: Icon(Icons.add,color: Colors.white,),
                                 onPressed: (){
-
+                                  addProductToCart(context, widget.product!, cart);
                                 },
                               ),
                             ),
@@ -185,7 +211,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ],
                       ),
 
-                        10.SH,
+                        50.SH,
                     Row(
                       children: <Widget>[
 

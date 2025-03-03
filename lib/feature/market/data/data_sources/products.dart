@@ -7,115 +7,122 @@ class Products with ChangeNotifier {
   static String dummyDesc =
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.";
 
+
   List<Product> _items = [
     /// Fruits Products
     Product(
-      id: 'p1',
-      title: 'Apple/kg',
+      id: "1",
+      name: 'كرسي لمعاقين المشي',
       price: 80,
       imageUrl:
-          'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.zl8uxrncWhrf2XT2JlobhwHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
 
     Product(
-      id: 'p5',
-      title: 'Orange/dz',
+      id: "2",
+      name: 'سماعات لضعيفي السمع',
       price: 60,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.aq46CiFsvjgapLLwFsUPFAHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     Product(
-      id: 'p6',
-      title: 'PineApple/pc',
+      id: "3",
+      name: 'عصا للمكفوفين',
       price: 50,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP._eg-vwXA7kYHYxlNxNhLWwHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
 
     Product(
-      id: 'p2',
-      title: 'Banana/dz',
+      id: "4",
+      name: 'كرسي ذكي لمعاقين الحركة',
       price: 40,
       imageUrl:
       'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
       description: dummyDesc,
     ),
     Product(
-      id: 'p3',
-      title: 'Lemon/dz',
+      id: "5",
+      name: 'عصا ذكية للمكفوفين',
       price: 30,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.IbiasQlCshSqnZy-w1NZdQHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     Product(
-      id: 'p4',
-      title: 'Mango/dz',
+      id: "6",
+      name: 'نظارات ذكية للمكفوفين',
       price: 50,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.bZ31D15fVMI1yLC8chNStgHaHa?w=720&h=720&rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     /// Vegetable Products
     Product(
-      id: 'p7',
-      title: 'Carrot/kg',
+      id: "7",
+      name: 'كرسي معاقي الحركة مع حوض',
       price: 20,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.zl8uxrncWhrf2XT2JlobhwHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     Product(
-      id: 'p8',
-      title: 'Cucumber/kg',
+      id: "8",
+      name: 'كتب تعلم منقوطة للمكفوفين',
       price: 40,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.aq46CiFsvjgapLLwFsUPFAHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     Product(
-      id: 'p9',
-      title: 'Onion/kg',
+      id: "9",
+      name: 'عكازات مع مساعدات',
       price: 90,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP._eg-vwXA7kYHYxlNxNhLWwHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     Product(
-      id: 'p10',
-      title: 'Potato/kg',
+      id: "10",
+      name: 'عكازات عادية',
       price: 60,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.IbiasQlCshSqnZy-w1NZdQHaHa?rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
     Product(
-      id: 'p11',
-      title: 'RedChillies/kg',
+      id: "11",
+      name: 'دعامات ارجل اصطناعية',
       price: 50,
       imageUrl:
       'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
       description: dummyDesc,
     ),
     Product(
-      id: 'p12',
-      title: 'Tomato/kg',
+      id: "12",
+      name: 'كفوف هزازة لتمرين مصابي ضمور الدماغ',
       price: 40,
       imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41MSUhHIizL.jpg',
+      'https://th.bing.com/th/id/OIP.bZ31D15fVMI1yLC8chNStgHaHa?w=720&h=720&rs=1&pid=ImgDetMain',
       description: dummyDesc,
     ),
   ];
-  // var _showFavoritesOnly = false;
+
+
+
+  var _searchText='';
 
   List<Product> get items {
-    // if (_showFavoritesOnly) {
-    //   return _items.where((prodItem) => prodItem.isFavorite).toList();
-    // }
-    return [..._items];
+
+      if(_searchText==''){
+        return [..._items];
+      }else{
+        return [..._items.where((prod)=>prod.name.contains(_searchText))];
+      }
+
   }
 
 
@@ -123,6 +130,11 @@ class Products with ChangeNotifier {
   Product findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
   }
+
+
+ /* Product findByProductName(String PruductName) {
+    return _items.;
+  }*/
 
   // void showFavoritesOnly() {
   //   _showFavoritesOnly = true;
@@ -136,10 +148,10 @@ class Products with ChangeNotifier {
 
   void addProduct(Product product) {
     final newProduct = Product(
-      title: product.title,
+      name: product.name,
       price: product.price,
       imageUrl: product.imageUrl,
-      id: DateTime.now().toString(),
+      id: product.id,
     );
     _items.add(newProduct);
     // _items.insert(0, newProduct); // at the start of the list
@@ -155,6 +167,19 @@ class Products with ChangeNotifier {
       print('...');
     }
   }
+
+  void searchByName(String searchText) {
+    if(searchText.isEmpty||searchText=='') {
+      _searchText = '';
+      notifyListeners();
+    }
+    else{
+      _searchText = searchText;
+      notifyListeners();
+    }
+
+  }
+
 
   void deleteProduct(String id) {
     _items.removeWhere((prod) => prod.id == id);

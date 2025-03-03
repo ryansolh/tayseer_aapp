@@ -2,6 +2,7 @@
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 
 import 'package:provider/provider.dart';
@@ -27,10 +28,13 @@ class ExploreScreen extends StatefulWidget {
   State<ExploreScreen> createState() => _ExploreScreenState();
 }
 
+
 class _ExploreScreenState extends State<ExploreScreen> {
   List<Product>? _products;
-  List<Product>? _permanentProducts;
   List<Product>? _originalProducts;
+  bool SafeProductInOnTime=false;
+
+
 
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   late Function(GlobalKey) runAddToCartAnimation;
@@ -39,7 +43,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 
 
-  TextEditingController editingController = TextEditingController();
+  TextEditingController _productSearchController = TextEditingController();
 
 
   bool _isContainerVisible = false;
@@ -72,6 +76,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     Size size=MediaQuery.of(context).size;
 
     List<String>nameOfCatogry=[
@@ -91,10 +96,23 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final cart = Provider.of<Cart>(context);
     if (widget.categoryProducts == null || widget.categoryProducts!.isEmpty) {
       _products = Provider.of<Products>(context).items;
+      if(SafeProductInOnTime==false){
+        _originalProducts= _products;
+        setState(() {
+          SafeProductInOnTime=true;
+        });
+      }
+      _originalProducts = Provider.of<Products>(context).items;
     } else {
       _products = widget.categoryProducts;
-      _originalProducts = widget.categoryProducts;
+      if(SafeProductInOnTime==false){
+        setState(() {
+          _originalProducts = _products;
+          SafeProductInOnTime=true;
+        });
+      }
     }
+
 
 
     return WillPopScope(
@@ -108,302 +126,343 @@ class _ExploreScreenState extends State<ExploreScreen> {
               });
             }
           },
-          child: Stack(
-            children: [
-              Container(
-                color: Theme.of(context).colorScheme.background,
-                child: Row(
-                  children: [
+          child: AddToCartAnimation(
 
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Row(
-                              children: [
-                                10.SW,
-                                Expanded(
-                                  flex: 5,
-                                  child: MyButtonNoBackground(
-                                      context,
-                                    Height: 40,
-                                    Width: 200,
-                                    textButton: "طلباتي",
-                                    onPressed: (){
+            cartKey: cartKey,
+            height: 0,
+            width: 0,
+            opacity: 0.85,
+            dragAnimation: const DragToCartAnimationOptions(
+              duration: Durations.medium4,
+              rotation: true,
+              curve: Curves.fastOutSlowIn
+            ),
 
-                                    }
+            jumpAnimation: JumpAnimationOptions(
+              duration: Durations.medium4
+            ),
+            createAddToCartAnimation: (runAddToCartAnimation) {
+              // You can run the animation by addToCartAnimationMethod, just pass trough the the global key of  the image as parameter
+              this.runAddToCartAnimation = runAddToCartAnimation;
+            },
+            child: Stack(
+              children: [
+                Container(
+                  color: Theme.of(context).colorScheme.background,
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
 
-                                  ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Row(
+                            children: [
+                              10.SW,
+                              Expanded(
+                                flex: 5,
+                                child: MyButtonNoBackground(
+                                    context,
+                                  Height: 40,
+                                  Width: 200,
+                                  textButton: "طلباتي",
+                                  onPressed: (){
+                    
+                                  }
+                    
                                 ),
-
-                                Expanded(
-                                  flex: 1,
-                                  child: MyShaderMask(
-                                      toolWidget: IconButton(
-                                          onPressed: (){
-                                            _toggleContainer();
-                                          },
-                                          icon: Icon(Icons.search, size:size.height*0.036)
-                                      ),
-                                      radius: 1
-                                  ),
+                              ),
+                    
+                              Expanded(
+                                flex: 1,
+                                child: MyShaderMask(
+                                    toolWidget: IconButton(
+                                        onPressed: (){
+                                          _toggleContainer();
+                                        },
+                                        icon: Icon(Icons.search, size:size.height*0.036)
+                                    ),
+                                    radius: 1
                                 ),
-
-
-                                Expanded(
-                                  flex: 1,
-                                  child: Stack(
-                                    children: [
-                                     MyShaderMask(
-                                         toolWidget:  AddToCartIcon(
-                                           key: cartKey,
-                                           icon: IconButton(
-                                               onPressed: (){
-                                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
-
-                                               },
-                                               icon: Icon(Icons.shopping_cart_checkout,size:size.height*0.032 ,)
-                                           ),
+                              ),
+                    
+                    
+                              Expanded(
+                                flex: 1,
+                                child: Stack(
+                                  children: [
+                                   MyShaderMask(
+                                       toolWidget: AddToCartIcon(
+                                         key:cartKey,
+                                         badgeOptions: BadgeOptions(
+                                           active: true,
+                                           backgroundColor: Color(0x00000000)
+                    
                                          ),
-                                         radius: 1.3
-                                     ),
-                                      Positioned(
-                                          top: 2,
-                                          right: 7,
-                                          child: Container(
-                                              height: 15,
-                                              width: 15,
-                                              // padding: EdgeInsets.all(20),
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.red,
-                                                  borderRadius: BorderRadius.all(Radius.circular(100))
-                                              ),
-                                              child: Center(
-                                                  child: Text('${cart.itemCount}',
-                                                    style: TextStyle(
-                                                        fontSize: 10,color: Colors.white),
-                                                  )
-                                              )
-
-                                          )
-                                      ),
-
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                                         icon: IconButton(
+                                             onPressed: (){
+                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                    
+                                             },
+                                             icon: Icon(Icons.shopping_cart_checkout,size:size.height*0.032 ,)
+                                         ),
+                                       ),
+                                       radius: 1.3
+                                   ),
+                                    Positioned(
+                                        top: 2,
+                                        right: 7,
+                                        child: Container(
+                                            height: 15,
+                                            width: 15,
+                                            // padding: EdgeInsets.all(20),
+                                            decoration: const BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius: BorderRadius.all(Radius.circular(100))
+                                            ),
+                                            child: Center(
+                                                child: Text('${cart.itemCount}',
+                                                  style: TextStyle(
+                                                      fontSize: 10,color: Colors.white),
+                                                )
+                                            )
+                    
+                                        )
+                                    ),
+                    
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          //20.SH,
-                          SizedBox(
-                              height: 70,
-                              width: double.infinity,
-                              child:ListView.builder(
-                                padding: EdgeInsets.all(5),
-                                itemCount: nameOfCatogry.length,
-                                itemBuilder: (context, index) {
-                                  final category = nameOfCatogry;
-                                  return Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 5),
-                                        child: InkWell(
-                                          borderRadius:BorderRadius.circular(20) ,
-                                          child: Container(
-                                            //margin: EdgeInsets.symmetric(vertical: 10),
-
-
-
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                gradient: index==_indexOfCatogry?
-                                                MyLinearGradient:
-                                                LinearGradient(
-
-                                                  colors: [
-                                                    Theme.of(context).colorScheme.background,
-                                                    Theme.of(context).colorScheme.background,
-                                                    Theme.of(context).colorScheme.background,
-                                                    Theme.of(context).colorScheme.background,
-                                                  ],
-                                                ),
-                                                boxShadow: [
-                                                  BoxShadow(
-
-                                                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                                                      // spreadRadius: 3,
-                                                      blurRadius: 7,
-                                                      offset: Offset(0,0)
-                                                  )
-                                                ]
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  category[index],
-                                                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                                                      color:index==_indexOfCatogry?Colors.white
-                                                          : Theme.of(context).textTheme.labelSmall!.color
-                                                  ),
-                                                ),
-                                                5.SW,
-
-
-                                                iconsOfCatogry[index]
-
-                                              ],
-                                            ),
+                        ),
+                        //20.SH,
+                        SizedBox(
+                            height: 70,
+                            width: double.infinity,
+                            child:ListView.builder(
+                              padding: EdgeInsets.all(5),
+                              itemCount: nameOfCatogry.length,
+                              itemBuilder: (context, index) {
+                                final category = nameOfCatogry;
+                                return Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 5),
+                                      child: InkWell(
+                                        borderRadius:BorderRadius.circular(20) ,
+                                        child: Container(
+                                          //margin: EdgeInsets.symmetric(vertical: 10),
+                    
+                    
+                    
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                                              gradient: index==_indexOfCatogry?
+                                              MyLinearGradient:
+                                              LinearGradient(
+                    
+                                                colors: [
+                                                  Theme.of(context).colorScheme.background,
+                                                  Theme.of(context).colorScheme.background,
+                                                  Theme.of(context).colorScheme.background,
+                                                  Theme.of(context).colorScheme.background,
+                                                ],
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                    
+                                                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                                                    // spreadRadius: 3,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,0)
+                                                )
+                                              ]
                                           ),
-
-                                          onTap: (){
-                                            setState(() {
-                                              _indexOfCatogry=index;
-                                            });
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                category[index],
+                                                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                                                    color:index==_indexOfCatogry?Colors.white
+                                                        : Theme.of(context).textTheme.labelSmall!.color
+                                                ),
+                                              ),
+                                              5.SW,
+                    
+                    
+                                              iconsOfCatogry[index]
+                    
+                                            ],
+                                          ),
+                                        ),
+                    
+                                        onTap: (){
+                                          setState(() {
+                                            _indexOfCatogry=index;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    //SizedBox(width: 20,)
+                                  ],
+                                );
+                              },
+                              scrollDirection: Axis.horizontal,
+                    
+                            )
+                        ),
+                    
+                    
+                    
+                        Container(
+                          height: size.height-270,
+                          child: AnimationLimiter(
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              itemBuilder: (_, index) {
+                    
+                                Product product= _products![index];
+                              return  AnimationConfiguration.staggeredList(
+                                  position: index,
+                                  delay: const Duration(milliseconds: 100),
+                                  child: SlideAnimation(
+                                    duration: const Duration(milliseconds: 1000),
+                                    curve: Curves.decelerate,
+                                    verticalOffset: -250,
+                                    child: ScaleAnimation(
+                                      duration: const Duration(milliseconds: 1000),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                      child: ChangeNotifierProvider.value(
+                                        value: _products![index],
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(10),
+                                          onTap: () {
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                              return ProductDetailsScreen(product: _products![index]);
+                                            }));
                                           },
+                                          child: ProductWidget(onClick: listClick),
                                         ),
                                       ),
-                                      //SizedBox(width: 20,)
-                                    ],
-                                  );
-                                },
-                                scrollDirection: Axis.horizontal,
-
-                              )
-                          ),
-
-
-
-                          Expanded(
-                            child: AddToCartAnimation(
-                              cartKey: cartKey,
-                              height: 30,
-                              width: 30,
-                              opacity: 0.85,
-                              dragAnimation: const DragToCartAnimationOptions(
-                                rotation: true,
-                              ),
-                              jumpAnimation: const JumpAnimationOptions(),
-                              createAddToCartAnimation: (runAddToCartAnimation) {
-                                // You can run the animation by addToCartAnimationMethod, just pass trough the the global key of  the image as parameter
-                                this.runAddToCartAnimation = runAddToCartAnimation;
-                              },
-                              child: GridView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                itemBuilder: (_, index) {
-                                  Product product = _products![index];
-                                  return ChangeNotifierProvider.value(
-                                    value: product,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(10),
-                                      onTap: () {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                                          return ProductDetailsScreen(product: product);
-                                        }));
-                                      },
-                                      child: ProductWidget(onClick: listClick,),
                                     ),
-                                  );
-                                },
-                                itemCount: _products!.length,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount:2,
-                                  // childAspectRatio: 200 / 220,
-                                  crossAxisSpacing: 16.0,
-                                  mainAxisSpacing: 16.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              AnimatedPositioned(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                top: _isContainerVisible ? 0 : -300,
-                left: 0,
-                right: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    // لمنع إغلاق الحاوية عند الضغط داخلها
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-
-                        color: Theme.of(context).colorScheme.background,
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                              // spreadRadius: 3,
-                              blurRadius: 7,
-                              offset: Offset(0,0)
-                          )
-                        ]
-                    ),
-
-
-                    child: Center(
-                      child:Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            TextFormField(
-
-                            //  canRequestFocus: false,
-                              cursorColor: Colors.grey.withOpacity(0.4),
-                              autofocus: false,
-
-                              style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
-                              onChanged: (value) {
-                                //filterSearchResults(value);
-                              },
-                              controller: editingController,
-                              decoration: InputDecoration(
-                                hintText: "Search Store",
-                                filled: true,
-                                fillColor: Theme.of(context).colorScheme.background,
-                                // hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                                // focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                suffixIcon: MyShaderMask(
-                                  toolWidget: IconButton(
-                                    icon: Icon(
-                                      Icons.search_rounded,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: (){
-
-                                    },
                                   ),
-                                  radius: 1.3,
-                                ),
-
-
+                                );
+                              },
+                              itemCount: _products!.length,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount:2,
+                                // childAspectRatio: 200 / 220,
+                                crossAxisSpacing: 16.0,
+                                mainAxisSpacing: 16.0,
                               ),
-
                             ),
-                          ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  top: _isContainerVisible ? 0 : -300,
+                  left: 0,
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: () {
+                      // لمنع إغلاق الحاوية عند الضغط داخلها
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3,vertical: 2),
+                      child: Container(
+                        decoration: BoxDecoration(
+                      
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                                  // spreadRadius: 3,
+                                  blurRadius: 7,
+                                  offset: Offset(0,0)
+                              )
+                            ]
+                        ),
+                      
+                      
+                        child: Center(
+                          child:Column(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                                child: TextFormField(
+                                  textDirection: TextDirection.rtl,
+                                  controller:_productSearchController,
+                      
+                                  cursorColor: Colors.grey.withOpacity(0.4),
+                                  autofocus: false,
+                      
+                                  style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
+                                  onChanged: (value) {
+
+                                      Provider.of<Products>(context, listen: false).searchByName(value);
+
+                                  },
+                                  // controller: serchController,
+                                  decoration: InputDecoration(
+                                      hintTextDirection: TextDirection.rtl,
+                                      hintText: "ابحث عن منتج معين",
+                                      // filled: true,
+                      
+                                      fillColor: Theme.of(context).colorScheme.background,
+                                      hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                      focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      prefixIcon:  MyShaderMask(
+                                        toolWidget: IconButton(
+                                            icon: Icon(Icons.clear),
+                                          onPressed: () {
+                                             setState(() {
+                                               _isContainerVisible = false;
+                                             });
+                                          },
+                                        ),
+                                      radius: 1.3,
+                                      ),
+                                      suffixIcon: const MyShaderMask(
+                                        toolWidget: Icon(
+                                          Icons.search,
+                                          color: Colors.black,
+                                        ),
+                                        radius: 1.3,
+                                      ),
+                                      border: const OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)
+                                          )
+                                      )
+                                  ),
+                      
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

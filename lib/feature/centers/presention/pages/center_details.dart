@@ -139,7 +139,6 @@ class CenterDetailsScreen extends StatelessWidget {
                                         ),
                                         ListView.builder(
                                             shrinkWrap: true,
-
                                             padding: EdgeInsets.all(size.width / 30),
                                             physics:
                                             BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),

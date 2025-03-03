@@ -117,15 +117,7 @@ flutter:
   assets:
     - assets/images/ImagesForLoginAndSignupPages/
     - assets/images/logo_of_app/TAYSEER.png
-    - shopping_assets/
-    - shopping_assets/icons/
-    - shopping_assets/images/fruits/
-    - shopping_assets/images/dairy_eggs/
-    - shopping_assets/images/bakery_snacks/
-    - shopping_assets/images/beverage/
-    - shopping_assets/images/cooking_oil/
-    - shopping_assets/images/vegetables/
-    - shopping_assets/images/
+    - assets/images/OnBoarding-Screen-Image/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -144,3 +136,6 @@ flutter:
         fonts:
           - asset: assets/fonts/Tajawal-Font/ArbFONTS-Tajawal-Medium.ttf
           - asset: assets/fonts/Tajawal-Font/ArbFONTS-Tajawal-Regular.ttf
+      - family: Cairo
+        fonts:
+          - asset: assets/fonts/cairo/Cairo-VariableFont_slnt,wght.ttf

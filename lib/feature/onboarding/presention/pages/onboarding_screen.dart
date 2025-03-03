@@ -26,15 +26,17 @@ class _OnboardingState extends State<Onboarding> {
        titleTextStyle: TextStyle(
            color:  const Color(0xFF9D6CAE),
            fontSize: _HeightOfScreen*0.028,
+
        ),
        subTitleTextStyle:TextStyle(
            color:Colors.black,
-           fontSize: _HeightOfScreen*0.020
+           fontSize: _HeightOfScreen*0.020,
+
        ),
 
-       title: 'Fashion Store',
-       subTitle: 'Browse the menu and order directly from the application',
-       imageUrl: 'assets/images/logo_of_app/TAYSEER.png',
+       title: '!  مرحبًا بك في تيسير',
+       subTitle: 'تطبيق شامل لدعم وتمكين الأشخاص ذوي الهمم، يساعدك في العثور على الخدمات، تنظيم مهامك، والانضمام إلى مجتمع داعم بكل سهولة',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/Welecom-to-tayseer.png',
      ),
      Introduction(
        titleTextStyle: TextStyle(
@@ -46,9 +48,9 @@ class _OnboardingState extends State<Onboarding> {
            color:  Colors.black,
            fontSize: _HeightOfScreen*0.020
        ),
-       title: 'Delivery',
-       subTitle: 'Your order will be immediately collected and',
-       imageUrl: 'assets/images/logo_of_app/TAYSEER.png',
+       title: '!  كل ما تحتاجه في مكان واحد',
+       subTitle: 'استكشف دليل الخدمات، احصل على توصيات مخصصة، وتعرف على الأماكن المجهزة بسهولة. كل الخدمات التي تسهل حياتك في متناول يدك',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/CentersAndServices.png',
      ),
      Introduction(
        titleTextStyle: TextStyle(
@@ -59,9 +61,35 @@ class _OnboardingState extends State<Onboarding> {
            color:  Colors.black,
            fontSize: _HeightOfScreen*0.020
        ),
-       title: 'Receive Money',
-       subTitle: 'Pick up delivery at your door and enjoy groceries',
-       imageUrl: 'assets/images/logo_of_app/TAYSEER.png',
+       title: '!لا تفوت أي موعد مهم',
+       subTitle: 'قم بجدولة مهامك اليومية، حدد مواعيد الأدوية، واحصل على تذكيرات ذكية لتنظيم يومك بكل سهولة',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/reminder.png',
+     ),
+     Introduction(
+       titleTextStyle: TextStyle(
+           color:  const Color(0xFF9D6CAE),
+           fontSize: _HeightOfScreen*0.028
+       ),
+       subTitleTextStyle:TextStyle(
+           color:  Colors.black,
+           fontSize: _HeightOfScreen*0.020
+       ),
+       title: ' ! ابحث، اشتري، وبيع بسهولة',
+       subTitle: 'اكتشف سوقًا مخصصًا لبيع وشراء الأدوات المساعدة والمعدات الطبية، كل ذلك في بيئة آمنة وسهلة الاستخدام',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/market.png',
+     ),
+     Introduction(
+       titleTextStyle: TextStyle(
+           color:  const Color(0xFF9D6CAE),
+           fontSize: _HeightOfScreen*0.028
+       ),
+       subTitleTextStyle:TextStyle(
+           color:  Colors.black,
+           fontSize: _HeightOfScreen*0.020
+       ),
+       title: '!مساعد ذكي لك',
+       subTitle: 'استفد من النصائح المخصصة، واسأل الذكاء الاصطناعي عن أي استفسارات حول احتياجاتك اليومية، لتحصل على تجربة أكثر سهولة وراحة',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/AI.png',
      ),
    ];
     return  IntroScreenOnboarding(

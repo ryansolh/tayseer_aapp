@@ -14,7 +14,7 @@ import '../../../feature/reminder/models/task.dart';
 Future<void> exportTasksToPDF(List<Task> tasks) async {
 
   late Font arFont;
-  arFont =Font.ttf((await rootBundle.load("assets/fonts/Tajawal-Font/ArbFONTS-Tajawal-Medium.ttf")));
+  arFont =Font.ttf((await rootBundle.load("assets/fonts/cairo/Cairo-VariableFont_slnt,wght.ttf")));
   final pdf = pw.Document(
 
     theme: pw.ThemeData.withFont(
@@ -36,7 +36,7 @@ Future<void> exportTasksToPDF(List<Task> tasks) async {
         child: pw.Header(
           level: 0,
           child: pw.Text('تقرير خاص المواعيد التي تم تخصيصها مسبقاً وما تم تنفيذه من الاجراءات الخاصة بها ',
-
+              textDirection: pw.TextDirection.rtl
           ),
         ),
       ),
