@@ -1,10 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_apps/core/component/my_custom_shadermask.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import 'package:todo_apps/feature/user_login/presention/pages/forget_pass_page.dart';
+import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
-import '../../../../core/services/user_services/user_services.dart';
 import '../../../basic_navigation_page/presention/page/navigation_page.dart';
 import '../widgets/input_widget.dart';
 
@@ -23,154 +25,162 @@ class LoginScreen extends StatelessWidget {
         .of(context)
         .size;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .background,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme
+      body: Container(
+        color: Theme
             .of(context)
             .colorScheme
             .background,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: Theme
-              .of(context)
-              .colorScheme
-              .secondary,
-          ),
-        ),
-      ),
-
-      body: SingleChildScrollView(
-        child: Container(
-          color: Theme
-              .of(context)
-              .colorScheme
-              .background,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
-          width: double.infinity,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
+        width: double.infinity,
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      children: const <Widget>[
-                        MyTitle(textOfTitle: "تسجيل الدخول", startDelay: 500),
-                        SizedBox(height: 20,),
-                        MySubTitle(textOfSubTitle: "قم بإخال بيانات حسابك",
-                            startDelay: 700)
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Column(
-                        children: <Widget>[
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 1200),
-                              child: makeInput(
-                                inputController: emailController,
-                                context: context,
-                                Height: sizeOfScreen.height * 0.1 * 0.75,
-                                Width: sizeOfScreen.width > sizeOfScreen.height
-                                    ? sizeOfScreen.height - 100
-                                    : double.infinity,
-                                sizeOfScreen: sizeOfScreen,
-                                label: "Email",
-                              )
-                          ),
-                          20.SH,
-                          FadeInUp(duration: const Duration(milliseconds: 1300),
-                              child: makeInput(
-                                  context: context,
-                                  sizeOfScreen: sizeOfScreen,
-                                  Height: sizeOfScreen.height * 0.1 * 0.75,
-                                  Width: sizeOfScreen.width >
-                                      sizeOfScreen.height ? sizeOfScreen
-                                      .height - 100 : double.infinity,
-                                  label: "Password",
-                                  inputController: passController,
-                                  obscureText: true)
-                          ),
-                        ],
-                      ),
-                    ),
-                    50.SH,
-                    FadeInUp(duration: const Duration(milliseconds: 1400),
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
-                            child: MyButtonWithBackground(
-                              context: context,
-                                textButton: 'Login',
-                                height: sizeOfScreen.height * 0.1 * 0.75,
-                                width: sizeOfScreen.width > sizeOfScreen.height
-                                    ? sizeOfScreen.height - 100
-                                    : double.infinity,
-                                onPressed: () {
-                                 // LoginAuth(emailController.text,passController.text);
-                                  context.push(const NavigationScreen());
-                                }
+              Padding(
+                padding: EdgeInsets.only(top: 22,right: 5),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                      onPressed: (){
+                        context.pop();
+                      },
+                            icon: MyShaderMask(
+                              radius: 1.3,
+                              toolWidget: Icon(
+                                Icons.chevron_right_sharp,
+                                size: 40,color: Colors.white,
+                              ),
                             )
+                        )
+                  ),
+              ),
+                
+              MyTitle(textOfTitle: "تسجيل الدخول", startDelay: 500),
+              MySubTitle(textOfSubTitle: "قم بإخال بيانات حسابك",
+                  startDelay: 700),
+                
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  children: <Widget>[
+                    FadeInUp(
+                        duration: const Duration(milliseconds: 1200),
+                        child: SizedBox(
+                          height: sizeOfScreen.height / 4,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                      'assets/images/ImagesForLoginAndSignupPages/Reset-password.png'),
+                                )
+                            ),
+                          ),
                         )
                     ),
                     20.SH,
                     FadeInUp(
-                        duration: const Duration(milliseconds: 1500),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const MySubTitle(
-                                textOfSubTitle: "?Don't have an account",
-                                startDelay: 800),
-                            GestureDetector(
-                              child: Text(
-                                "   Signup",
-                                style: TextStyle(
-                                  color: const Color(0xFF75B6E3),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: sizeOfScreen.height * 0.019,
-                                ),
-                              ),
-                            ),
-
-                          ],
+                
+                        duration: const Duration(milliseconds: 1200),
+                        child: makeInput(
+                          prefixIcon: Icon(Icons.mail),
+                          inputController: emailController,
+                          context: context,
+                          Height: sizeOfScreen.height * 0.1 * 0.75,
+                          Width: sizeOfScreen.width > sizeOfScreen.height
+                              ? sizeOfScreen.height - 100
+                              : double.infinity,
+                          sizeOfScreen: sizeOfScreen,
+                          label: "Email",
+                
                         )
+                
                     ),
-
-                    Expanded(
-                      flex: 1,
-
+                    10.SH,
+                    FadeInUp(duration: const Duration(milliseconds: 1300),
+                        child: makeInput(
+                            prefixIcon: Icon(Icons.lock),
+                            context: context,
+                            sizeOfScreen: sizeOfScreen,
+                            Height: sizeOfScreen.height * 0.1 * 0.75,
+                            Width: sizeOfScreen.width >
+                                sizeOfScreen.height ? sizeOfScreen
+                                .height - 100 : double.infinity,
+                            label: "Password",
+                            inputController: passController,
+                            obscureText: true)
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
                       child: FadeInUp(
-                          duration: const Duration(milliseconds: 1200),
-                          child: SizedBox(
-                            height: sizeOfScreen.height / 4,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/ImagesForLoginAndSignupPages/Reset-password.png'),
-                                  )
-                              ),
+                          duration: const Duration(milliseconds: 1350),
+                          child: InkWell(
+                            child: MySubTitle(
+                              startDelay: 1000,
+                              textOfSubTitle: "?forget password",
+                              textColor: Color(0xFF75B6E3),
+                              textSize: sizeOfScreen.height*0.017,
                             ),
-                          )
+                            onTap: (){
+                              context.push(ForgetPassPage());
+                            },
+                          ),
                       ),
                     )
-                    /////////////
                   ],
                 ),
               ),
-
-
+              30.SH,
+                
+              FadeInUp(duration: const Duration(milliseconds: 1400),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: MyButtonWithBackground(
+                        context: context,
+                          textButton: 'تسجيل الدخول',
+                          height: sizeOfScreen.height * 0.1 * 0.75,
+                          width: sizeOfScreen.width > sizeOfScreen.height
+                              ? sizeOfScreen.height - 100
+                              : double.infinity,
+                          onPressed: () {
+                           // LoginAuth(emailController.text,passController.text);
+                            context.push(const NavigationScreen());
+                          }
+                      )
+                  )
+              ),
+              10.SH,
+              FadeInUp(
+                  duration: const Duration(milliseconds: 1500),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      InkWell(
+                        child: MySubTitle(
+                          startDelay: 1000,
+                          textOfSubTitle: "   انشاء حساب",
+                          textColor: Color(0xFF75B6E3),
+                          textSize: sizeOfScreen.height*0.017,
+                        ),
+                        onTap: (){
+                          context.pushReplacement(SignupPage());
+                        },
+                      ),
+                       MySubTitle(
+                          textOfSubTitle: "هل لديك حساب ?",
+                          startDelay: 800,
+                        textSize: sizeOfScreen.height*0.017,
+                      ),
+                
+                
+                    ],
+                  )
+              ),
+              40.SH
+                
+                
             ],
           ),
         ),

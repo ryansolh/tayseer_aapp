@@ -22,103 +22,84 @@ class WelcomePage extends StatelessWidget {
             horizontal: 30,
 
         ),
-        child: Container(
-          color: Theme.of(context).colorScheme.background,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-
-                child: Column(
+        child: SingleChildScrollView(
+          child: Container(
+            color: Theme.of(context).colorScheme.background,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        children:  <Widget>[
-                          50.SH,
-                          const MyTitle(textOfTitle: "أهلاً بك", startDelay: 0),
-                          const SizedBox(height: 20,),
-                          const MySubTitle(textOfSubTitle: "ادخل لصفحة Sign Up وادخل بيانات الحساب الذي يمكّن منه التحقق من هويتك.قم بإخال بيانات حسابك",
-                              startDelay: 0)
-                        ],
-                      ),
-                    ),
+                    50.SH,
+                    const MyTitle(textOfTitle: "أهلاً بك", startDelay: 0),
+                    const SizedBox(height: 20,),
+                    const MySubTitle(textOfSubTitle: "اذا كنت لا تمتلك حساباً, ادخل لصفحة انشاء حساب وادخل بيانات الحساب المراد إنشائه والذي يمكّن من خلاله التحقق من هويتك. وان كنت تمتلك حساباً من قبل, ادخل صفحة تسجيل الدخول وقم بادخال بيانات حسابك. ",
+                        startDelay: 0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Column(
-                        children: <Widget>[
-                          FadeInUp(
-                              duration: const Duration(milliseconds: 800),
-                              child: SizedBox(
-                                height: sizeOfScreen.height/3,
-                                child: Container(
-
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/images/ImagesForLoginAndSignupPages/Profile-Interface.png'),
-
-                                      )
-                                  ),
-                                ),
-                              )
-                          ),
-                         // 20.SH,
-                          ////////////////////////////////////////
-                        ],
+                      child: FadeInUp(
+                          duration: const Duration(milliseconds: 800),
+                          child: SizedBox(
+                            height: sizeOfScreen.height/3,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/ImagesForLoginAndSignupPages/Profile-Interface.png'),
+                                  )
+                              ),
+                            ),
+                          )
                       ),
                     ),
                     50.SH,
-
-
-
-                    Expanded(
-                      flex: 1,
-
-                      child: Column(
-                        children: [
-                          FadeInUp(
-                              delay: const Duration(milliseconds: 0),
-                              child: MyButtonNoBackground(
-                                context,
-                                  textButton: 'Sign Up',
-                                  Height: sizeOfScreen.height*0.1*0.75,
-                                  Width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
-
-                                  onPressed: (){
-                                    context.push(SignupPage());
-                                  }
-                              )
-                          ),
-                          20.SH,
-                          FadeInUp(
-                              delay: const Duration(milliseconds: 0),
-                              child: MyButtonWithBackground(
-                                context: context,
-                                  textButton: 'Login',
-                                  height: sizeOfScreen.height*0.1*0.75,
-                                  width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
-
-                                  onPressed: (){
-                                    context.push(LoginScreen());
-                                  }
-                              )
-                          ),
-                        ],
-                      ),
+          
+          
+          
+                    Column(
+                      children: [
+                        FadeInUp(
+                            delay: const Duration(milliseconds: 0),
+                            child: MyButtonNoBackground(
+                              context,
+                                textButton: 'انشاء حساب',
+                                Height: sizeOfScreen.height*0.1*0.75,
+                                Width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
+          
+                                onPressed: (){
+                                  context.push(SignupPage());
+                                }
+                            )
+                        ),
+                        20.SH,
+                        FadeInUp(
+                            delay: const Duration(milliseconds: 0),
+                            child: MyButtonWithBackground(
+                              context: context,
+                                textButton: 'تسجيل الدخول',
+                                height: sizeOfScreen.height*0.1*0.75,
+                                width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
+          
+                                onPressed: (){
+                                  context.push(LoginScreen());
+                                }
+                            )
+                        ),
+                      ],
                     )
                     /////////////
                   ],
                 ),
-              ),
-
-
-            ],
+          
+          
+              ],
+            ),
           ),
         ),
       ),

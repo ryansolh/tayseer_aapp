@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todo_apps/core/component/my_custom_shadermask.dart';
 Widget makeInput({required BuildContext context,required double Height,double Width=double.infinity,required Size sizeOfScreen ,
-  String ?label, obscureText = false,void Function(String)? onChanged,required TextEditingController? inputController }) {
+  required Icon prefixIcon, String ?label, obscureText = false,void Function(String)? onChanged,required TextEditingController? inputController }) {
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,6 +25,10 @@ Widget makeInput({required BuildContext context,required double Height,double Wi
 
           decoration: InputDecoration(
 
+            prefixIcon: MyShaderMask(
+              radius: 1.3,
+              toolWidget: prefixIcon,
+            ),
             contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade400)

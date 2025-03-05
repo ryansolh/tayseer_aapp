@@ -50,7 +50,7 @@ class _OnboardingState extends State<Onboarding> {
        ),
        title: '!  كل ما تحتاجه في مكان واحد',
        subTitle: 'استكشف دليل الخدمات، احصل على توصيات مخصصة، وتعرف على الأماكن المجهزة بسهولة. كل الخدمات التي تسهل حياتك في متناول يدك',
-       imageUrl: 'assets/images/OnBoarding-Screen-Image/CentersAndServices.png',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/CentersAndServices.jpg',
      ),
      Introduction(
        titleTextStyle: TextStyle(
@@ -63,7 +63,7 @@ class _OnboardingState extends State<Onboarding> {
        ),
        title: '!لا تفوت أي موعد مهم',
        subTitle: 'قم بجدولة مهامك اليومية، حدد مواعيد الأدوية، واحصل على تذكيرات ذكية لتنظيم يومك بكل سهولة',
-       imageUrl: 'assets/images/OnBoarding-Screen-Image/reminder.png',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/reminder.jpg',
      ),
      Introduction(
        titleTextStyle: TextStyle(
@@ -89,7 +89,7 @@ class _OnboardingState extends State<Onboarding> {
        ),
        title: '!مساعد ذكي لك',
        subTitle: 'استفد من النصائح المخصصة، واسأل الذكاء الاصطناعي عن أي استفسارات حول احتياجاتك اليومية، لتحصل على تجربة أكثر سهولة وراحة',
-       imageUrl: 'assets/images/OnBoarding-Screen-Image/AI.png',
+       imageUrl: 'assets/images/OnBoarding-Screen-Image/AI.jpg',
      ),
    ];
     return  IntroScreenOnboarding(
