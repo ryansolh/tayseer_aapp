@@ -928,8 +928,8 @@ class _AlarmPageState extends State<AlarmPage> {
         padding: const EdgeInsets.only(top: 0),
         width: size.width,
         height: task.isCompleted == 1
-            ? MediaQuery.of(context).size.height * 0.25
-            : MediaQuery.of(context).size.height * 0.35,
+            ? MediaQuery.of(context).size.height * 0.20
+            : MediaQuery.of(context).size.height * 0.25,
 
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
@@ -975,13 +975,17 @@ class _AlarmPageState extends State<AlarmPage> {
 
 
           const SizedBox(height: 15),
-          MyButtonNoBackground(
-            context,
-            textButton: "إغلاق",
-            onPressed: () => Get.back(),
-            Width: size.width-50,
-            Height: 45
+          SizedBox(
+            width: MediaQuery.of(context).size.width-50,
+            child: MyButtonNoBackground(
 
+              context,
+              textButton: "إغلاق",
+              onPressed: () => Get.back(),
+              Width: size.width-50,
+              Height: 45
+
+            ),
           )
         ]),
       ),

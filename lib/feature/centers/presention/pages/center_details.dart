@@ -109,7 +109,7 @@ class CenterDetailsScreen extends StatelessWidget {
                               Align(
                                 alignment: Alignment.topRight,
                                 child: MyTitle(
-                                    textOfTitle: "خدمات المركز او المؤسسة",
+                                    textOfTitle: "خدمات التي يوفرها المركز",
                                     startDelay:800
                                 ),
                               ),
@@ -142,7 +142,7 @@ class CenterDetailsScreen extends StatelessWidget {
                                             padding: EdgeInsets.all(size.width / 30),
                                             physics:
                                             BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
-                                            itemCount: center!.services.length,
+                                            itemCount: center!.services[index].subServices!.length,
                                             itemBuilder: (BuildContext context, int indexOfSubServices){
                                               return Align(
                                                 alignment: Alignment.topRight,

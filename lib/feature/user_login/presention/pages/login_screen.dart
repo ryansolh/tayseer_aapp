@@ -85,6 +85,7 @@ class LoginScreen extends StatelessWidget {
                 
                         duration: const Duration(milliseconds: 1200),
                         child: makeInput(
+                          hint: "أدخل البريد الالكتروني",
                           prefixIcon: Icon(Icons.mail),
                           inputController: emailController,
                           context: context,
@@ -93,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                               ? sizeOfScreen.height - 100
                               : double.infinity,
                           sizeOfScreen: sizeOfScreen,
-                          label: "Email",
+                          label: "البريد الالكتروني",
                 
                         )
                 
@@ -101,6 +102,7 @@ class LoginScreen extends StatelessWidget {
                     10.SH,
                     FadeInUp(duration: const Duration(milliseconds: 1300),
                         child: makeInput(
+                            hint: "أدخل كلمة المرور",
                             prefixIcon: Icon(Icons.lock),
                             context: context,
                             sizeOfScreen: sizeOfScreen,
@@ -108,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                             Width: sizeOfScreen.width >
                                 sizeOfScreen.height ? sizeOfScreen
                                 .height - 100 : double.infinity,
-                            label: "Password",
+                            label: "كلمة المرور",
                             inputController: passController,
                             obscureText: true)
                     ),
@@ -169,7 +171,7 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                        MySubTitle(
-                          textOfSubTitle: "هل لديك حساب ?",
+                          textOfSubTitle: "لا تمتلك حساباً ?",
                           startDelay: 800,
                         textSize: sizeOfScreen.height*0.017,
                       ),

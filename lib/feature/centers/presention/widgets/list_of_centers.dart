@@ -74,136 +74,172 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
         color: Theme.of(context).colorScheme.background,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      textDirection: TextDirection.rtl,
-                      controller:_searchController,
+            SizedBox(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          offset: const Offset(0,0)
+                      )
+                    ]
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 50,
+                          child: TextFormField(
+                            textDirection: TextDirection.rtl,
+                            controller:_searchController,
 
-                      cursorColor: Colors.grey.withOpacity(0.4),
-                      autofocus: false,
+                            cursorColor: Colors.grey.withOpacity(0.4),
+                            autofocus: false,
 
-                      style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
-                      onChanged: (value) {
-                        if(value.isNotEmpty){
-                          setState(() {
-                            _centers=_originalCenters!
-                                .where((center) => center.name.contains(value))
-                                .toList();
-                          });
-                        }
-                        else{
-                          setState(() {
-                            _centers=_originalCenters!;
-                          });
-                        }
-                      },
-                      // controller: serchController,
-                      decoration: InputDecoration(
-                        hintTextDirection: TextDirection.rtl,
-                          hintText: "ابحث عن مركز معين",
-                         // filled: true,
+                            style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
+                            onChanged: (value) {
+                              if(value.isNotEmpty){
+                                setState(() {
+                                  _centers=_originalCenters!
+                                      .where((center) => center.name.contains(value))
+                                      .toList();
+                                });
+                              }
+                              else{
+                                setState(() {
+                                  _centers=_originalCenters!;
+                                });
+                              }
+                            },
+                            // controller: serchController,
+                            decoration: InputDecoration(
+                              hintTextDirection: TextDirection.rtl,
+                                hintText: "ابحث عن مركز معين",
+                               // filled: true,
 
-                          fillColor: Theme.of(context).colorScheme.background,
-                          hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                          focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          suffixIcon: const MyShaderMask(
-                            toolWidget: Icon(
-                              Icons.search,
-                              color: Colors.black,
+                                fillColor: Theme.of(context).colorScheme.background,
+                                hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                suffixIcon: const MyShaderMask(
+                                  toolWidget: Icon(
+                                    Icons.search,
+                                    color: Colors.black,
+                                  ),
+                                  radius: 1.3,
+                                ),
+                                border: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(25.0)
+                                    )
+                                )
                             ),
-                            radius: 1.3,
+
                           ),
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25.0)
-                              )
-                          )
-                      ),
-
-                    ),
-                  ),
-
-
-                  MyShaderMask(
-                      toolWidget:  PopupMenuButton<String>(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20))
                         ),
-                        color: Theme.of(context).colorScheme.background,
-                        // color: Get.isDarkMode ? darkGreyColor : Colors.white,
-                        icon: const Icon(Icons.sort,color: Colors.grey,),
-                        padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
-                        tooltip: "More",
-                        onSelected: (value)  {
-                          if (value == "فرز حسب الاقرب مسافة") {
-                           setState(() {
-                             _centers!.sort((a, b) => a.distance.compareTo(b.distance));
-                           });
-
-
-                          }
-                          else if (value == "فرز حسب الابعد مسافة") {
-                            setState(() {
-                              _centers!.sort((a, b) => b.distance.compareTo(a.distance));
-                            });
-                             // sortByTheFurthest();
-
-                          }
-                          else if (value == "فرز حسب الابجدية تصاعديا") {
-                            setState(() {
-                              _centers!.sort((a, b) => a.name.compareTo(b.name));
-                            });
-                            // sortByTheFurthest();
-
-                          }
-                          else if (value == "فرز حسب الابجدية تنازليا") {
-                            setState(() {
-                              _centers!.sort((a, b) => b.name.compareTo(a.name));
-                            });
-                            // sortByTheFurthest();
-
-                          }
-                        },
-                        itemBuilder: (BuildContext context) {
-
-                          return [
-
-                              const PopupMenuItem(
-                                value: "فرز حسب الاقرب مسافة",
-                                child: Text("فرز حسب الاقرب مسافة"),
-                              ),
-
-                              const PopupMenuItem(
-                                value: "فرز حسب الابعد مسافة",
-                                child: Text("فرز حسب الابعد مسافة"),
-                              ),
-                            const PopupMenuItem(
-                              value: "فرز حسب الابجدية تصاعديا",
-                              child: Text("فرز حسب الابجدية تصاعديا"),
-                            ),
-                            const PopupMenuItem(
-                              value: "فرز حسب الابجدية تنازليا",
-                              child: Text("فرز حسب الابجدية تنازليا"),
-                            ),
-
-
-                          ];
-                        },
                       ),
-                      radius: 1.3
+
+
+                      MyShaderMask(
+                          toolWidget:  PopupMenuButton<String>(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20))
+                            ),
+                            color: Theme.of(context).colorScheme.background,
+
+                            // color: Get.isDarkMode ? darkGreyColor : Colors.white,
+                            icon: const Icon(Icons.sort,color: Colors.grey,),
+                            padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                            tooltip: "More",
+                            onSelected: (value)  {
+                              if (value == "فرز حسب الاقرب مسافة") {
+                               setState(() {
+                                 _centers!.sort((a, b) => a.distance.compareTo(b.distance));
+                               });
+
+
+                              }
+                              else if (value == "فرز حسب الابعد مسافة") {
+                                setState(() {
+                                  _centers!.sort((a, b) => b.distance.compareTo(a.distance));
+                                });
+                                 // sortByTheFurthest();
+
+                              }
+                              else if (value == "فرز حسب الابجدية تصاعديا") {
+                                setState(() {
+                                  _centers!.sort((a, b) => a.name.compareTo(b.name));
+                                });
+                                // sortByTheFurthest();
+
+                              }
+                              else if (value == "فرز حسب الابجدية تنازليا") {
+                                setState(() {
+                                  _centers!.sort((a, b) => b.name.compareTo(a.name));
+                                });
+                                // sortByTheFurthest();
+
+                              }
+                            },
+                            itemBuilder: (BuildContext context) {
+
+                              return [
+
+                                  const PopupMenuItem(
+
+                                    value: "فرز حسب الاقرب مسافة",
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                        child: Text("فرز حسب الاقرب مسافة",textDirection: TextDirection.rtl,),
+                                    ),
+                                  ),
+
+                                  const PopupMenuItem(
+                                    value: "فرز حسب الابعد مسافة",
+                                    child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: Text("فرز حسب الابعد مسافة",textDirection: TextDirection.rtl,)
+                                    ),
+                                  ),
+                                const PopupMenuItem(
+                                  value: "فرز حسب الابجدية تصاعديا",
+                                  child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text("فرز حسب الابجدية تصاعديا",),
+                                ),),
+                                const PopupMenuItem(
+                                  value: "فرز حسب الابجدية تنازليا",
+                                  child: Align(
+                                  alignment: Alignment.topRight,
+                              child: Text("فرز حسب الابجدية تنازليا",),
+                                ),),
+                                const PopupMenuItem(
+                                  value: "فرز حسب المراكز المستدفة لفئتك",
+                                  child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text("فرز حسب المراكز المستدفة لفئتك",),
+                                ),)
+
+
+                              ];
+                            },
+                          ),
+                          radius: 1.3
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
             Expanded(

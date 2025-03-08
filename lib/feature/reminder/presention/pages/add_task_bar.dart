@@ -291,13 +291,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       hint: _medicineType!.toString(),
                       widget: Align(
                         child: DropdownButton(
+
+
                           icon: const Icon(
                             Icons.keyboard_arrow_down,
                             color: Colors.grey,
                           ),
                           iconSize: 32,
                           elevation: 4,
-                          padding: const EdgeInsets.only(right: 5),
+
                          // style: subTitleStyle,
                           underline: Container(
                             height: 0,

@@ -396,62 +396,84 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         child: Center(
                           child:Column(
                             children: [
-                              SizedBox(
-                                height: 50,
-                                child: TextFormField(
-                                  textDirection: TextDirection.rtl,
-                                  controller:_productSearchController,
-                      
-                                  cursorColor: Colors.grey.withOpacity(0.4),
-                                  autofocus: false,
-                      
-                                  style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
-                                  onChanged: (value) {
+                              Container(
+                                decoration: BoxDecoration(
 
-                                      Provider.of<Products>(context, listen: false).searchByName(value);
-
-                                  },
-                                  // controller: serchController,
-                                  decoration: InputDecoration(
-                                      hintTextDirection: TextDirection.rtl,
-                                      hintText: "ابحث عن منتج معين",
-                                      // filled: true,
-                      
-                                      fillColor: Theme.of(context).colorScheme.background,
-                                      hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                                      focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      prefixIcon:  MyShaderMask(
-                                        toolWidget: IconButton(
-                                            icon: Icon(Icons.clear),
-                                          onPressed: () {
-                                             setState(() {
-                                               _isContainerVisible = false;
-                                             });
-                                          },
-                                        ),
-                                      radius: 1.3,
-                                      ),
-                                      suffixIcon: const MyShaderMask(
-                                        toolWidget: Icon(
-                                          Icons.search,
-                                          color: Colors.black,
-                                        ),
-                                        radius: 1.3,
-                                      ),
-                                      border: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)
-                                          )
+                                    color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                                          spreadRadius: 3,
+                                          blurRadius: 7,
+                                          offset: const Offset(0,0)
                                       )
+                                    ]
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: TextFormField(
+                                      textDirection: TextDirection.rtl,
+                                      controller:_productSearchController,
+
+                                      cursorColor: Colors.grey.withOpacity(0.4),
+                                      autofocus: false,
+                                      canRequestFocus: _isContainerVisible,
+
+                                      style: TextStyle(color: Theme.of(context).textTheme.labelSmall!.color),
+                                      onChanged: (value) {
+
+
+                                          Provider.of<Products>(context, listen: false).searchByName(value);
+
+                                      },
+                                      // controller: serchController,
+                                      decoration: InputDecoration(
+                                          hintTextDirection: TextDirection.rtl,
+                                          hintText: "ابحث عن منتج معين",
+                                          // filled: true,
+
+                                          fillColor: Theme.of(context).colorScheme.background,
+                                          hoverColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                          focusColor: Theme.of(context).colorScheme.background.withOpacity(0.1),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.grey),
+                                            borderRadius: BorderRadius.circular(24),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.grey),
+                                            borderRadius: BorderRadius.circular(24),
+                                          ),
+                                          prefixIcon:  MyShaderMask(
+                                            toolWidget: IconButton(
+                                              icon: Icon(Icons.clear),
+                                              onPressed: () {
+                                                Provider.of<Products>(context, listen: false).searchByName('');
+
+                                                setState(() {
+
+                                                  _isContainerVisible = false;
+                                                });
+                                              },
+                                            ),
+                                            radius: 1.3,
+                                          ),
+                                          suffixIcon: const MyShaderMask(
+                                            toolWidget: Icon(
+                                              Icons.search,
+                                              color: Colors.black,
+                                            ),
+                                            radius: 1.3,
+                                          ),
+                                          border: const OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(25.0)
+                                              )
+                                          )
+                                      ),
+
+                                    ),
                                   ),
-                      
                                 ),
                               )
                             ],

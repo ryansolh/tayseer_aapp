@@ -6,6 +6,7 @@ import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
+import '../../../basic_navigation_page/presention/page/navigation_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -90,6 +91,29 @@ class WelcomePage extends StatelessWidget {
                                   context.push(LoginScreen());
                                 }
                             )
+                        ),
+                        20.SH,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              child:  MySubTitle(
+                                textOfSubTitle: "كزائر",
+                                startDelay: 300,
+                                textColor: Color(0xFF75B6E3),
+                                textSize: sizeOfScreen.height*0.017,
+                              ),
+                              onTap: (){
+                                context.pushReplacement(const NavigationScreen());
+                              },
+                            ),
+                            MySubTitle(
+                              textOfSubTitle: "تصفح التطبيق",
+                              startDelay: 300,
+                              textSize: sizeOfScreen.height*0.017,
+                            ),
+
+                          ],
                         ),
                       ],
                     )

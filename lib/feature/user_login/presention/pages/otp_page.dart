@@ -73,7 +73,7 @@ class OtpPage extends StatelessWidget {
                         30.SH,
                         const MyTitle(textOfTitle: "ادخل رمز التحقق", startDelay: 500),
                         const MySubTitle(
-                            textOfSubTitle: "لقد ارسلنا رمز تحقق مكون من 6 ارقام الى البريد الالكتروني الخاص بك.",
+                            textOfSubTitle: "لقد ارسلنا رمز تحقق مكون من 4 ارقام الى البريد الالكتروني الخاص بك.",
                             textColor: Colors.grey,
                             startDelay: 700),
                         const OtpInput()

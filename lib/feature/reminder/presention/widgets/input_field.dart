@@ -38,7 +38,7 @@ class MyInputField extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
-mainAxisSize: MainAxisSize.min,
+            mainAxisSize:MainAxisSize.max ,
             children: [
 
 

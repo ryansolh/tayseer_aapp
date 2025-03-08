@@ -71,13 +71,14 @@ class ForgetPassPage extends StatelessWidget {
                                 ),
                               )
                           ),
-                          const MyTitle(textOfTitle: "ادخل رمز التحقق", startDelay: 500),
-                          const MySubTitle(textOfSubTitle: "لقد ارسلنا رمز تحقق مكون من 6 ارقام الى الايميل الخاص بك",
+                          const MyTitle(textOfTitle: "ادخل البريد الالكتروني", startDelay: 500),
+                          const MySubTitle(textOfSubTitle: "يرجى إدخال بريدك الالكتروني المسجل لدينا وسنرسل لك كود سري لاثبات ملكيتك للحساب واعادة تعيين كلمة السر ",
                               startDelay: 700),
                           FadeInUp(
 
                               duration: const Duration(milliseconds: 1200),
                               child: makeInput(
+                                hint: "أدخل البريد الالكتروني",
                                 prefixIcon: Icon(Icons.mail),
                                 inputController: emailController,
                                 context: context,
@@ -86,7 +87,7 @@ class ForgetPassPage extends StatelessWidget {
                                     ? sizeOfScreen.height - 100
                                     : double.infinity,
                                 sizeOfScreen: sizeOfScreen,
-                                label: "Email",
+                                label: "البريد الالكتروني",
 
                               )
 
