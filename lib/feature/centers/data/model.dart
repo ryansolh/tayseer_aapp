@@ -1,117 +1,121 @@
-class CentersModel {
-  final int id; // الid الخاص بالمركز
-  final String name;// اسم المركز
-  final String imageUrl;//صورة المركز او شعارة
-  final String description;// وصف عن المركز
-  final List<Service> services;// الخدمات هذه معاها موديل لحالها موضح تحت
-  final CenterLocation location;// الموقع حق الاحداثيات وهذه برضو معاها موديل لحالها موضحة تحت
-  final String address;//العنوان بالنص مثلا الستين - السنينه - امام مستشفى الشيباني
-  final String contactNumber;//رقم المركز الخاص بالاتصال
-  final String whatsappNumber;//رقم المركز الخاص بالواتساب
-   double distance;
+class CenterModel {
+  final String name;
+  final String description;
+  final String image;
+  final String address;
+  final String contactNumber;
+  final String whatsappNumber;
+  final double latitude;
+  final double longitude;
+  final List<Service> services;
+  double distance;
 
-  CentersModel({
-    required this.id,
+  CenterModel({
     required this.name,
-    required this.imageUrl,
     required this.description,
-    required this.services,
-    required this.location,
+    required this.image,
     required this.address,
     required this.contactNumber,
     required this.whatsappNumber,
-    this.distance=0
+    required this.latitude,
+    required this.longitude,
+    required this.services,
+    this.distance = 0.0,
   });
 
-  // تحويل JSON إلى كائن من نوع Center
-  factory CentersModel.fromJson(Map<String, dynamic> json) {
-    return CentersModel(
-      id: json['id'],
+  factory CenterModel.fromJson(Map<String, dynamic> json) {
+    return CenterModel(
       name: json['name'],
-      imageUrl: json['imageUrl'],
       description: json['description'],
+      image: json['image'],
+      address: json['address'],
+      contactNumber: json['contact_number'],
+      whatsappNumber: json['whatsapp_number'],
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
       services: (json['services'] as List)
           .map((service) => Service.fromJson(service))
           .toList(),
-      location: CenterLocation.fromJson(json['location']),
-      address: json['address'],
-      contactNumber: json['contactNumber'],
-      whatsappNumber: json['whatsappNumber'],
     );
   }
 
-  // تحويل كائن Center إلى JSON
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
-      'imageUrl': imageUrl,
       'description': description,
-      'services': services.map((service) => service.toJson()).toList(),
-      'location': location.toJson(),
+      'image': image,
       'address': address,
-      'contactNumber': contactNumber,
-      'whatsappNumber': whatsappNumber,
+      'contact_number': contactNumber,
+      'whatsapp_number': whatsappNumber,
+      'latitude': latitude,
+      'longitude': longitude,
+      'services': services.map((service) => service.toJson()).toList(),
     };
   }
 }
 
 class Service {
-  final String serviceTypeName;
-  /*
-  اذا كان سمعية اي خدمة للمعاقين السمعيين او للمكفوفين او معاقين الحركه
-  بحيث المركز الواحد يمكن ان يقدم اكثر من خدمه مثلا سمعية وبصرية او الكل
-  */
+  final int id;
+  final String name;
+  final List<SubService> subServices;
 
+  Service({
+    required this.id,
+    required this.name,
+    required this.subServices,
+  });
 
-   List<String>? subServices;
-   /*
-   الخدمات التي تندرج تحت الخدمه الاصل
-   مثلا اذا تم اختيار serviceTypeName خدمات للمكفوفين
-   ايش الخدمات التي ممكن تقدمها للمكفوفين
-   هل خدمات تعليمية وتاهيلية اوخدمات اجتماعية
-    او غيرها ويمكن اختيار اكثر من خيار
-   */
-
-  Service({required this.serviceTypeName,  this.subServices});
-
-  // تحويل JSON إلى كائن من نوع Service
   factory Service.fromJson(Map<String, dynamic> json) {
+    List<SubService> subServices = [];
+
+    // التحقق مما إذا كانت sub_services قائمة أو كائناً وتحويله إلى قائمة
+    if (json['sub_services'] is List) {
+      subServices = (json['sub_services'] as List)
+          .map((subService) => SubService.fromJson(subService))
+          .toList();
+    } else if (json['sub_services'] is Map) {
+      subServices = (json['sub_services'] as Map)
+          .values // استخراج القيم فقط من الخريطة
+          .map((subService) => SubService.fromJson(subService))
+          .toList();
+    }
+
     return Service(
-      serviceTypeName: json['name'],
-      subServices: List<String>.from(json['subServices']),
+      id: json['id'],
+      name: json['name'],
+      subServices: subServices,
     );
   }
 
-  // تحويل كائن Service إلى JSON
   Map<String, dynamic> toJson() {
     return {
-      'name': serviceTypeName,
-      'subServices': subServices,
+      'id': id,
+      'name': name,
+      'sub_services': subServices.map((subService) => subService.toJson()).toList(),
     };
   }
 }
 
-class CenterLocation {
-  //هولا حق تحديد موقع المركز
-  final double latitude;//احداثيات العرض
-  final double longitude;//احداثيات الطول
+class SubService {
+  final int id;
+  final String name;
 
-  CenterLocation({required this.latitude, required this.longitude});
+  SubService({
+    required this.id,
+    required this.name,
+  });
 
-  // تحويل JSON إلى كائن من نوع Location
-  factory CenterLocation.fromJson(Map<String, dynamic> json) {
-    return CenterLocation(
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+  factory SubService.fromJson(Map<String, dynamic> json) {
+    return SubService(
+      id: json['id'],
+      name: json['name'],
     );
   }
 
-  // تحويل كائن Location إلى JSON
   Map<String, dynamic> toJson() {
     return {
-      'latitude': latitude,
-      'longitude': longitude,
+      'id': id,
+      'name': name,
     };
   }
 }

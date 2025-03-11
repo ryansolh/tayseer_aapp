@@ -12,12 +12,19 @@ class MyCustomLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
-    return MyShaderMask(
-        toolWidget: LoadingAnimationWidget.fourRotatingDots(
-            color: Color(0xFF81A7D6),
-            size: MediaQuery.of(context).size.width/8.5
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Theme.of(context).colorScheme.background,
+      child: Center(
+        child: MyShaderMask(
+            toolWidget: LoadingAnimationWidget.fourRotatingDots(
+                color: Color(0xFF81A7D6),
+                size: MediaQuery.of(context).size.width/8.5
+            ),
+            radius: 1
         ),
-        radius: 1
+      ),
     );
   }
 }

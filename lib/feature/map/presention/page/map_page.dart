@@ -8,12 +8,13 @@ import '../management/map_bloc/map_page_cubit.dart';
 import '../management/map_bloc/map_page_states.dart';
 
 class MapScreen extends StatelessWidget {
-   MapScreen({Key? key,  this.centerLocation, }) : super(key: key);
- final CenterLocation? centerLocation;
+   MapScreen({Key? key, required this.latitudeOfCenter, required this.longitudeOfCenter,   }) : super(key: key);
+   final double latitudeOfCenter;
+   final double longitudeOfCenter;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MapCubit()..getCurrentLocation(LatLng(centerLocation!.latitude, centerLocation!.longitude)),
+      create: (context) => MapCubit()..getCurrentLocation(LatLng(latitudeOfCenter, longitudeOfCenter)),
       child:BlocBuilder<MapCubit, MapState>(
         builder: (context, state) {
           if (state.currentLocation == null) {

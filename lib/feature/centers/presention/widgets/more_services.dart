@@ -15,7 +15,7 @@ import 'package:todo_apps/core/services/center_services/connection_services.dart
 import 'package:todo_apps/feature/centers/data/model.dart';
 
 import '../../../map/presention/page/map_page.dart';
-Widget MoreServiceButton(BuildContext context, {  CentersModel? center }) {
+Widget MoreServiceButton(BuildContext context, {  CenterModel? center }) {
   return FabCircularMenu(
     // Cannot be `Alignment.center`
     alignment: Alignment.bottomRight,
@@ -67,7 +67,7 @@ Widget MoreServiceButton(BuildContext context, {  CentersModel? center }) {
                  color: Theme.of(context).colorScheme.background,
                  height: MediaQuery.of(context).size.height-100,
                  width: double.infinity,
-                 child:  MapScreen(centerLocation:center!.location),
+                 child:  MapScreen(latitudeOfCenter: center!.latitude,longitudeOfCenter: center!.longitude,),
                );
              }
          );

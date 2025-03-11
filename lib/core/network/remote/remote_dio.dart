@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 import '../../../feature/user_login/presention/pages/login_screen.dart';
+import '../../utils/app_constants/blog_app_constants.dart';
 
 
 class DioHelper {
@@ -11,8 +12,9 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.60.93/phpconn/',
         receiveDataWhenStatusError: true,
+        baseUrl: baseUrl,
+
       ),
     );
 

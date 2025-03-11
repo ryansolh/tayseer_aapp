@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 List<Map<String, dynamic>> centersData = [
@@ -259,3 +260,78 @@ List<Map<String, dynamic>> centersData = [
 
 
 
+*//*
+
+
+import 'package:flutter/material.dart';
+
+List<Map<String, dynamic>> centersData = [
+  {
+    "name": "ابن الحجيرية اصحاب الوزف",
+    "description": "نحن اشتحطنا للركب شحميك من الاشرار",
+    "image": "http://192.168.43.93:8000/storage/centers/FQXsmGQYEcPNSt54MQAPc2Lc4bd6Vo3Bk25tvoUZ.png",
+    "address": "هايل شارع عشرين جوار كنج مول",
+    "contact_number": "775587635",
+    "whatsapp_number": "775587635",
+    "latitude": 15.397371,
+    "longitude": 44.148572,
+    "services": [
+      {
+        "id": 2,
+        "name": "خدمات بصرية",
+        "sub_services": [
+          {
+            "id": 5,
+            "name": "تأهيلية"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "خدمات حركية",
+        "sub_services": [
+          {
+            "id": 7,
+            "name": "تعليمية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "يدور المحتوي",
+    "description": "اي شيء الاقيه افعل علية ستوري في الانستجرام",
+    "image": "http://192.168.43.93:8000/storage/centers/e4RoFchylivsP2KunV2kZeZlo5bhBwjVAkqFPtVS.jpg",
+    "address": "جولة عمران",
+    "contact_number": "775495442",
+    "whatsapp_number": "775495442",
+    "latitude": 15.3765,
+    "longitude": 44.2145,
+    "services": [
+      {
+        "id": 1,
+        "name": "خدمات سمعية",
+        "sub_services": [
+          {
+            "id": 3,
+            "name": "اجتماعية"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "خدمات بصرية",
+        "sub_services": [
+          {
+            "id": 5,
+            "name": "تأهيلية"
+          }
+        ]
+      }
+    ]
+  }
+];
+
+
+
+*/

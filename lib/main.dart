@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_apps/core/network/remote/remote_dio.dart';
 import 'cache/cache_helper.dart';
 import 'core/db/db.helper.dart';
 import 'core/utils/theme_data/theme_mode.dart';
@@ -30,7 +31,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ar',null);
   CacheHelper().init();
-  await DBHelper.initDb();
+  await DioHelper.init();
   await GetStorage.init();
   runApp(const MyApp());
 }

@@ -18,7 +18,7 @@ const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);
 
 class CenterDetailsScreen extends StatelessWidget {
-  final CentersModel? center;
+  final CenterModel? center;
 
   const CenterDetailsScreen({Key? key, this.center}) : super(key: key);
 
@@ -41,7 +41,7 @@ class CenterDetailsScreen extends StatelessWidget {
                   Stack(
                     children: <Widget>[
                       Hero(
-                        tag: "${center!.id}",
+                        tag: "${center!.name}",
                         child: Container(
                             height: MediaQuery.of(context).size.height/2.7,
                             width:MediaQuery.of(context).size.width ,
@@ -49,7 +49,7 @@ class CenterDetailsScreen extends StatelessWidget {
                             child: CustomImageViewer.show(
                                 radius: 0,
                                 context: context,
-                                url: center!.imageUrl
+                                url: center!.image
                             )
                         ),
                       ),
@@ -133,7 +133,7 @@ class CenterDetailsScreen extends StatelessWidget {
                                         Align(
                                           alignment: Alignment.topRight,
                                           child: MySubTitle(
-                                              textOfSubTitle: '▪ ${center!.services[index].serviceTypeName}.',
+                                              textOfSubTitle: '▪ ${center!.services[index].name}.',
                                               startDelay: 700
                                           ),
                                         ),
@@ -147,7 +147,7 @@ class CenterDetailsScreen extends StatelessWidget {
                                               return Align(
                                                 alignment: Alignment.topRight,
                                                 child: MySubTitle(
-                                                    textOfSubTitle: '   -  ${center!.services[index].subServices![indexOfSubServices]}.',
+                                                    textOfSubTitle: '   -  ${center!.services[index].subServices![indexOfSubServices].name}.',
                                                     startDelay: 700
                                                 ),
                                               );
