@@ -12,6 +12,7 @@ import '../../../../core/component/my_custom_shadermask.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
 import '../../../../core/services/user_services/user_services.dart';
+import '../../../platform/presention/pages/add_and_edit_post_page.dart';
 import '../widgets/input_widget.dart';
 
 class SignupPage extends StatefulWidget {
@@ -364,6 +365,7 @@ class _SignupPageState extends State<SignupPage> {
                                 _emailController.text,
                                 _passController.text
                             );
+                           // context.push(PostForm(title: "انشاء منشور",));
                           }))),
               FadeInUp(
                   duration: const Duration(milliseconds: 1500),
@@ -378,7 +380,8 @@ class _SignupPageState extends State<SignupPage> {
                           textSize: sizeOfScreen.height*0.017,
                         ),
                         onTap: (){
-                          context.pushReplacement(LoginScreen());
+
+                         // context.pushReplacement(LoginScreen());
                         },
                       ),
                        MySubTitle(
@@ -402,6 +405,26 @@ class _SignupPageState extends State<SignupPage> {
 
 
 
+
+
+
+
+/*
+الإعاقة الحركية
+الإعاقة البصرية
+الإعاقة السمعية
+الإعاقة الذهنية
+اضطرابات النطق والتواصل
+اضطرابات طيف التوحد
+اضطراب فرط الحركة وتشتت الانتباه (ADHD)
+الإعاقة النفسية والاجتماعية
+الإعاقة الحسية المتعددة
+متلازمة داون
+الشلل الدماغي
+صعوبات التعلم
+الإعاقة الإدراكية
+الإعاقة النمائية
+*/
 
 
 

@@ -10,3 +10,6 @@ void addProductToCart(BuildContext context, Product product, Cart cart) {
 void removeProductToCart(BuildContext context, Product product, Cart cart) {
   cart.removeSingleItem(product.id);
 }
+
+
+

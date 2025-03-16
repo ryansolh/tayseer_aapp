@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,8 @@ class _BotScreenState extends State<BotScreen> {
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
   var formKey = GlobalKey<FormState>();
+
+   static TextAlign _textAlign=TextAlign.right;
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
   static const apiKey = "AIzaSyDuMtC3ovafvJy8xb0gpkBv3eSQe_oJ8yI";
@@ -42,7 +45,7 @@ class _BotScreenState extends State<BotScreen> {
     // دمج النص الثابت مع الرسالة لكن إرساله فقط إلى الـ API
     final messageWithInstruction = "$assistantText\n\n$userMessageText";
     final content = [Content.text(messageWithInstruction)];
-    var response = await model.generateContent(content);
+    var response = await model.generateContent(content,);
 
     setState(() {
       _messages.add(Message(
@@ -79,6 +82,7 @@ class _BotScreenState extends State<BotScreen> {
 
     ),
         body: Form(
+
           key: formKey,
           autovalidateMode: autoValidateMode,
           child: Column(
@@ -113,9 +117,11 @@ class _BotScreenState extends State<BotScreen> {
 
                         controller: _userMessage,
                         focusNode: _focusNode,
-                        //textDirection: TextDirection.rtl,
-                        textAlign: TextAlign.right,
+                        textAlign: _textAlign,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
                         decoration: InputDecoration(
+
                           filled: true,
                           fillColor: Theme.of(context).colorScheme.secondary.withAlpha(24),
                           border: OutlineInputBorder(
@@ -133,6 +139,7 @@ class _BotScreenState extends State<BotScreen> {
                           }
 
                         },
+
                       ),
                     ),
                     const Spacer(),
@@ -188,10 +195,10 @@ class Messages extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: isUser ? MyLinearGradient: LinearGradient(
             colors: [
-              Theme.of(context).colorScheme.background,
-              Theme.of(context).colorScheme.background,
-              Theme.of(context).colorScheme.background,
-              Theme.of(context).colorScheme.background,
+              Color(0xFFE0E0E0),
+              Color(0xFFE0E0E0),
+              Color(0xFFE0E0E0),
+              Color(0xFFE0E0E0),
             ]
         ),
         borderRadius: BorderRadius.only(

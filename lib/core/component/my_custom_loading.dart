@@ -15,7 +15,7 @@ class MyCustomLoading extends StatelessWidget {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Theme.of(context).colorScheme.background,
+      color:Color(0x00000000),
       child: Center(
         child: MyShaderMask(
             toolWidget: LoadingAnimationWidget.fourRotatingDots(

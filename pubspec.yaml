@@ -88,6 +88,7 @@ dependencies:
   provider: ^6.1.2
   add_to_cart_animation: ^2.0.4
   #flutter_svg: ^2.0.17
+  slimy_card_plus:
 
 
 #############################

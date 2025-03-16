@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_apps/core/component/my_custom_buttons.dart';
 import 'package:http/http.dart' as http;
@@ -38,6 +38,42 @@ class _PostFormState extends State<PostForm> {
   bool _loading = false;
   File? _imageFile;
   final _picker = ImagePicker();
+
+
+  static const apiKey = "AIzaSyCj6VIqsn1wDAjTuqqzPtBLRQoFQN4LjOw";
+
+  final model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: apiKey);
+
+
+  bool isLoading = false;
+  static const assistantText =
+      " انت ذكاء اصطناعي خاص بتطبيقي  تطبيقي يحتوي على منصة منشورات  وانت مكلف بفحص المنشور الذي سارسله اليك والذي يحتوي على نص وصوره ان وجد  وانت تقوم بفحص نص المنشور والصورة ان وجد    وان وجدت ان محتوى المنشور هو شيء سلبي سواء من نص المنشور او الصوره ان وجد او اذا كانت الصوره سلبية والنص ايجابي او اذا كانت الصوره ايجابية والنص سلبي او المحتوى يروج لشيء لا يفيد ذوي الاعاقة او ذوي الاحتياجات الخاصة او المحتوى تنمر ستجيبني  بالكلام التالي false ثم تكتب الرمز هذا | ثم تكتب ماهو السبب       واذا كان غير ذلك ستجيبني بالكلمة true ولا تجيب غير ما فلت لك ابدا واذا كانت الاجابة false اريد السبب ان يكون باللغة العربية وان يكون قصيرا لا يتجاوز ال11 كلمة   واذا كانت الصوره متعلقه بذوي الاحتياجات الخاصة او بشخصية منهم وكان المنشور محفز او لشيئ مفيد لهم فسترجع true. ";
+
+  Future<void> scanTheBlog(String userMessageText,) async {
+
+    bool IsLoading=true;
+    // دمج النص الثابت مع الرسالة لكن إرساله فقط إلى الـ API
+    showDialog(context: context, builder: (context) {
+      return MyCustomLoading();
+    },);
+    final messageWithInstruction = "$assistantText\n\n رسالة المنشور: $userMessageText";
+    final  content = _imageFile==null? [Content.text(messageWithInstruction)]
+        : [Content.text(messageWithInstruction),Content.data("image/jpeg", _imageFile!.readAsBytesSync(),)];
+    var response = await model.generateContent(content);
+    if(response.text=="true"){
+      print(response.text);
+    }
+    else{
+      showCustomSnackbar(
+          title: "لا يمكن نشر هذا المنشور!!",
+          subTitle: "${response.text!.split('|')[1]}",
+          backgroundColor: Colors.red,
+          textColor: Colors.white
+      );
+    }
+    context.pop();
+
+  }
 
   Future getImage() async {
     final pickedFile = await _picker.getImage(source: ImageSource.gallery);
@@ -124,7 +160,7 @@ class _PostFormState extends State<PostForm> {
           widget.post != null ? SizedBox() :
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 200,
+            height: 300,
             decoration: BoxDecoration(
                 image: _imageFile == null ? null : DecorationImage(
                     image: FileImage(_imageFile ?? File('')),
@@ -165,6 +201,7 @@ class _PostFormState extends State<PostForm> {
                 context: context,
                 textButton: "نشر",
                 onPressed: (){
+                  //scanTheBlog(_txtControllerBody.text);
                   _createPost();
                 }
             ),
