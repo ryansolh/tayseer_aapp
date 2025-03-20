@@ -2,8 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../cache/cache_helper.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
+import '../../../basic_navigation_page/presention/page/navigation_page.dart';
 import '../../../onboarding/presention/pages/onboarding_screen.dart';
+import '../../../user_login/presention/pages/welcome_page.dart';
 import '../management/splash_screen_bloc/splash_screen_cubit.dart';
 import '../management/splash_screen_bloc/splash_screen_states.dart';
 
@@ -173,13 +176,14 @@ class _PageTwoOfSplashScreenState extends State<PageTwoOfSplashScreen>
         },
         listener:(context,state)
         {
+
           if(state is NavigationToOnBoardingPagesState)
           {
             Navigator.of(context).pushReplacement
               (
               ThisIsFadeRoute
                 (
-                route:Onboarding(),
+                route:(CacheHelper.getData(key: 'token')!=null)?NavigationScreen():CacheHelper.getData(key: "OnBoardingSkipped")!=null?WelcomePage():Onboarding(),
               ),
             );
           }

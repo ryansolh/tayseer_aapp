@@ -74,7 +74,7 @@ class WelcomePage extends StatelessWidget {
                                 Width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
           
                                 onPressed: (){
-                                  context.push(SignupPage());
+                                  context.pushReplacement(SignupPage(fromWelcompage: true,));
                                 }
                             )
                         ),
@@ -88,7 +88,7 @@ class WelcomePage extends StatelessWidget {
                                 width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
           
                                 onPressed: (){
-                                  context.push(LoginScreen());
+                                  context.pushReplacement(LoginScreen(fromWelcompage: true,));
                                 }
                             )
                         ),

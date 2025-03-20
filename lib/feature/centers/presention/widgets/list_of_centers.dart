@@ -25,7 +25,8 @@ class SlideAnimation4 extends StatefulWidget {
 class _SlideAnimation4State extends State<SlideAnimation4> {
   late List<CenterModel>? _centers;
   late List<CenterModel>? _originalCenters;
-  late List<CenterModel>? _permanentCenters;
+
+  var _centerGuideData;
 
   //String distance='';
   final TextEditingController _searchController=TextEditingController();
@@ -65,7 +66,9 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
           url: CentersDataUrl,
          // authorization: 'Bearer $token'
       );
+
       setState(() {
+        _centerGuideData=response;
 
         _centers=(response.data as List)
             .map((data) => CenterModel.fromJson(data as Map<String, dynamic>))
@@ -99,15 +102,14 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
     double _w = MediaQuery.of(context).size.width;
     double _h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: successfulGettingCenters==false?
-      MyCustomLoading():
-      Container(
+      body:Container(
       height: _h,
       width: _w,
       color: Theme.of(context).colorScheme.background,
       child: Column(
         children: [
-          Padding(
+          Container(
+            color: Theme.of(context).colorScheme.background,
             padding: const EdgeInsets.all(2),
             child: Row(
               children: [
@@ -168,110 +170,115 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
 
                   ),
                 ),
-                Column(
+                Container(
 
-                  children: [
-                    3.SH,
-                    MyShaderMask(
-                      toolWidget:InkWell(
-                          child: Icon(Icons.help_outline),
-                        onTap: () {
-                          context.push(HelpScreen());
-                        },
-                      ),
-                      radius: 1.3,
-                    ),
-                    MyShaderMask(
-                        toolWidget:  PopupMenuButton<String>(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(20))
-                          ),
-                          color: Theme.of(context).colorScheme.background,
-                          // color: Get.isDarkMode ? darkGreyColor : Colors.white,
-                          icon: const Icon(Icons.sort,color: Colors.grey,),
-                          padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
-                          tooltip: "More",
-                          onSelected: (value)  {
-                            if (value == "فرز حسب الاقرب مسافة") {
-                              setState(() {
-                                _centers!.sort((a, b) => a.distance.compareTo(b.distance));
-                              });
+                  child: Column(
 
-
-                            }
-                            else if (value == "فرز حسب الابعد مسافة") {
-                              setState(() {
-                                _centers!.sort((a, b) => b.distance.compareTo(a.distance));
-                              });
-                              // sortByTheFurthest();
-
-                            }
-                            else if (value == "فرز حسب الابجدية تصاعديا") {
-                              setState(() {
-                                _centers!.sort((a, b) => a.name.compareTo(b.name));
-                              });
-                              // sortByTheFurthest();
-
-                            }
-                            else if (value == "فرز حسب الابجدية تنازليا") {
-                              setState(() {
-                                _centers!.sort((a, b) => b.name.compareTo(a.name));
-                              });
-                              // sortByTheFurthest();
-                            }
-                            else if (value == "فرز حسب المراكز المستهدفة لفئتك") {
-                              setState(() {
-
-                              });
-                              // sortByTheFurthest();
-                            }
-                          },
-                          itemBuilder: (BuildContext context) {
-
-                            return [
-
-                              const PopupMenuItem(
-                                value: "فرز حسب الاقرب مسافة",
-                                child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text("فرز حسب الاقرب مسافة")
-                                ),
-                              ),
-
-                              const PopupMenuItem(
-                                  value: "فرز حسب الابعد مسافة",
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text("فرز حسب الابعد مسافة"),
-                                  )
-                              ),
-                              const PopupMenuItem(
-                                value: "فرز حسب الابجدية تصاعديا",
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text("فرز حسب الابجدية تصاعديا"),
-                                ),),
-                              const PopupMenuItem(
-                                value: "فرز حسب الابجدية تنازليا",
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text("فرز حسب الابجدية تنازليا"),
-                                ),
-                              ),
-                              const PopupMenuItem(
-                                value: "فرز حسب المراكز المستهدفة لفئتك",
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text("فرز حسب المراكز المستهدفة لفئتك"),
-                                ),
-                              )
-                            ];
+                    children: [
+                      3.SH,
+                      if(successfulGettingCenters)
+                      MyShaderMask(
+                        toolWidget:InkWell(
+                          enableFeedback: false,
+                            child: Icon(Icons.help_outline),
+                          onTap: () {
+                            context.push(HelpScreen(centers: _centerGuideData,disabilityCategory: "اعاقة سمعية",));
                           },
                         ),
-                        radius: 1.3
-                    ),
+                        radius: 1.3,
+                      ),
+                      MyShaderMask(
+                          toolWidget:  PopupMenuButton<String>(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20))
+                            ),
+                            color: Theme.of(context).colorScheme.background,
+                            // color: Get.isDarkMode ? darkGreyColor : Colors.white,
+                            icon: const Icon(Icons.sort,color: Colors.grey,),
+                            padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                            tooltip: "More",
+                            onSelected: (value)  {
+                              if (value == "فرز حسب الاقرب مسافة") {
+                                setState(() {
+                                  _centers!.sort((a, b) => a.distance.compareTo(b.distance));
+                                });
 
-                  ],
+
+                              }
+                              else if (value == "فرز حسب الابعد مسافة") {
+                                setState(() {
+                                  _centers!.sort((a, b) => b.distance.compareTo(a.distance));
+                                });
+                                // sortByTheFurthest();
+
+                              }
+                              else if (value == "فرز حسب الابجدية تصاعديا") {
+                                setState(() {
+                                  _centers!.sort((a, b) => a.name.compareTo(b.name));
+                                });
+                                // sortByTheFurthest();
+
+                              }
+                              else if (value == "فرز حسب الابجدية تنازليا") {
+                                setState(() {
+                                  _centers!.sort((a, b) => b.name.compareTo(a.name));
+                                });
+                                // sortByTheFurthest();
+                              }
+                              else if (value == "فرز حسب المراكز المستهدفة لفئتك") {
+                                setState(() {
+
+                                });
+                                // sortByTheFurthest();
+                              }
+                            },
+                            itemBuilder: (BuildContext context) {
+
+                              return [
+
+                                const PopupMenuItem(
+                                  value: "فرز حسب الاقرب مسافة",
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text("فرز حسب الاقرب مسافة")
+                                  ),
+                                ),
+
+                                const PopupMenuItem(
+                                    value: "فرز حسب الابعد مسافة",
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text("فرز حسب الابعد مسافة"),
+                                    )
+                                ),
+                                const PopupMenuItem(
+                                  value: "فرز حسب الابجدية تصاعديا",
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text("فرز حسب الابجدية تصاعديا"),
+                                  ),),
+                                const PopupMenuItem(
+                                  value: "فرز حسب الابجدية تنازليا",
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text("فرز حسب الابجدية تنازليا"),
+                                  ),
+                                ),
+                                const PopupMenuItem(
+                                  value: "فرز حسب المراكز المستهدفة لفئتك",
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text("فرز حسب المراكز المستهدفة لفئتك"),
+                                  ),
+                                )
+                              ];
+                            },
+                          ),
+                          radius: 1.3
+                      ),
+
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -280,7 +287,13 @@ class _SlideAnimation4State extends State<SlideAnimation4> {
 
           Expanded(
             flex: 12,
-            child: Padding(
+            child:  successfulGettingCenters==false?
+            Container(
+              height: double.infinity,
+                width: double.infinity,
+                child: MyCustomLoading()
+            ):
+            Padding(
               padding: const EdgeInsets.only(bottom: 70),
               child: AnimationLimiter(
                 child: ListView.builder(

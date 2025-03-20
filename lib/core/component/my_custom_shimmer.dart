@@ -14,7 +14,7 @@ Widget MyShimmer(
       width: double.infinity,
       margin: marginEdgeInsets,
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(shimmerBorderRadius!),
       ),
     ),

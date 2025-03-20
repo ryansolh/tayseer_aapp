@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import 'package:todo_apps/core/network/remote/remote_dio.dart';
+import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 import 'package:todo_apps/feature/guidances_service/guidances_service.dart';
+import 'package:todo_apps/feature/user_login/presention/pages/login_screen.dart';
 
 import '../../feature/ai_bot/presention/page/bot_screen.dart';
+import '../services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import 'my_custom_linear_gradient.dart';
-class MyDrawer extends StatelessWidget {
+import 'my_custom_loading.dart';
+class MyDrawer extends StatefulWidget {
    MyDrawer({
      Key? key,
       required this.titleOfPage,
@@ -21,6 +27,12 @@ class MyDrawer extends StatelessWidget {
    final bool? goBack;
    final Widget page;
    final String titleOfPage;
+
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
    AdvancedDrawerController _advancedDrawerController = AdvancedDrawerController();
 
   @override
@@ -92,6 +104,71 @@ class MyDrawer extends StatelessWidget {
                   leading: const Icon(Icons.sunny),
                   title: const Text('المظهر'),
                 ),
+                if(CacheHelper.getData(key: "token")==null)
+                ListTile(
+                  onTap: () {
+                    context.push(LoginScreen(fromWelcompage: false,));
+                  },
+                  leading: const Icon(Icons.login),
+                  title: const Text('تسجيل الدخول'),
+                ),
+                if(CacheHelper.getData(key: "token")!=null)
+                  ListTile(
+                    onTap: () async{
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return MyCustomLoading();
+                        },);
+                     try{
+                       var response= await DioHelper.post(
+                           url: logoutUrl,
+                           authorization: CacheHelper.getData(key: "token")
+                       );
+                       if(response.statusCode==200||response.statusCode==201){
+                        setState(() {
+                          CacheHelper.removeData(key: "token");
+                          CacheHelper.removeData(key: "userId");
+                          CacheHelper.removeData(key: "name");
+                          CacheHelper.removeData(key: "image");
+                          CacheHelper.removeData(key: "email");
+                          CacheHelper.removeData(key: "address");
+                          CacheHelper.removeData(key: "phone");
+                          CacheHelper.removeData(key: "disabilities");
+                        });
+
+                         showCustomSnackbar
+                           (
+                             title: "✔ تمت العملية",
+                             subTitle: "لقد تم تسجيل خروجك بنجاح."
+                         );
+                         context.pop();
+                       }
+                       else{
+                         showCustomSnackbar
+                           (
+                             textColor: Colors.white,
+                             backgroundColor: Colors.red,
+                             title: "فشل معالجة تسجيل الخروج!!",
+                             subTitle: "يبدو ان هناك مشكلة ما او انك غير متصل بالانترنت."
+                         );
+                         context.pop();
+                       }
+                     }catch(e){
+                       showCustomSnackbar
+                         (
+                           textColor: Colors.white,
+                           backgroundColor: Colors.red,
+                           title: "فشل تسجيل الخروج!!",
+                           subTitle: "يبدو ان هناك مشكلة ما او انك غير متصل بالانترنت."
+                       );
+                       context.pop();
+                     }
+
+                    },
+                    leading: const Icon(Icons.logout_sharp),
+                    title: const Text('تسجيل الخروج'),
+                  ),
                 const Spacer(),
                 DefaultTextStyle(
                   style: const TextStyle(
@@ -113,7 +190,7 @@ class MyDrawer extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.onBackground,
         appBar: AppBar(
-          title:  Text(titleOfPage,
+          title:  Text(widget.titleOfPage,
             style: const TextStyle(color: Colors.white, fontFamily: 'Tajawal', fontWeight: FontWeight.bold,),),
           flexibleSpace:
           Container(
@@ -138,7 +215,7 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           actions: [
-            goBack==true?
+            widget.goBack==true?
             IconButton(
                 onPressed: (){context.pop();},
                 icon: Icon(Icons.chevron_right_sharp,
@@ -152,8 +229,8 @@ class MyDrawer extends StatelessWidget {
           width: double.infinity,
           child: Stack(
             children: [
-              page,
-              if(_bottomNavigationBar!=null)
+              widget.page,
+              if(widget._bottomNavigationBar!=null)
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -162,7 +239,7 @@ class MyDrawer extends StatelessWidget {
                     padding:EdgeInsets.symmetric(horizontal: 0,vertical: 0),
                     child: Container(
                       color: Theme.of(context).colorScheme.background,
-                        child: _bottomNavigationBar!
+                        child: widget._bottomNavigationBar!
                     ),
                   ),
 
@@ -174,6 +251,7 @@ class MyDrawer extends StatelessWidget {
       ),
     );
   }
+
    void _handleMenuButtonPressed() {
 
 

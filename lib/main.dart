@@ -30,7 +30,7 @@ void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ar',null);
-  CacheHelper().init();
+  await CacheHelper.init();
   await DioHelper.init();
   await GetStorage.init();
   runApp(const MyApp());

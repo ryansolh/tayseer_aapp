@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intro_screen_onboarding_flutter/introduction.dart';
 // import 'package:intro_screen_onboarding_flutter/introscreenonboarding.dart';
 import 'package:intro_screen_onboarding_flutter/intro_app.dart';
+import 'package:todo_apps/cache/cache_helper.dart';
 
 import '../../../user_login/presention/pages/welcome_page.dart';
 
@@ -97,7 +98,10 @@ class _OnboardingState extends State<Onboarding> {
         foregroundColor: const Color(0xFF61498C),
         introductionList: list,
         onTapSkipButton: () {
-          Navigator.push(context, MaterialPageRoute(
+         setState(() {
+           CacheHelper.saveData(key: "OnBoardingSkipped", value: "Skipped");
+         });
+          Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (context) =>WelcomePage() ,
               )
           );

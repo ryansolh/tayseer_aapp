@@ -130,6 +130,7 @@ class _BotScreenState extends State<BotScreen> {
                           ),
                           hintText: "...إسال الذكاء الاصطناعي",
                           contentPadding: const EdgeInsets.symmetric(
+
                               horizontal: 20, vertical: 15),
                         ),
                         validator: (value) {
