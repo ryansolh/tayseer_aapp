@@ -11,15 +11,16 @@ import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/services/market_services/add_or_remove_product_to_cart.dart';
+import '../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
-import '../widgets/details/cart_counter.dart';
 const kDefaultPadding = 20.0;
 const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);
 
 class ProductDetailsScreen extends StatefulWidget {
-  final Product? product;
+  final ProductDataManage? product;
 
 
   const ProductDetailsScreen({Key? key, this.product}) : super(key: key);
@@ -71,9 +72,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Container(
                       // height: size.height * 0.3,
                       child: CustomImageViewer.show(
+
                           context: context,
-                          url: widget.product!.imageUrl,
-                        fit:BoxFit.fill
+                          url:ImageBaseUrl+ widget.product!.thumbImage,
 
                       )
                     ),
@@ -102,6 +103,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               widget.product!.name,
                               style:Theme.of(context).textTheme.labelSmall ,
+                              textDirection: TextDirection.rtl,
                             ),
                             SizedBox(height: kDefaultPadding),
                             Row(
@@ -154,7 +156,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         //description
                       MySubTitle(
                         startDelay: 0,
-                        textOfSubTitle: widget.product!.description!,
+                        textOfSubTitle: widget.product!.shortDescription!,
                       ),
 
 
@@ -173,7 +175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 icon: Icon(Icons.remove,color: Colors.white,),
                                 onPressed: (){
                                   if(productQuantity>1){
-                                    cart.removeSingleItem(widget.product!.id);
+                                    cart.removeSingleItem(widget.product!.id.toString());
                                   }
                                   else{
                                     cart.clear();

@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/component/my_custom_linear_gradient.dart';
 import '../../../data/model/cart.dart';
-import '../../../data/model/product.dart';
 
+import '../../../data/model/product.dart';
 import '../../page/product_details_screen.dart';
 
 
@@ -17,7 +17,7 @@ class CartCounter extends StatefulWidget {
      this.product,
   }) : super(key: key);
 
-  final Product? product;
+  final ProductDataManage? product;
 
   @override
   State<CartCounter> createState() => _CartCounterState();

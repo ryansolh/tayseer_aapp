@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:todo_apps/core/component/my_custom_loading.dart';
 
 import '../../../../core/component/my_custom_shadermask.dart';
 import '../../../../core/component/my_custom_shimmer.dart';
+import '../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
 
@@ -34,8 +35,8 @@ class ProductWidget extends StatelessWidget {
      );
    }*/
 
-  void addProductToCart(BuildContext context, Product product, Cart cart) {
-    cart.addItem(product.id, product.price, product.name, product.imageUrl);
+  void addProductToCart(BuildContext context, ProductDataManage product, Cart cart) {
+    cart.addItem(product.id.toString(), product.price, product.name, product.thumbImage);
   }
   /*void addProductToFav(BuildContext context, Product product, Fav fav) {
     fav.addItem(product.id, product.price, product.title, product.imageUrl);
@@ -59,12 +60,12 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey widgetKey = GlobalKey();
     final cart = Provider.of<Cart>(context, listen: false);
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<ProductDataManage>(context);
 
 
 
       return CachedNetworkImage(
-        imageUrl: product.imageUrl,
+        imageUrl:ImageBaseUrl+product.thumbImage,
         imageBuilder: (context, imageProvider) {
           return Container(
             child: SizedBox(
@@ -163,7 +164,7 @@ class ProductWidget extends StatelessWidget {
                                     )
                                   ]
                               ),
-                              child: const MyShaderMask(
+                              child:  MyShaderMask(
                                 toolWidget: Icon(
                                   Icons.add,
                                   size: 30,

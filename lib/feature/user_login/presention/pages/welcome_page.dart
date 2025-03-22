@@ -68,13 +68,13 @@ class WelcomePage extends StatelessWidget {
                         FadeInUp(
                             delay: const Duration(milliseconds: 0),
                             child: MyButtonNoBackground(
-                              context,
-                                textButton: 'انشاء حساب',
+                                 context,
+                                textButton: 'تسجيل الدخول',
                                 Height: sizeOfScreen.height*0.1*0.75,
                                 Width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
-          
+
                                 onPressed: (){
-                                  context.pushReplacement(SignupPage(fromWelcompage: true,));
+                                  context.pushReplacement(LoginScreen(fromWelcompage: true,));
                                 }
                             )
                         ),
@@ -83,16 +83,17 @@ class WelcomePage extends StatelessWidget {
                             delay: const Duration(milliseconds: 0),
                             child: MyButtonWithBackground(
                               context: context,
-                                textButton: 'تسجيل الدخول',
+                                textButton: 'انشاء حساب',
                                 height: sizeOfScreen.height*0.1*0.75,
                                 width: sizeOfScreen.width>sizeOfScreen.height? sizeOfScreen.height-100:double.infinity,
           
                                 onPressed: (){
-                                  context.pushReplacement(LoginScreen(fromWelcompage: true,));
+                                  context.pushReplacement(SignupPage(fromWelcompage: true,));
                                 }
                             )
                         ),
                         20.SH,
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

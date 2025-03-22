@@ -3,24 +3,29 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-
+import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
+import 'package:todo_apps/core/component/my_custom_loading.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import 'package:todo_apps/core/network/remote/remote_dio.dart';
 import 'package:todo_apps/feature/market/presention/page/product_details_screen.dart';
 
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
 import '../../../../core/component/my_custom_shadermask.dart';
+import '../../../../core/utils/app_constants/blog_app_constants.dart';
 import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
+import '../../data/model/product_response.dart';
 import '../explore/product_widget.dart';
 import 'cart_screen.dart';
 
 
+
 class ExploreScreen extends StatefulWidget {
-  final List<Product>? categoryProducts;
+  final List<ProductDataManage>? categoryProducts;
 
    ExploreScreen({Key? key, this.categoryProducts}) : super(key: key);
 
@@ -30,10 +35,10 @@ class ExploreScreen extends StatefulWidget {
 
 
 class _ExploreScreenState extends State<ExploreScreen> {
-  List<Product>? _products;
-  List<Product>? _originalProducts;
+  List<ProductDataManage>? _products;
+  List<ProductDataManage>? _originalProducts;
   bool SafeProductInOnTime=false;
-
+  String nextPageUrlWithPaginate="Start";
 
 
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
@@ -41,9 +46,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   int _indexOfCatogry=0;
 
-
+  late ProductResponse productResponse;
 
   TextEditingController _productSearchController = TextEditingController();
+
 
 
   bool _isContainerVisible = false;
@@ -53,7 +59,86 @@ class _ExploreScreenState extends State<ExploreScreen> {
       _isContainerVisible = !_isContainerVisible;
     });
   }
+
+
+
+
+
+  void getProductsDataOfNextPageWithPaginate(String nextPageUrl)async{
+   // print(nextPageUrl);
+   try{
+     print(("///////////////"));
+   /*  print(productResponse.data.currentPage);
+     print(productsUrl+"?page="+(productResponse.data.currentPage+2).toString());
+     print(("///////////////"));*/
+    var response= await DioHelper.get(url: productsUrl+"?page="+(productResponse.data.currentPage+1).toString());
+
+
+    if(response.statusCode==200||response.statusCode==201){
+      try{
+
+setState(() {
+  productResponse = ProductResponse.fromJson(response.data);
+
+});
+    }catch(e){
+        print("kkkkkkkkkkkkkkkkkk");
+        print(e);
+      }
+
+     setState(() {
+       nextPageUrlWithPaginate=productResponse.data.nextPageUrl!;
+     });
+
+      print(productResponse);
+      Provider.of<Products>(context, listen: false).addAllProducts(productResponse.data.data);
+
+    }
+
+   }catch(e){
+
+   }
+  }
+
+
+
+  void getProductsDataOfFirstPageWithPaginate()async{
+   // final ProductResponse
+    try{
+      var response= await DioHelper.get(
+          url: productsUrl,
+      );
+      if(response.statusCode==200||response.statusCode==201){
+        print("===================(json response)=================");
+        print(response);
+        print("===================(fromjson response)=================");
+        try {
+          productResponse = ProductResponse.fromJson(response.data);
+          setState(() {
+            nextPageUrlWithPaginate=productResponse.data.nextPageUrl!;
+          });
+          Provider.of<Products>(context, listen: false).addAllProducts(productResponse.data.data);
+
+        }catch(e){
+          print(e);
+        }
+      }
+    }
+    catch(e){
+
+    }
+  }
+
+
+
+
+
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProductsDataOfFirstPageWithPaginate();
+  }
 
    dispose() {
 
@@ -65,6 +150,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
       _isContainerVisible!=false;
     }
   }
+
+
+
   Future<bool> _onWillPop()async{
     if(_isContainerVisible){
       setState(() {
@@ -86,6 +174,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     ];
 
     List<Widget>iconsOfCatogry=[
+
       Icon(Icons.hearing, color:_indexOfCatogry==0?Colors.white: Colors.grey,),
       Icon(Icons.visibility_outlined,color:_indexOfCatogry==1?Colors.white: Colors.grey,),
       Icon(Icons.accessible_forward,color:_indexOfCatogry==2?Colors.white: Colors.grey,)
@@ -138,7 +227,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               curve: Curves.fastOutSlowIn
             ),
 
-            jumpAnimation: JumpAnimationOptions(
+            jumpAnimation: const JumpAnimationOptions(
               duration: Durations.medium4
             ),
             createAddToCartAnimation: (runAddToCartAnimation) {
@@ -150,7 +239,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Container(
                   color: Theme.of(context).colorScheme.background,
                   child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
 
                     child: Column(
                       children: [
@@ -194,7 +283,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                    MyShaderMask(
                                        toolWidget: AddToCartIcon(
                                          key:cartKey,
-                                         badgeOptions: BadgeOptions(
+                                         badgeOptions: const BadgeOptions(
                                            active: true,
                                            backgroundColor: Color(0x00000000)
                     
@@ -222,7 +311,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                             ),
                                             child: Center(
                                                 child: Text('${cart.itemCount}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 10,color: Colors.white),
                                                 )
                                             )
@@ -241,14 +330,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             height: 70,
                             width: double.infinity,
                             child:ListView.builder(
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               itemCount: nameOfCatogry.length,
                               itemBuilder: (context, index) {
                                 final category = nameOfCatogry;
                                 return Column(
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.symmetric(horizontal: 5),
+                                      margin: const EdgeInsets.symmetric(horizontal: 5),
                                       child: InkWell(
                                         borderRadius:BorderRadius.circular(20) ,
                                         child: Container(
@@ -256,9 +345,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     
                     
                     
-                                          padding: EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                                              borderRadius: const BorderRadius.all(Radius.circular(20)),
                                               gradient: index==_indexOfCatogry?
                                               MyLinearGradient:
                                               LinearGradient(
@@ -276,7 +365,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                                     color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                                                     // spreadRadius: 3,
                                                     blurRadius: 7,
-                                                    offset: Offset(0,0)
+                                                    offset: const Offset(0,0)
                                                 )
                                               ]
                                           ),
@@ -318,41 +407,50 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     
                         Container(
                           height: size.height-270,
-                          child: AnimationLimiter(
+                          child: _products!.length==0?const MyCustomLoading()
+                              :AnimationLimiter(
                             child: GridView.builder(
                               shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+
                               itemBuilder: (_, index) {
-                    
-                                Product product= _products![index];
-                              return  AnimationConfiguration.staggeredList(
-                                  position: index,
-                                  delay: const Duration(milliseconds: 100),
-                                  child: SlideAnimation(
-                                    duration: const Duration(milliseconds: 1000),
-                                    curve: Curves.decelerate,
-                                    verticalOffset: -250,
-                                    child: ScaleAnimation(
+                                if(index==_products!.length){
+                                  getProductsDataOfNextPageWithPaginate(nextPageUrlWithPaginate);
+
+                                  return SizedBox(
+                                    width: double.infinity,
+                                    child: MyCustomLoading(),
+                                  );
+                                }else{
+                                  return  AnimationConfiguration.staggeredList(
+                                    position: index,
+                                    delay: const Duration(milliseconds: 100),
+                                    child: SlideAnimation(
                                       duration: const Duration(milliseconds: 1000),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                      child: ChangeNotifierProvider.value(
-                                        value: _products![index],
-                                        child: InkWell(
-                                          borderRadius: BorderRadius.circular(10),
-                                          onTap: () {
-                                            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                                              return ProductDetailsScreen(product: _products![index]);
-                                            }));
-                                          },
-                                          child: ProductWidget(onClick: listClick),
+                                      curve: Curves.decelerate,
+                                      verticalOffset: -250,
+                                      child: ScaleAnimation(
+                                        duration: const Duration(milliseconds: 1000),
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                        child: ChangeNotifierProvider.value(
+                                          value: _products![index],
+                                          child: InkWell(
+                                            borderRadius: BorderRadius.circular(10),
+                                            onTap: () {
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                                                return ProductDetailsScreen(product: _products![index]);
+                                              }));
+                                            },
+                                            child: ProductWidget(onClick: listClick),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
                               },
-                              itemCount: _products!.length,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              itemCount: nextPageUrlWithPaginate != null?_products!.length+1:_products!.length,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount:2,
                                 // childAspectRatio: 200 / 220,
                                 crossAxisSpacing: 16.0,
@@ -360,13 +458,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ),
                 AnimatedPositioned(
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   top: _isContainerVisible ? 0 : -300,
                   left: 0,
@@ -376,7 +474,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       // لمنع إغلاق الحاوية عند الضغط داخلها
                     },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 3,vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 3,vertical: 2),
                       child: Container(
                         decoration: BoxDecoration(
                       
@@ -387,7 +485,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                                   // spreadRadius: 3,
                                   blurRadius: 7,
-                                  offset: Offset(0,0)
+                                  offset: const Offset(0,0)
                               )
                             ]
                         ),
@@ -410,7 +508,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     ]
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   child: SizedBox(
                                     height: 50,
                                     child: TextFormField(
@@ -447,7 +545,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                           ),
                                           prefixIcon:  MyShaderMask(
                                             toolWidget: IconButton(
-                                              icon: Icon(Icons.clear),
+                                              icon: const Icon(Icons.clear),
                                               onPressed: () {
                                                 Provider.of<Products>(context, listen: false).searchByName('');
 
