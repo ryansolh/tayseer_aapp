@@ -36,7 +36,7 @@ class ProductWidget extends StatelessWidget {
    }*/
 
   void addProductToCart(BuildContext context, ProductDataManage product, Cart cart) {
-    cart.addItem(product.id.toString(), product.price, product.name, product.thumbImage);
+    cart.addItem(product.id.toString(), product.price!, product.name!, product.thumbImage!);
   }
   /*void addProductToFav(BuildContext context, Product product, Fav fav) {
     fav.addItem(product.id, product.price, product.title, product.imageUrl);
@@ -65,7 +65,7 @@ class ProductWidget extends StatelessWidget {
 
 
       return CachedNetworkImage(
-        imageUrl:ImageBaseUrl+product.thumbImage,
+        imageUrl:baseUrl+product.thumbImage!,
         imageBuilder: (context, imageProvider) {
           return Container(
             child: SizedBox(
@@ -111,7 +111,7 @@ class ProductWidget extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                product.name,
+                                product.name!,
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),

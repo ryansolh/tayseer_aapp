@@ -1,7 +1,7 @@
 
-String baseUrl="http://192.168.43.93:8080/api/";
+String baseUrl="http://192.168.43.93:8080/";
+String apiUrl="api/";
 
-String ImageBaseUrl="http://192.168.43.93:8080/";
 
 String signUpUrl='register/';
 String loginUrl='login/';

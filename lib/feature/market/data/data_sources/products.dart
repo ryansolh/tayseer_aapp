@@ -14,15 +14,12 @@ class Products with ChangeNotifier {
  final List<ProductDataManage> _products=[];
 
   var _searchText='';
+  var _catogeryText='';
 
   List<ProductDataManage> get items {
 
-      if(_searchText==''){
-       // print(ProductResposeModel.fromJson(productResponseData).responseData.products);
-        return [..._products];
-      }else{
-        return [..._products.where((prod)=>prod.name.contains(_searchText))];
-      }
+        return [..._products.where((prod)=>prod.name!.contains(_searchText)&&prod.category!.name!.contains(_catogeryText))];
+
 
   }
 
@@ -110,8 +107,22 @@ class Products with ChangeNotifier {
       _searchText = '';
       notifyListeners();
     }
+
     else{
       _searchText = searchText;
+      notifyListeners();
+    }
+
+  }
+
+  void viewByCatogery(String catogeryText) {
+    if(catogeryText.isEmpty||catogeryText=='') {
+      _catogeryText = '';
+      notifyListeners();
+    }
+
+    else{
+      _catogeryText = catogeryText;
       notifyListeners();
     }
 

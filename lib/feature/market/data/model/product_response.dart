@@ -398,38 +398,12 @@
 
 import 'package:todo_apps/feature/market/data/model/product.dart';
 
-class ProductImageGallery {
-  final int id;
-  final String image;
-  final int productId;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-
-  ProductImageGallery({
-    required this.id,
-    required this.image,
-    required this.productId,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  factory ProductImageGallery.fromJson(Map<String, dynamic> json) {
-    return ProductImageGallery(
-      id: json['id'],
-      image: json['image'],
-      productId: json['product_id'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
-  }
-}
-
 
 
 class ProductResponse {
-  final bool success;
-  final String message;
-  final ProductData data;
+  final bool ? success;
+  final String ? message;
+  final ProductData ? data;
 
   ProductResponse({
     required this.success,
@@ -450,8 +424,8 @@ class ProductResponse {
 
 class Link {
   final String? url;
-  final String label;
-  final bool active;
+  final String ? label;
+  final bool ? active;
 
   Link({
     this.url,
@@ -475,19 +449,19 @@ class Link {
 
 
 class ProductData {
-  final int currentPage;
-  final List<ProductDataManage> data;
-  final String firstPageUrl;
-  final int from;
-  final int lastPage;
-  final String lastPageUrl;
-  final List<Link> links;
-  final String? nextPageUrl;
-  final String path;
-  final int perPage;
+  final int ? currentPage;
+  final List<ProductDataManage> ? data;
+  final String ? firstPageUrl;
+  final int ? from;
+  final int ? lastPage;
+  final String ? lastPageUrl;
+  final List<Link> ? links;
+  final String ? nextPageUrl;
+  final String ? path;
+  final int ? perPage;
   final String? prevPageUrl;
-  final int to;
-  final int total;
+  final int ? to;
+  final int ? total;
 
   ProductData({
     required this.currentPage,

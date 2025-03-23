@@ -13,7 +13,7 @@ class DioHelper {
     dio = Dio(
       BaseOptions(
         receiveDataWhenStatusError: true,
-        baseUrl: baseUrl,
+        baseUrl: baseUrl+apiUrl,
 
       ),
     );

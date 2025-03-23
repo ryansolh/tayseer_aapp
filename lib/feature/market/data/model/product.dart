@@ -2,36 +2,36 @@
 import 'package:flutter/cupertino.dart';
 
 class ProductDataManage with ChangeNotifier{
-  final int id;
-  final String name;
-  final String slug;
-  final String thumbImage;
-  final int vendorId;
-  final int categoryId;
-  final int subCategoryId;
-  final int childCategoryId;
-  final int brandId;
-  final int qty;
-  final String shortDescription;
-  final String longDescription;
+  final int ? id;
+  final String ? name;
+  final String ? slug;
+  final String ? thumbImage;
+  final int ? vendorId;
+  final int ? categoryId;
+  final int ? subCategoryId;
+  final int ? childCategoryId;
+  final int ? brandId;
+  final int ? qty;
+  final String ? shortDescription;
+  final String ? longDescription;
   final String? videoLink;
-  final String sku;
-  final double price;
+  final String ? sku;
+  final double ? price;
   final double? offerPrice;
-  final String offerStartDate;
-  final String offerEndDate;
-  final String productType;
-  final int status;
-  final int isApproved;
+  final String ? offerStartDate;
+  final String ? offerEndDate;
+  final String ? productType;
+  final int ? status;
+  final int ? isApproved;
   final String? seoTitle;
   final String? seoDescription;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime ? createdAt;
+  final DateTime ? updatedAt;
   final double? reviewsAvgRating;
-  final int reviewsCount;
-  final List<VariantOfProduct> variants;
-  final CategoryOfProduct category;
-  final List<ProductImageGallery> productImageGalleries;
+  final int ? reviewsCount;
+  final List<VariantOfProduct> ? variants;
+  final CategoryOfProduct ? category;
+  final List<ProductImageGallery> ? productImageGalleries;
 
   ProductDataManage({
     required this.id,
@@ -104,12 +104,12 @@ class ProductDataManage with ChangeNotifier{
 
 
 class VariantOfProduct {
-  final int id;
-  final int productId;
-  final String name;
-  final int status;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int ? id;
+  final int ? productId;
+  final String ? name;
+  final int ? status;
+  final DateTime ? createdAt;
+  final DateTime ? updatedAt;
 
   VariantOfProduct({
     required this.id,
@@ -134,13 +134,13 @@ class VariantOfProduct {
 
 
 class CategoryOfProduct {
-  final int id;
-  final String name;
-  final String slug;
-  final String icon;
-  final int status;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int ? id;
+  final String ? name;
+  final String ? slug;
+  final String ? icon;
+  final int ? status;
+  final DateTime ? createdAt;
+  final DateTime ? updatedAt;
 
   CategoryOfProduct({
     required this.id,
@@ -169,11 +169,11 @@ class CategoryOfProduct {
 
 
 class ProductImageGallery {
-  final int id;
-  final String image;
-  final int productId;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int ? id;
+  final String ? image;
+  final int ? productId;
+  final DateTime ? createdAt;
+  final DateTime ? updatedAt;
 
   ProductImageGallery({
     required this.id,

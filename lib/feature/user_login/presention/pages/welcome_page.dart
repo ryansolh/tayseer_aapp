@@ -105,7 +105,7 @@ class WelcomePage extends StatelessWidget {
                                 textSize: sizeOfScreen.height*0.017,
                               ),
                               onTap: (){
-                                context.pushReplacement(const NavigationScreen());
+                                context.push(const NavigationScreen());
                               },
                             ),
                             MySubTitle(

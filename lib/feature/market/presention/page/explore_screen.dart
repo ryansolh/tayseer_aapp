@@ -38,7 +38,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   List<ProductDataManage>? _products;
   List<ProductDataManage>? _originalProducts;
   bool SafeProductInOnTime=false;
-  String nextPageUrlWithPaginate="Start";
 
 
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
@@ -46,7 +45,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   int _indexOfCatogry=0;
 
-  late ProductResponse productResponse;
+   ProductResponse? productResponse;
 
   TextEditingController _productSearchController = TextEditingController();
 
@@ -71,27 +70,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
    /*  print(productResponse.data.currentPage);
      print(productsUrl+"?page="+(productResponse.data.currentPage+2).toString());
      print(("///////////////"));*/
-    var response= await DioHelper.get(url: productsUrl+"?page="+(productResponse.data.currentPage+1).toString());
+    var response= await DioHelper.get(url: productsUrl+"?page="+(productResponse!.data!.currentPage!+1).toString());
 
 
     if(response.statusCode==200||response.statusCode==201){
       try{
-
-setState(() {
   productResponse = ProductResponse.fromJson(response.data);
-
-});
     }catch(e){
         print("kkkkkkkkkkkkkkkkkk");
         print(e);
       }
 
-     setState(() {
-       nextPageUrlWithPaginate=productResponse.data.nextPageUrl!;
-     });
+
 
       print(productResponse);
-      Provider.of<Products>(context, listen: false).addAllProducts(productResponse.data.data);
+      Provider.of<Products>(context, listen: false).addAllProducts(productResponse!.data!.data!);
 
     }
 
@@ -114,10 +107,8 @@ setState(() {
         print("===================(fromjson response)=================");
         try {
           productResponse = ProductResponse.fromJson(response.data);
-          setState(() {
-            nextPageUrlWithPaginate=productResponse.data.nextPageUrl!;
-          });
-          Provider.of<Products>(context, listen: false).addAllProducts(productResponse.data.data);
+
+          Provider.of<Products>(context, listen: false).addAllProducts(productResponse!.data!.data!);
 
         }catch(e){
           print(e);
@@ -167,17 +158,32 @@ setState(() {
 
     Size size=MediaQuery.of(context).size;
 
+    List<String>catogerySerch=[
+      '',
+      'إعاقة سمعية',
+      'إعاقة بصرية',
+      'إعاقة حركية',
+      'إعاقة إدراكية',
+      'إعاقة مختلفة',
+    ];
+
     List<String>nameOfCatogry=[
-      'أجهزة سمعية',
-      'أجهزة بصرية',
-      'معدات تنقل'
+      'الكل',
+      'منتجات للصم وضعاف السمع',
+      'منتجات للمكفوفين وضعاف البصر',
+      'منتجات لذوي الاحتياجات الحركية',
+      'منتجات لذوي صعوبات التعلم',
+      'منتجات الإعاقات اخرى'
     ];
 
     List<Widget>iconsOfCatogry=[
+      Icon(Icons.add, color:_indexOfCatogry==0?Color(0x00000000): Color(0x00000000),size: 0,),
+      Icon(Icons.hearing, color:_indexOfCatogry==1?Colors.white: Colors.grey,),
+      Icon(Icons.visibility_outlined,color:_indexOfCatogry==2?Colors.white: Colors.grey,),
+      Icon(Icons.accessible_forward,color:_indexOfCatogry==3?Colors.white: Colors.grey,),
+      Icon(Icons.psychology,color:_indexOfCatogry==4?Colors.white: Colors.grey,),
+      Icon(Icons.add, color:_indexOfCatogry==5?Color(0x00000000): Color(0x00000000),size: 0,),
 
-      Icon(Icons.hearing, color:_indexOfCatogry==0?Colors.white: Colors.grey,),
-      Icon(Icons.visibility_outlined,color:_indexOfCatogry==1?Colors.white: Colors.grey,),
-      Icon(Icons.accessible_forward,color:_indexOfCatogry==2?Colors.white: Colors.grey,)
     ];
 
 
@@ -391,7 +397,10 @@ setState(() {
                                           setState(() {
                                             _indexOfCatogry=index;
                                           });
+                                          Provider.of<Products>(context, listen: false).viewByCatogery(catogerySerch[index]);
+
                                         },
+
                                       ),
                                     ),
                                     //SizedBox(width: 20,)
@@ -407,20 +416,24 @@ setState(() {
                     
                         Container(
                           height: size.height-270,
-                          child: _products!.length==0?const MyCustomLoading()
+                          child: _products!.length==0&&Provider.of<Products>(context, listen: false).items.length==0
+                          ?const MyCustomLoading()
                               :AnimationLimiter(
-                            child: GridView.builder(
+                            child:productResponse!=null? GridView.builder(
                               shrinkWrap: true,
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-
+                              physics: const AlwaysScrollableScrollPhysics(),
                               itemBuilder: (_, index) {
                                 if(index==_products!.length){
-                                  getProductsDataOfNextPageWithPaginate(nextPageUrlWithPaginate);
+                                  if((productResponse!.data!.nextPageUrl!) != null){
+                                    getProductsDataOfNextPageWithPaginate(productResponse!.data!.nextPageUrl!);
+                                    return const SizedBox(
+                                      width: double.infinity,
+                                      child: MyCustomLoading(),
+                                    );
+                                  }
 
-                                  return SizedBox(
-                                    width: double.infinity,
-                                    child: MyCustomLoading(),
-                                  );
+
                                 }else{
                                   return  AnimationConfiguration.staggeredList(
                                     position: index,
@@ -449,14 +462,14 @@ setState(() {
                                   );
                                 }
                               },
-                              itemCount: nextPageUrlWithPaginate != null?_products!.length+1:_products!.length,
+                              itemCount: productResponse!.data!.nextPageUrl != null?_products!.length+1:_products!.length,
                               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount:2,
                                 // childAspectRatio: 200 / 220,
                                 crossAxisSpacing: 16.0,
                                 mainAxisSpacing: 16.0,
                               ),
-                            ),
+                            ):MyCustomLoading(),
                           ),
                         )
                       ],

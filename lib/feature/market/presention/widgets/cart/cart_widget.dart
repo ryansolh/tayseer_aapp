@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
+import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 
 import '../../../../../core/component/my_custom_buttons.dart';
 import '../../../data/model/cart.dart';
@@ -98,7 +99,7 @@ class CartWidget extends StatelessWidget {
             radius: 30.0,
 
             backgroundColor: Colors.transparent,
-            child: CustomImageViewer.show(context: context, url: imageUrl),
+            child: CustomImageViewer.show(context: context, url: baseUrl+imageUrl),
           ),
         ),
       ),

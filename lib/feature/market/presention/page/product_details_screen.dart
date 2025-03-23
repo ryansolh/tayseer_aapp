@@ -9,6 +9,7 @@ import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
+import '../../../../core/component/my_custom_slide_fade_transition.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/services/market_services/add_or_remove_product_to_cart.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
@@ -70,175 +71,188 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   Hero(
                     tag: "${widget.product!.id}",
                     child: Container(
-                      // height: size.height * 0.3,
+                        height: size.height/2.4,
                       child: CustomImageViewer.show(
+                        radius: 0,
 
                           context: context,
-                          url:ImageBaseUrl+ widget.product!.thumbImage,
-
+                          url:baseUrl+ widget.product!.thumbImage!,
                       )
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: size.height/2.8),
-                    padding: EdgeInsets.only(
-                      top: kDefaultPadding,
-                      left: kDefaultPadding,
-                      right: kDefaultPadding,
-                    ),
-                    // height: 500,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
+                    height:size.height ,
+                    child: Container(
+                      margin: EdgeInsets.only(top: size.height/2.8),
+                      padding: EdgeInsets.only(
+                        top: kDefaultPadding,
+                        left: kDefaultPadding,
+                        right: kDefaultPadding,
                       ),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Column(
-                          textDirection: TextDirection.rtl,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.product!.name,
-                              style:Theme.of(context).textTheme.labelSmall ,
+                      // height: 500,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Column(
                               textDirection: TextDirection.rtl,
-                            ),
-                            SizedBox(height: kDefaultPadding),
-                            Row(
-                              textDirection: TextDirection.rtl,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        style: Theme.of(context).textTheme.labelSmall,
-                                        children: [
-                                          TextSpan(text: "السعر\n"),
-                                          TextSpan(
-
-                                            locale: Locale('ar'),
-                                            text:  ' ${widget.product!.price.toString()}  ',
-
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                Container(
-                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
-                                  child: RichText(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                               MySubTitle(
+                                   textOfSubTitle: widget.product!.name!,
+                                   startDelay: 0,
+                                 textSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+                               ),
+                                SizedBox(height: kDefaultPadding),
+                        SlideFadeTransition(
+                          curve: Curves.elasticInOut,
+                          delayStart: Duration(milliseconds: 50),
+                          animationDuration: const Duration(milliseconds: 1200),
+                          offset: 2.5,
+                          direction: Direction.horizontal,
+                          child:Row(
+                            textDirection: TextDirection.rtl,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  RichText(
                                     text: TextSpan(
                                       style: Theme.of(context).textTheme.labelSmall,
-
                                       children: [
-                                        TextSpan(text: "\n",),
-                                        TextSpan(text: "ريال يمني",),
-                                        /* TextSpan(text:
-                    "${product!.title.substring(product!.title.indexOf('/')
-                        + 1, product!.title.length)}",
+                                        TextSpan(text: "السعر\n"),
+                                        TextSpan(
 
-                    )*/
+                                          locale: Locale('ar'),
+                                          text:  ' ${widget.product!.price.toString()}  ',
+
+                                        ),
                                       ],
                                     ),
                                   ),
+                                ],
+                              ),
+
+                              Container(
+                                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: Theme.of(context).textTheme.labelSmall,
+
+                                    children: [
+                                      TextSpan(text: "\n",),
+                                      TextSpan(text: "ريال يمني",),
+                                      /* TextSpan(text:
+                        "${product!.title.substring(product!.title.indexOf('/')
+                            + 1, product!.title.length)}",
+
+                        )*/
+                                    ],
+                                  ),
                                 ),
+                              ),
+                            ],
+                          ),
+                        )
+
                               ],
                             ),
+                            10.SH,
+                                            
+                            //description
+                          MySubTitle(
+                            startDelay: 100,
+                            textOfSubTitle: widget.product!.shortDescription!,
+                          ),
+                                            
+                                            
+                            10.SH,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                //padding: EdgeInsets.all(6),
+                                decoration:BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    gradient:MyLinearGradient
+                                ),
+                                child: Center(
+                                  child: IconButton(
+                                    icon: Icon(Icons.remove,color: Colors.white,),
+                                    onPressed: (){
+                                      if(productQuantity>1){
+                                        cart.removeSingleItem(widget.product!.id.toString());
+                                      }
+                                      else{
+                                        cart.clear();
+                                      }
+                                    },
+                                  ),
+                                ),
+                                            
+                              ),
+                                            
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+                                child: Text(
+                                  // if our item is less  then 10 then  it shows 01 02 like that
+                                  productQuantity.toString()
+                                ),
+                              ),
+                              Container(
+                                            
+                                decoration:BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    gradient:MyLinearGradient
+                                ),
+                                child: Center(
+                                  child: IconButton(
+                                    icon: Icon(Icons.add,color: Colors.white,),
+                                    onPressed: (){
+                                      addProductToCart(context, widget.product!, cart);
+                                    },
+                                  ),
+                                ),
+                                            
+                              ),
+                                            
+                            ],
+                          ),
+                                            
+                            50.SH,
+                        Row(
+                          children: <Widget>[
+                                            
+                            Flexible(
+                              child: Container(
+                                  height: 50,
+                                            
+                                  margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
+                                  child: MyButtonWithBackground(
+                                    context: context,
+                                    fontSize: 15,
+                                            
+                                            
+                                    onPressed: (){
+                                   //   Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                                    },
+                                    textButton: "اذهب الى السلة",
+                                    // height: h*0.6
+                                            
+                                  )
+                              ),
+                            ),
+                          ],
+                        )
                           ],
                         ),
-                        10.SH,
-
-                        //description
-                      MySubTitle(
-                        startDelay: 0,
-                        textOfSubTitle: widget.product!.shortDescription!,
                       ),
-
-
-                        10.SH,
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                            //padding: EdgeInsets.all(6),
-                            decoration:BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                gradient:MyLinearGradient
-                            ),
-                            child: Center(
-                              child: IconButton(
-                                icon: Icon(Icons.remove,color: Colors.white,),
-                                onPressed: (){
-                                  if(productQuantity>1){
-                                    cart.removeSingleItem(widget.product!.id.toString());
-                                  }
-                                  else{
-                                    cart.clear();
-                                  }
-                                },
-                              ),
-                            ),
-
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-                            child: Text(
-                              // if our item is less  then 10 then  it shows 01 02 like that
-                              productQuantity.toString()
-                            ),
-                          ),
-                          Container(
-
-                            decoration:BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                gradient:MyLinearGradient
-                            ),
-                            child: Center(
-                              child: IconButton(
-                                icon: Icon(Icons.add,color: Colors.white,),
-                                onPressed: (){
-                                  addProductToCart(context, widget.product!, cart);
-                                },
-                              ),
-                            ),
-
-                          ),
-
-                        ],
-                      ),
-
-                        50.SH,
-                    Row(
-                      children: <Widget>[
-
-                        Flexible(
-                          child: Container(
-                              height: 50,
-
-                              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
-                              child: MyButtonWithBackground(
-                                context: context,
-                                fontSize: 15,
-
-
-                                onPressed: (){
-                               //   Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()));
-                                },
-                                textButton: "اذهب الى السلة",
-                                // height: h*0.6
-
-                              )
-                          ),
-                        ),
-                      ],
-                    )
-                      ],
                     ),
                   ),
                   // ProductTitleWithImage(product: widget.product)
