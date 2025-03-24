@@ -136,6 +136,7 @@ class ProductWidget extends StatelessWidget {
                       onTap: () {
                         onClick(widgetKey);
                         addProductToCart(context, product, cart);
+                        print(product.id);
                         print("Total Cart: " + cart.itemCount.toString());
 
                       },

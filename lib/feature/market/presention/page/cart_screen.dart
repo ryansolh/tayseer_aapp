@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 
 import 'package:provider/provider.dart';
+import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_buttons.dart';
+import '../../../../core/network/remote/remote_dio.dart';
+import '../../../../core/utils/app_constants/blog_app_constants.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/orders.dart';
 import '../widgets/cart/cart_widget.dart';
@@ -12,6 +17,9 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+   // List<CartItem> _cartItems=.
+
+    print(cart.items.values.toList());
     return Container(
       color: Theme.of(context).colorScheme.background,
       child: Column(
@@ -28,7 +36,7 @@ class CartScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      ':المجموع',
+                      ':المجموع الكلي',
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: MediaQuery.of(context).size.height*0.025),
                     ),
                     10.SW,
@@ -44,12 +52,51 @@ class CartScreen extends StatelessWidget {
                       //  height: 40,
                         context: context,
                       textButton: "اطلب الان",
-                      onPressed: (){
-                        Provider.of<Orders>(context, listen: false).addOrder(
-                          cart.items.values.toList(),
-                          cart.totalAmount,
-                        );
-                        cart.clear();
+                      onPressed: ()async{
+                        try{
+                          String cartItemsJson=cartItemsToJson(cart.items.values.toList());
+                          print("JSON Cart Items: ${cartItemsJson}");
+                                 List<dynamic> cartItems = json.decode(cartItemsJson);
+
+                          var response=await DioHelper.post(
+                              url: orderSendUrl,
+                            authorization: CacheHelper.getData(key: "token"),
+                            data: {
+                              "paymentMethod": "COD", //طريقة الدفع
+                              "paymentStatus": 0,// دفع ام لا |   تكون 0 في حال كانت طريقة الدفع COD
+                              "transactionId": "123456",// والله مانا داري
+                              "paidAmount": 100.00,
+                              "paidCurrencyName": "YER",
+                              "cart": cartItems,
+                              "address": {
+                                "name": "قيد تجربة",
+                                "email": "test@gmail.com",
+                                "phone": "+8801960000000",
+                                "country": "United States",
+                                "state": "test",
+                                "city": "California",
+                                "zip": "423432",
+                                "address": "هذه العنوان قيد التجربة",
+                                "street": "1731 Arbor Court Rawlins, WY 82301"
+                              },
+                              "shipping_method": {
+                                "name": "ةة",
+                                "cost": 20.00
+                              }
+                            }
+                          );
+                          if(response.statusCode==200||response.statusCode==201){
+                            print("=====================good==================");
+                            print(response.data);
+                          }
+                        }catch(e){
+                          print(e);
+                        }
+                        // Provider.of<Orders>(context, listen: false).addOrder(
+                        //   cart.items.values.toList(),
+                        //   cart.totalAmount,
+                        // );
+                        // cart.clear();
                       }
 
                     )
@@ -66,7 +113,7 @@ class CartScreen extends StatelessWidget {
                   cart.items.keys.toList()[i],
                   cart.items.values.toList()[i].price,
                   cart.items.values.toList()[i].quantity,
-                  cart.items.values.toList()[i].title,
+                  cart.items.values.toList()[i].name,
                   cart.items.values.toList()[i].imageUrl,
                 ),
               ),
