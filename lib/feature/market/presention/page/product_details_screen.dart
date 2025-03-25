@@ -7,12 +7,15 @@ import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 
 
+import '../../../../cache/cache_helper.dart';
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
 import '../../../../core/component/my_custom_slide_fade_transition.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
+import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../core/services/market_services/add_or_remove_product_to_cart.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../../user_login/presention/pages/signup_page.dart';
 import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
@@ -35,7 +38,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    final cartManage = Provider.of<Cart>(context, listen: false);
     final cart = Provider.of<Cart>(context);
     Size size = MediaQuery.of(context).size;
 
@@ -186,11 +189,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   child: IconButton(
                                     icon: Icon(Icons.remove,color: Colors.white,),
                                     onPressed: (){
-                                      if(productQuantity>1){
+                                      if(cart.quantityOfItem>0){
                                         cart.removeSingleItem(widget.product!.id.toString());
+                                        cartManage.updateQuantityOfItem(widget.product!.id.toString());
                                       }
                                       else{
-                                        cart.clear();
+                                        showCustomSnackbar
+                                          (
+                                            textColor: Colors.black,
+                                            title: "لا يتوفر لديك من هذا العنصر!",
+                                            subTitle: "يجب ان يكون لديك على الاقل عنصر واحد من هذا المنتج في السلة."
+                                        );
                                       }
                                     },
                                   ),
@@ -202,7 +211,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                                 child: Text(
                                   // if our item is less  then 10 then  it shows 01 02 like that
-                                  productQuantity.toString()
+                                  "${cart.quantityOfItem}"
                                 ),
                               ),
                               Container(
@@ -215,7 +224,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   child: IconButton(
                                     icon: Icon(Icons.add,color: Colors.white,),
                                     onPressed: (){
-                                      addProductToCart(context, widget.product!, cart);
+                                      if(CacheHelper.getData(key: "token")!=null){
+                                        addProductToCart(context, widget.product!);
+                                        print("Total Cart: " + cart.itemCount.toString());
+                                        cartManage.updateQuantityOfItem(widget.product!.id.toString());
+                                      }
+                                      else{
+                                        context.push(SignupPage(fromWelcompage: false,));
+                                        showCustomSnackbar
+                                          (
+                                            textColor: Colors.black,
+                                            title: " لايمكنك اضافة اي منتج",
+                                            subTitle: "يجب ان يكون لديك حساباً لتستطيع التسوق وشراء المنتجات"
+                                        );
+                                      }
                                     },
                                   ),
                                 ),

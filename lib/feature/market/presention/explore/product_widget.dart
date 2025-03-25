@@ -2,10 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:todo_apps/cache/cache_helper.dart';
+import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_shadermask.dart';
 import '../../../../core/component/my_custom_shimmer.dart';
+import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../../user_login/presention/pages/signup_page.dart';
 import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
@@ -134,11 +138,22 @@ class ProductWidget extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: InkWell(
                       onTap: () {
-                        onClick(widgetKey);
-                        addProductToCart(context, product, cart);
-                        print(product.id);
-                        print("Total Cart: " + cart.itemCount.toString());
-
+                       if(CacheHelper.getData(key: "token")!=null){
+                         onClick(widgetKey);
+                         addProductToCart(context, product, cart);
+                         print(product.id);
+                         print("Total Cart: " + cart.itemCount.toString());
+                     //    cart.
+                       }
+                       else{
+                         context.push(SignupPage(fromWelcompage: false,));
+                         showCustomSnackbar
+                           (
+                           textColor: Colors.black,
+                             title: " لايمكنك اضافة اي منتج",
+                             subTitle: "يجب ان يكون لديك حساباً لتستطيع التسوق وشراء المنتجات"
+                         );
+                       }
                       },
                       child: Container(
                         // color: Theme.of(context).colorScheme.background!,

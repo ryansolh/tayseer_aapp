@@ -188,6 +188,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 
 
+    final cartManage = Provider.of<Cart>(context, listen: false);
     final cart = Provider.of<Cart>(context);
     if (widget.categoryProducts == null || widget.categoryProducts!.isEmpty) {
       _products = Provider.of<Products>(context).items;
@@ -450,10 +451,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                           child: InkWell(
                                             borderRadius: BorderRadius.circular(10),
                                             onTap: () {
+                                              cartManage.updateQuantityOfItem(_products![index].id.toString());
+
                                               Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
                                                 return ProductDetailsScreen(product: _products![index]);
-                                              }));
-                                            },
+                                              }));                                            },
                                             child: ProductWidget(onClick: listClick),
                                           ),
                                         ),

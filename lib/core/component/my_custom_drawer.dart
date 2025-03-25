@@ -140,7 +140,8 @@ class _MyDrawerState extends State<MyDrawer> {
                          showCustomSnackbar
                            (
                              title: "✔ تمت العملية",
-                             subTitle: "لقد تم تسجيل خروجك بنجاح."
+                             subTitle: "لقد تم تسجيل خروجك بنجاح.",
+                           textColor: Colors.black
                          );
                          context.pop();
                        }

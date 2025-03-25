@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_apps/core/component/my_custom_shadermask.dart';
 
 void showCustomSnackbar({
   required String title,
@@ -10,14 +11,14 @@ void showCustomSnackbar({
   if(backgroundColor == const Color(0xFF81A7D6)){
     Get.snackbar(
       "", "",
-      titleText: Text(
+      titleText: MyShaderMask(toolWidget: Text(
         title,
         textDirection: TextDirection.rtl,
         style: TextStyle(
           color: textColor,
           fontWeight: FontWeight.bold,
         ),
-      ),
+      ), radius: 0),
       messageText: Text(
         subTitle,
         textDirection: TextDirection.rtl,
