@@ -6,7 +6,7 @@ import 'package:todo_apps/feature/user_login/presention/pages/otp_page.dart';
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
-import '../widgets/input_widget.dart';
+import '../../../../core/component/input_widget.dart';
 class ForgetPassPage extends StatelessWidget {
    ForgetPassPage({super.key});
   TextEditingController emailController = TextEditingController();

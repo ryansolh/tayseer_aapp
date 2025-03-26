@@ -1,53 +1,77 @@
+/* ******************************************
+                 *** START***
+****************************************** */
+
 import 'package:flutter/material.dart';
-import 'package:todo_apps/core/component/my_custom_title.dart';
-import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
-import '../../component/my_custom_subtitle.dart';
+class LDropDownButton extends StatefulWidget {
+  const LDropDownButton({super.key});
 
-Future<void> paymentAndOrderReceiptMethodDialog({required BuildContext context,}) async {
-  String? shippingMethodGroupValue= "Free Shipping";
-
-     showDialog(context: context, builder: (context) {
-       return Container(
-         color: Theme.of(context).colorScheme.background,
-         child: SingleChildScrollView(
-           child: Column(
-             children: [
-               const Center(
-                 child: MyTitle(
-                   startDelay: 0,
-                   textOfTitle: "طريقة الدفع واستلام الطلب",
-                 ),
-               ),
-               const Center(
-                 child: MySubTitle(
-                   startDelay: 0,
-                   textOfSubTitle:"قم باختيار طريقة تسليم طلبك. ثم قم باختيار طريقة دفع المبلغ الخاص بمنتجات طلبك.",
-                 ),
-               ),
-               20.SH,
-               const Text("-إختر اين تريد استلام المنتج."),
-               // const ListTile(
-               //   title: Text("التسليم عند البائع"),
-               //   trailing: Radio(
-               //     value: "Free Shipping",
-               //     groupValue:"",
-               //     onChanged: ,
-               //   ),
-               // )
-               // const ListTile(
-               //   title: Text("توصيل طلبك او شحنه اليك"),
-               //   trailing: Radio(
-               //     value: "Express Delivery",
-               //
-               //   ),
-               // )
-             ],
-           ),
-         ),
-       );
-
-
-     },
-     );
+  @override
+  State<LDropDownButton> createState() => _LDropDownButtonState();
 }
+
+class _LDropDownButtonState extends State<LDropDownButton> {
+  String? dropdownValue = 'Green';
+  List<String> dropdownItems = <String>[
+    'Green',
+    'Red',
+    'Yellow',
+    'Blue',
+    'Pink',
+    'Orange'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: _getColor(dropdownValue!),
+      child: Center(
+        child: DropdownButton<String>(
+          value: dropdownValue,
+          icon: const Icon(Icons.arrow_drop_down),
+          iconSize: 36,
+          elevation: 8,
+          style: const TextStyle(color: Colors.deepPurple, fontSize: 36),
+          onChanged: (String? newValue) {
+            setState(() {
+              dropdownValue = newValue;
+            });
+          },
+          items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Color _getColor(String color) {
+    if (color.compareTo('Green') == 0) {
+      return Colors.green;
+    } else if (color.compareTo('Red') == 0) {
+      return Colors.red;
+    } else if (color.compareTo('Yellow') == 0) {
+      return Colors.yellow;
+    } else if (color.compareTo('Pink') == 0) {
+      return Colors.pink;
+    } else if (color.compareTo('Orange') == 0) {
+      return Colors.orange;
+    } else if (color.compareTo('Blue') == 0) {
+      return Colors.blue;
+    } else {
+      return Colors.white;
+    }
+  }
+}
+
+/* ******************************************
+*********************************************
+*********************************************
+              *** END***
+*********************************************
+*********************************************
+****************************************** */

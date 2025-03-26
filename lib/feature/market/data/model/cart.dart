@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 
 class CartItem {
-  final String id; // تغيير إلى int
+  final int id; // تغيير إلى int
   final String name;
   final int quantity;
   final double price;
@@ -39,7 +39,7 @@ class CartItem {
   }
 
   CartItem copyWith({
-    String? id,
+    int? id,
     String? title,
     int? quantity,
     double? price,
@@ -128,7 +128,7 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
         productId,
             () => CartItem(
-          id: DateTime.now().toString(),
+          id: int.parse(productId),
           name: name,
           price: price,
           quantity: 1,

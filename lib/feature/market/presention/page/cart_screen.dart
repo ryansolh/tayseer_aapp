@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/component/my_custom_subtitle.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
+import 'package:todo_apps/feature/market/presention/page/pyment_and_order_receipt_method_page.dart';
 
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/network/remote/remote_dio.dart';
@@ -56,49 +57,12 @@ class CartScreen extends StatelessWidget {
                       //  height: 40,
                         context: context,
                       textButton: "اطلب الان",
-                      onPressed: ()async{
+                      onPressed: (){
+                        context.push(PaymentAndOrderReceiptMethodDialog());
                        if(CacheHelper.getData(key: "token")!=null){
                          if(cart.items.length>0){
                          //  paymentAndOrderReceiptMethodDialog( context: context,);
-                           try{
-                             String cartItemsJson=cartItemsToJson(cart.items.values.toList());
-                             print("JSON Cart Items: ${cartItemsJson}");
-                             List<dynamic> cartItems = json.decode(cartItemsJson);
 
-                             var response=await DioHelper.post(
-                                 url: orderSendUrl,
-                                 authorization: CacheHelper.getData(key: "token"),
-                                 data: {
-                                   "paymentMethod": "COD", //طريقة الدفع
-                                   "paymentStatus": 0,// دفع ام لا |   تكون 0 في حال كانت طريقة الدفع COD
-                                   "transactionId": "123456",// والله مانا داري
-                                   "paidAmount": 100.00,
-                                   "paidCurrencyName": "YER",
-                                   "cart": cartItems,
-                                   "address": {
-                                     "name": "قيد تجربة",
-                                     "email": "test@gmail.com",
-                                     "phone": "+8801960000000",
-                                     "country": "United States",
-                                     "state": "test",
-                                     "city": "California",
-                                     "zip": "423432",
-                                     "address": "هذه العنوان قيد التجربة",
-                                     "street": "1731 Arbor Court Rawlins, WY 82301"
-                                   },
-                                   "shipping_method": {
-                                     "name": "ةة",
-                                     "cost": 20.00
-                                   }
-                                 }
-                             );
-                             if(response.statusCode==200||response.statusCode==201){
-                               print("=====================good==================");
-                               print(response.data);
-                             }
-                           }catch(e){
-                             print(e);
-                           }
                          }
                          else{
                            showCustomSnackbar
@@ -136,7 +100,7 @@ class CartScreen extends StatelessWidget {
               child:cart.items.length>0? ListView.builder(
                 itemCount: cart.items.length,
                 itemBuilder: (ctx, i) => CartWidget(
-                  cart.items.values.toList()[i].id,
+                  cart.items.values.toList()[i].id.toString(),
                   cart.items.keys.toList()[i],
                   cart.items.values.toList()[i].price,
                   cart.items.values.toList()[i].quantity,

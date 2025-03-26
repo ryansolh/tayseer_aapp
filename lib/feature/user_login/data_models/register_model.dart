@@ -47,6 +47,7 @@ class UserData {
   final String email;
   final String phone;
   final String? image;
+  final String? role;
   final String address;
   final List<String> disabilities;
 
@@ -56,6 +57,7 @@ class UserData {
     required this.email,
     required this.phone,
     this.image,
+    this.role,
     required this.address,
     required this.disabilities,
   });
@@ -67,6 +69,7 @@ class UserData {
       email: json['email'],
       phone: json['phone'],
       image: json['image'],
+      role: json.containsKey('role') ? json['data']:"user",
       address: json['address'],
       disabilities: List<String>.from(json['disabilities']),
     );

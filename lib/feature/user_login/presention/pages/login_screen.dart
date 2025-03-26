@@ -15,7 +15,7 @@ import '../../../../core/component/my_custom_title.dart';
 import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../basic_navigation_page/presention/page/navigation_page.dart';
 import '../../data_models/register_model.dart';
-import '../widgets/input_widget.dart';
+import '../../../../core/component/input_widget.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatefulWidget {
@@ -247,20 +247,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   try {
                                     UserResponseModel userRegisterResponse = UserResponseModel.fromJson(response.data);
                                     print(userRegisterResponse);
-                                    setState(() {
-
-                                      CacheHelper.saveData(key: "token", value: "Bearer ${userRegisterResponse.user!.accessToken}");
-                                      CacheHelper.saveData(key: "userId", value:userRegisterResponse.data!.userId );
-                                      CacheHelper.saveData(key: "name", value:userRegisterResponse.data!.name );
-                                      CacheHelper.saveData(key: "image", value:userRegisterResponse.data!.image );
-                                      CacheHelper.saveData(key: "email", value:userRegisterResponse.data!.email );
-                                      CacheHelper.saveData(key: "address", value:userRegisterResponse.data!.address );
-                                      CacheHelper.saveData(key: "phone", value:userRegisterResponse.data!.phone );
-                                      CacheHelper.saveData(key: "disabilities", value:userRegisterResponse.data!.disabilities );
-
-
-                                    });
-                                    context.pop();
+                                    CacheHelper.saveData(key: "token", value: "Bearer ${userRegisterResponse.user!.accessToken}");
+                                    CacheHelper.saveData(key: "userId", value:userRegisterResponse.data!.userId );
+                                    CacheHelper.saveData(key: "name", value:userRegisterResponse.data!.name );
+                                    CacheHelper.saveData(key: "image", value:userRegisterResponse.data!.image );
+                                    CacheHelper.saveData(key: "email", value:userRegisterResponse.data!.email );
+                                    CacheHelper.saveData(key: "address", value:userRegisterResponse.data!.address );
+                                    CacheHelper.saveData(key: "phone", value:userRegisterResponse.data!.phone );
+                                    CacheHelper.saveData(key: "role", value:userRegisterResponse.data!.role );
+                                    CacheHelper.saveData(key: "disabilities", value:userRegisterResponse.data!.disabilities );                                    context.pop();
                                     context.pushReplacement(NavigationScreen());
                                   } catch (e) {
                                     showCustomSnackbar

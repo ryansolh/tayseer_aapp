@@ -17,7 +17,7 @@ import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
 import '../../../basic_navigation_page/presention/page/navigation_page.dart';
 import '../../data_models/register_model.dart';
-import '../widgets/input_widget.dart';
+import '../../../../core/component/input_widget.dart';
 import 'login_screen.dart';
 
 class SignupPage extends StatefulWidget {
@@ -694,6 +694,7 @@ class _SignupPageState extends State<SignupPage> {
                                        CacheHelper.saveData(key: "email", value:userRegisterResponse.data!.email );
                                        CacheHelper.saveData(key: "address", value:userRegisterResponse.data!.address );
                                        CacheHelper.saveData(key: "phone", value:userRegisterResponse.data!.phone );
+                                       CacheHelper.saveData(key: "role", value:userRegisterResponse.data!.role );
                                        CacheHelper.saveData(key: "disabilities", value:userRegisterResponse.data!.disabilities );
 
 
