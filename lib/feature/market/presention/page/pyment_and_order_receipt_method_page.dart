@@ -8,6 +8,7 @@ import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../cache/cache_helper.dart';
 import '../../../../core/component/input_widget.dart';
+import '../../../../core/component/my_custom_loading.dart';
 import '../../../../core/component/my_custom_slide_fade_transition.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/network/remote/remote_dio.dart';
@@ -27,7 +28,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
  final  _addressControllrt=TextEditingController();
   final _cartNumberControllrt=TextEditingController();
-  String? _shippingMethodGroupValue;
+  String? _shippingMethodGroupValue;//Express Delivery
   String? _pymentMethodGroupValue;
 
   @override
@@ -41,6 +42,11 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
 
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+    if(double.parse(cart.totalAmount.toStringAsFixed(2))<30000){
+      setState(() {
+        _shippingMethodGroupValue="Express Delivery";
+      });
+    }
 
     return Scaffold(
       body: Container(
@@ -61,48 +67,13 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   children: [
-                    Align(
-                        alignment: Alignment.topRight,
-                        child: MyTitle(textOfTitle: "-إختر اين تريد استلام الطلب.",startDelay: 40,)
-                    ),
-
-                    SlideFadeTransition(
-                      curve: Curves.elasticInOut,
-                      delayStart: Duration(milliseconds: 60),
-                      animationDuration: const Duration(milliseconds: 1200),
-                      offset: 2.5,
-                      direction: Direction.horizontal,
-                      child:Row(
-                        textDirection: TextDirection.rtl,
-                        children: [
-                          Theme(
-                            data: ThemeData.light(),
-                            child: Radio(
-                              value: 'Free Shipping',
-                              groupValue: _shippingMethodGroupValue,
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  _shippingMethodGroupValue = value;
-                                });
-                                print(_shippingMethodGroupValue);
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text("التسليم عند البائع",textDirection: TextDirection.rtl,)),
-                                Text("تقوم انت بالذهاب الى مكان البائع واستلم طلبك بنفسك.",style: TextStyle(fontSize: 12),textDirection: TextDirection.rtl,),
-                              ],
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    3.SH,
+                    // Align(
+                    //     alignment: Alignment.topRight,
+                    //     child: MyTitle(textOfTitle: "-إختر اين تريد استلام الطلب.",startDelay: 40,)
+                    // ),
+                    //
+                    //
+                    // 3.SH,
                     SlideFadeTransition(
                       curve: Curves.elasticInOut,
                       delayStart: Duration(milliseconds: 80),
@@ -112,26 +83,20 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                       child:Row(
                         textDirection: TextDirection.rtl,
                         children: [
-                          Theme(
-                            data: ThemeData.light(),
-                            child: Radio(
-                              value: 'Express Delivery',
-                              groupValue: _shippingMethodGroupValue,
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  _shippingMethodGroupValue = value;
-                                });
-                                print(_shippingMethodGroupValue);
-                              },
-                            ),
-                          ),
+
                           Expanded(
                             child: Column(
                               children: [
-                                Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text("توصيل طلبك او شحنه اليك",textDirection: TextDirection.rtl,)),
-                                Text("سيتم توصيل طلبك اليك, ولكن يتطلب منك دفع تكلفة التوصيل اضافة الى تكلفة طلبك.",style: TextStyle(fontSize: 12),textDirection: TextDirection.rtl,),
+                                _shippingMethodGroupValue=="Express Delivery"?Text(
+                                  "سيتم توصيل طلبك اليك, ولكن يتطلب منك دفع تكلفة التوصيل اضافة الى تكلفة طلبك."
+                                  ,style: TextStyle(fontSize: 12)
+                                  ,textDirection: TextDirection.rtl,
+                                ):Text(
+                                  "سيتم توصيل طلبك اليك, ستكون تكلفة التوصيل مجانا نظرا لان تيسير يقدم عرض بانه في حال كان المستخدم تسوق باكثر من 30000 ستكون تكلفة التوصيل مجانية."
+                                  ,style: TextStyle(fontSize: 12)
+                                  ,textDirection: TextDirection.rtl,
+                                )
+
                               ],
                             ),
                           ),
@@ -238,9 +203,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                 inputController: _cartNumberControllrt,
                                 label: "ادخل رقم بطاقة الدفع الخاصة بك"
                               ),
-                            if(_shippingMethodGroupValue=="Express Delivery")
                               MySubTitle(textOfSubTitle: "ادخل العنوان المراد توصيل المنتج اليه", startDelay: 0),
-                            if(_shippingMethodGroupValue=="Express Delivery")
                             TextFormField(
 
                               cursorColor: Colors.grey,
@@ -270,6 +233,11 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                       width: double.infinity,
                       textButton: "متابعة الارسال",
                       onPressed: ()async{
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return MyCustomLoading();
+                          },);
                         try{
                           String cartItemsJson=cartItemsToJson(cart.items.values.toList());
                           print("JSON Cart Items: ${cartItemsJson}");
@@ -282,7 +250,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                 "paymentMethod": _pymentMethodGroupValue, //طريقة الدفع
                                 "paymentStatus": 0,// دفع ام لا |   تكون 0 في حال كانت طريقة الدفع COD
                                 "transactionId": "123456",// والله مانا داري
-                                "paidAmount": 100.00,
+                                "paidAmount": double.parse(cart.totalAmount.toStringAsFixed(2)),
                                 "paidCurrencyName": "YER",
                                 "cart": cartItems,
                                 "address": {
@@ -308,6 +276,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                 title: "✔ تمت العملية بنجاح",
                                 subTitle: "نشكرك على طلبك. تم تسجيل طلبك بنجاح وسنقوم بمراجعته. سيتم تحضير الطلب وشحنه بعد الحصول على موافقة الإدارة. سنبقيك على اطلاع دائم بحالة طلبك."
                             );
+                            context.pop();
                             cart.clear();
                             context.pop();
                             context.pop();
@@ -320,6 +289,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                 title: "فشلت العملية !!",
                                 subTitle: "ناسف لحدوث مشكله في عملية ارسال الطلب يرجى المحاولة مرة اخرى. "
                             );
+                            context.pop();
                           }
                         }catch(e){
                           showCustomSnackbar
@@ -329,6 +299,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                               title: "فشلت العملية !!",
                               subTitle: "ناسف لحدوث مشكله في يبدو ان اتصالك بالانترنت منقطع او ضعيف جداً. "
                           );
+                          context.pop();
                         }
                       }
                     ),

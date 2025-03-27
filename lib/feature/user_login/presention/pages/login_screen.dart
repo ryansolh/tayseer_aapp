@@ -255,8 +255,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     CacheHelper.saveData(key: "address", value:userRegisterResponse.data!.address );
                                     CacheHelper.saveData(key: "phone", value:userRegisterResponse.data!.phone );
                                     CacheHelper.saveData(key: "role", value:userRegisterResponse.data!.role );
-                                    CacheHelper.saveData(key: "disabilities", value:userRegisterResponse.data!.disabilities );                                    context.pop();
+                                    CacheHelper.saveData(key: "disabilities", value:userRegisterResponse.data!.disabilities  );
+                                   print(CacheHelper.getData(key: "token"));
+                                    context.pop();
                                     context.pushReplacement(NavigationScreen());
+
                                   } catch (e) {
                                     showCustomSnackbar
                                       (

@@ -69,7 +69,7 @@ class UserData {
       email: json['email'],
       phone: json['phone'],
       image: json['image'],
-      role: json.containsKey('role') ? json['data']:"user",
+      role: json.containsKey('role') ? json['role']:"user",
       address: json['address'],
       disabilities: List<String>.from(json['disabilities']),
     );

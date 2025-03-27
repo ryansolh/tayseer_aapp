@@ -8,6 +8,7 @@ String loginUrl='login/';
 String postUrl='posts/';
 String productsUrl='user/products';
 String orderSendUrl='order/store';
+String getOrdersUrl='user/orders';
 String commentsUrl='comments/';
 String likeUrl='likes/';
 //2|ekCyb1zPLPR7U8FUSscMKJ46N2O5pVkQ6Ng9XHxi8990cfb7

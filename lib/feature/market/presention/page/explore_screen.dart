@@ -6,21 +6,26 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
+import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/component/my_custom_loading.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 import 'package:todo_apps/core/network/remote/remote_dio.dart';
 import 'package:todo_apps/feature/market/presention/page/product_details_screen.dart';
+import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
 
 import '../../../../core/component/my_custom_buttons.dart';
 import '../../../../core/component/my_custom_linear_gradient.dart';
 import '../../../../core/component/my_custom_shadermask.dart';
+import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../../user_login/presention/pages/login_screen.dart';
 import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
 import '../../data/model/product_response.dart';
 import '../explore/product_widget.dart';
 import 'cart_screen.dart';
+import 'order/main_order_page.dart';
 
 
 
@@ -263,7 +268,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Width: 200,
                                   textButton: "طلباتي",
                                   onPressed: (){
-                    
+                                      if(CacheHelper.getData(key: "token")!=null){
+                                        context.push(MainOrderPage());
+                                      }
+                                      else{
+                                        showCustomSnackbar(
+                                            textColor: Colors.black,
+                                            title: "انت لا تملك حسابا!",
+                                            subTitle: "يجب عليك تسجيل الدخول لمعرفة وجلب الطلبات الخاصة بك."
+                                        );
+                                        context.push(LoginScreen(fromWelcompage: false,));
+
+                                      }
+
                                   }
                     
                                 ),
