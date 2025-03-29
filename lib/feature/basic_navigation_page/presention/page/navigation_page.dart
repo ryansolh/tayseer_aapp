@@ -7,7 +7,7 @@ import 'package:todo_apps/feature/reminder/presention/pages/alarm_page.dart';
 import '../../../../core/component/my_custom_drawer.dart';
 import '../../../centers/presention/pages/main_page_of_centers_list.dart';
 import '../../../home_page/presention/page/home_screen.dart';
-import '../../../market/presention/page/explore_screen.dart';
+import '../../../market/presention/page/explore/explore_screen.dart';
 import '../../../platform/presention/pages/posts_data_screen.dart';
 import '../management/navigation_page_bloc/navigation_page_cubit.dart';
 import '../management/navigation_page_bloc/navigation_page_state.dart';

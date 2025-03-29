@@ -7,18 +7,17 @@ import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 
 
-import '../../../../cache/cache_helper.dart';
-import '../../../../core/component/my_custom_buttons.dart';
-import '../../../../core/component/my_custom_linear_gradient.dart';
-import '../../../../core/component/my_custom_slide_fade_transition.dart';
-import '../../../../core/component/my_custom_subtitle.dart';
-import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
-import '../../../../core/services/market_services/add_or_remove_product_to_cart.dart';
-import '../../../../core/utils/app_constants/blog_app_constants.dart';
-import '../../../user_login/presention/pages/signup_page.dart';
-import '../../data/data_sources/products.dart';
-import '../../data/model/cart.dart';
-import '../../data/model/product.dart';
+import '../../../../../cache/cache_helper.dart';
+import '../../../../../core/component/my_custom_buttons.dart';
+import '../../../../../core/component/my_custom_linear_gradient.dart';
+import '../../../../../core/component/my_custom_slide_fade_transition.dart';
+import '../../../../../core/component/my_custom_subtitle.dart';
+import '../../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
+import '../../../../../core/services/market_services/add_or_remove_product_to_cart.dart';
+import '../../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../../../user_login/presention/pages/signup_page.dart';
+import '../../../data/model/product.dart';
+import '../../../data/providers_management/card.dart';
 const kDefaultPadding = 20.0;
 const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);

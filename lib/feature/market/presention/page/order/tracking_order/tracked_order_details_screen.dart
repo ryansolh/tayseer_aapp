@@ -1,23 +1,44 @@
+/*
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../../../../../core/component/my_custom_loading.dart';
-import '../../../data/model/orders.dart';
-class ReceivedOrder extends StatelessWidget {
- final bool successGettingAllOrders;
- final List<Order> orders;
-   ReceivedOrder({super.key,required this.orders, required this.successGettingAllOrders});
+class MyCustomWidget extends StatefulWidget {
+  @override
+  _MyCustomWidgetState createState() => _MyCustomWidgetState();
+}
 
+class _MyCustomWidgetState extends State<MyCustomWidget> {
+  @override
+  Widget build(BuildContext c) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('VIEW ANIMATING LISTVIEW'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SlideAnimation2()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
 
+class SlideAnimation2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double _w=MediaQuery.of(context).size.width;
-    return Container(
-      color: Theme.of(context).colorScheme.background,
-
-      child: successGettingAllOrders==true?
-      orders.isNotEmpty?
-      AnimationLimiter(
+    double _w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+          title: Text("Go Back"),
+          centerTitle: true,
+          brightness: Brightness.dark),
+      body: AnimationLimiter(
         child: ListView.builder(
           padding: EdgeInsets.all(_w / 30),
           physics:
@@ -51,9 +72,12 @@ class ReceivedOrder extends StatelessWidget {
             );
           },
         ),
-      )
-          : Center(child: Text("!!ليس هناك طلبات قد تم استلامها"),)
-            :MyCustomLoading(),
+      ),
     );
   }
 }
+
+
+
+
+      */

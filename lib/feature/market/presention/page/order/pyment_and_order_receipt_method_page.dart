@@ -6,15 +6,16 @@ import 'package:todo_apps/core/component/my_custom_buttons.dart';
 import 'package:todo_apps/core/component/my_custom_title.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
-import '../../../../cache/cache_helper.dart';
-import '../../../../core/component/input_widget.dart';
-import '../../../../core/component/my_custom_loading.dart';
-import '../../../../core/component/my_custom_slide_fade_transition.dart';
-import '../../../../core/component/my_custom_subtitle.dart';
-import '../../../../core/network/remote/remote_dio.dart';
-import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
-import '../../../../core/utils/app_constants/blog_app_constants.dart';
-import '../../data/model/cart.dart';
+import '../../../../../cache/cache_helper.dart';
+import '../../../../../core/component/input_widget.dart';
+import '../../../../../core/component/my_custom_loading.dart';
+import '../../../../../core/component/my_custom_slide_fade_transition.dart';
+import '../../../../../core/component/my_custom_subtitle.dart';
+import '../../../../../core/network/remote/remote_dio.dart';
+import '../../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
+import '../../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../../data/model/cart.dart';
+import '../../../data/providers_management/card.dart';
 
 
 class PaymentAndOrderReceiptMethodDialog extends StatefulWidget {
@@ -42,7 +43,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
 
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
-    if(double.parse(cart.totalAmount.toStringAsFixed(2))<30000){
+    if(cart.totalAmount<30000){
       setState(() {
         _shippingMethodGroupValue="Express Delivery";
       });
@@ -250,7 +251,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                 "paymentMethod": _pymentMethodGroupValue, //طريقة الدفع
                                 "paymentStatus": 0,// دفع ام لا |   تكون 0 في حال كانت طريقة الدفع COD
                                 "transactionId": "123456",// والله مانا داري
-                                "paidAmount": double.parse(cart.totalAmount.toStringAsFixed(2)),
+                                "paidAmount":cart.totalAmount<30000?double.parse((cart.totalAmount+5000).toStringAsFixed(2)):double.parse(cart.totalAmount.toStringAsFixed(2)),
                                 "paidCurrencyName": "YER",
                                 "cart": cartItems,
                                 "address": {
@@ -264,10 +265,15 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                   "address": _addressControllrt.text,
                                   "street": _addressControllrt.text
                                 },
-                                "shipping_method": {
-                                  "name":_shippingMethodGroupValue,
-                                  "cost": 5000
-                                }
+
+
+                                //ملاحضة اذا تريد التعديل عدل ايضا في صفحات الطلبات
+                                  "shipping_method": {
+                                    "name":_shippingMethodGroupValue,
+                                    "cost": cart.totalAmount<30000? 5000:0,
+                                    "type": cart.totalAmount<30000?"flat_cost":"min_cost"
+                                  }
+
                               }
                           );
                           if(response.statusCode==200||response.statusCode==201){

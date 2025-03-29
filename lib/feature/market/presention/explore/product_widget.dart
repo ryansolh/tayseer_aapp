@@ -10,9 +10,9 @@ import '../../../../core/component/my_custom_shimmer.dart';
 import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../core/utils/app_constants/blog_app_constants.dart';
 import '../../../user_login/presention/pages/signup_page.dart';
-import '../../data/data_sources/products.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
+import '../../data/providers_management/card.dart';
 
 
 

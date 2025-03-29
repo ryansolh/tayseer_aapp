@@ -3,29 +3,27 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
 import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/component/my_custom_loading.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 import 'package:todo_apps/core/network/remote/remote_dio.dart';
-import 'package:todo_apps/feature/market/presention/page/product_details_screen.dart';
-import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
+import 'package:todo_apps/feature/market/presention/page/product_show/product_details_screen.dart';
 
-import '../../../../core/component/my_custom_buttons.dart';
-import '../../../../core/component/my_custom_linear_gradient.dart';
-import '../../../../core/component/my_custom_shadermask.dart';
-import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
-import '../../../../core/utils/app_constants/blog_app_constants.dart';
-import '../../../user_login/presention/pages/login_screen.dart';
-import '../../data/data_sources/products.dart';
-import '../../data/model/cart.dart';
-import '../../data/model/product.dart';
-import '../../data/model/product_response.dart';
-import '../explore/product_widget.dart';
-import 'cart_screen.dart';
-import 'order/main_order_page.dart';
+import '../../../../../core/component/my_custom_buttons.dart';
+import '../../../../../core/component/my_custom_linear_gradient.dart';
+import '../../../../../core/component/my_custom_shadermask.dart';
+import '../../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
+import '../../../../../core/utils/app_constants/blog_app_constants.dart';
+import '../../../../user_login/presention/pages/login_screen.dart';
+import '../../../data/model/product.dart';
+import '../../../data/model/product_response.dart';
+import '../../../data/providers_management/card.dart';
+import '../../../data/providers_management/products.dart';
+import '../../explore/product_widget.dart';
+import '../cart/cart_screen.dart';
+import '../order/main_order_page.dart';
 
 
 

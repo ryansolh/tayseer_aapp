@@ -7,17 +7,14 @@ import 'package:provider/provider.dart';
 import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/component/my_custom_subtitle.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
-import 'package:todo_apps/feature/market/presention/page/pyment_and_order_receipt_method_page.dart';
+import 'package:todo_apps/feature/market/presention/page/order/pyment_and_order_receipt_method_page.dart';
 
-import '../../../../core/component/my_custom_buttons.dart';
-import '../../../../core/network/remote/remote_dio.dart';
-import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
-import '../../../../core/services/market_services/payment_and_order_receipt_method.dart';
-import '../../../../core/utils/app_constants/blog_app_constants.dart';
-import '../../../user_login/presention/pages/signup_page.dart';
-import '../../data/model/cart.dart';
-import '../../data/model/orders.dart';
-import '../widgets/cart/cart_widget.dart';
+import '../../../../../core/component/my_custom_buttons.dart';
+import '../../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
+import '../../../../user_login/presention/pages/signup_page.dart';
+
+import '../../../data/providers_management/card.dart';
+import '../../widgets/cart/cart_widget.dart';
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

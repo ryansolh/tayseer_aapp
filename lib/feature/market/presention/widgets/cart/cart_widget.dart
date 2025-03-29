@@ -4,7 +4,7 @@ import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
 import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 
 import '../../../../../core/component/my_custom_buttons.dart';
-import '../../../data/model/cart.dart';
+import '../../../data/providers_management/card.dart';
 
 
 class CartWidget extends StatelessWidget {

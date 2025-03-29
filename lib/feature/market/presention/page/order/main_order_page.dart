@@ -18,9 +18,11 @@ class MainOrderPage extends StatefulWidget {
 
 class _MainOrderPageState extends State<MainOrderPage> {
   List<Order> orders=[];
-  int indexOfPage=0;
+  int indexOfPage=1;
  bool successGettingAllOrders= false;
 
+ List<Order> unReceivedOrderData=[];
+  List<Order> receivedOrderData=[];
 
   void gettingAllOrders()async{
     try{
@@ -33,7 +35,8 @@ class _MainOrderPageState extends State<MainOrderPage> {
         print(response.data);
         setState(() {
           orders=OrderResponse.fromJson(response.data).data!;
-
+          unReceivedOrderData.addAll(orders.where((orders)=>orders.orderStatus!="delivered"));
+          receivedOrderData.addAll(orders.where((orders)=>orders.orderStatus=="delivered"));
           successGettingAllOrders=true;
         });
       }
@@ -60,13 +63,16 @@ class _MainOrderPageState extends State<MainOrderPage> {
       goBack:true ,
       titleOfPage: "طلباتي",
       page:DefaultTabController(
+        initialIndex: 1,
         length: 2,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor:Theme.of(context).colorScheme.background,
             toolbarHeight: 0,
             leading: Container(),
+
             bottom: TabBar(
+             // tabAlignment: TabAlignment.,
               indicatorColor: Color(0x00000000),
 
 
@@ -76,6 +82,7 @@ class _MainOrderPageState extends State<MainOrderPage> {
                   indexOfPage=index;
                 });
               },
+
               tabs: [
                 indexOfPage==0? MyShaderMask(
                     toolWidget:
@@ -90,9 +97,10 @@ class _MainOrderPageState extends State<MainOrderPage> {
             ),
           ),
          body: TabBarView(
+
              children: [
-               ReceivedOrder(successGettingAllOrders: successGettingAllOrders,orders: orders,),
-               UnreceivedOrder(successGettingAllOrders: successGettingAllOrders,orders: orders,),
+               ReceivedOrder(successGettingAllOrders: successGettingAllOrders,orders: receivedOrderData,),
+               UnreceivedOrder(successGettingAllOrders: successGettingAllOrders,orders:unReceivedOrderData  ),
              ]
          )
             ),
