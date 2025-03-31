@@ -13,9 +13,9 @@ class MySubTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
     return SlideFadeTransition(
-      curve: Curves.elasticInOut,
+      curve: Curves.elasticOut,
       delayStart: Duration(milliseconds: startDelay),
-      animationDuration: const Duration(milliseconds: 1200),
+      animationDuration: const Duration(milliseconds: 500),
       offset: 2.5,
       direction: Direction.horizontal,
       child:Padding(

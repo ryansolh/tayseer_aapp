@@ -111,12 +111,12 @@ class UnreceivedOrder extends StatelessWidget {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 3),
                                     decoration: BoxDecoration(
-                                      color: orders[index].orderStatus=="pending"?const Color(
+                                      color: orders[index].payment.status==0?const Color(
                                           0xFFA60F0F):Colors.indigo,
                                       borderRadius: BorderRadius.circular(20)
                                     ),
-                                    child: orders[index].orderStatus=="pending"?const Text("معلق",style: TextStyle(color: Colors.white),)
-                                    :const Text("تمت الموافقة",style: TextStyle(color: Colors.white),),
+                                    child: orders[index].payment.status==0?const Text("لم يتم السداد",style: TextStyle(color: Colors.white),)
+                                    :const Text("تم السداد",style: TextStyle(color: Colors.white),),
                                   ),
                                   const Text(" :حالة الطلب"),
                                 ],

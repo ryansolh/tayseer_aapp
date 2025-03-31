@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 Widget MyButtonNoBackground(
     BuildContext context,
     {String? textButton,
+      double padding=0,
       double? Height,
       double Width = double.infinity,
       void Function()? onPressed}) {
@@ -47,9 +48,12 @@ Widget MyButtonNoBackground(
                   tileMode: TileMode.mirror,
                 ).createShader(bounds);
               },
-              child: Text(
-                textButton!,
-                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+              child: Padding(
+                padding: padding==0? EdgeInsets.all(0):EdgeInsets.all(padding),
+                child: Text(
+                  textButton!,
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                ),
               )),
         ),
       ),
