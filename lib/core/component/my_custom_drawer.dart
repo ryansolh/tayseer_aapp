@@ -8,6 +8,7 @@ import 'package:todo_apps/feature/guidances_service/guidances_service.dart';
 import 'package:todo_apps/feature/user_login/presention/pages/login_screen.dart';
 
 import '../../feature/ai_bot/presention/page/bot_screen.dart';
+import '../../feature/profile/presention/page/profile_page.dart';
 import '../services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import 'my_custom_linear_gradient.dart';
 import 'my_custom_loading.dart';
@@ -89,11 +90,14 @@ class _MyDrawerState extends State<MyDrawer> {
                   leading: const Icon(Icons.question_mark),
                   title: const Text('المرشد المهني'),
                 ),
-                ListTile(
-                  onTap: () {},
-                  leading: const Icon(Icons.account_circle_rounded),
-                  title: const Text('الملف الشخصي'),
-                ),
+               if(CacheHelper.getData(key: "token")!=null)
+                 ListTile(
+                   onTap: () {
+                     context.push(Profile());
+                   },
+                   leading: const Icon(Icons.account_circle_rounded),
+                   title: const Text('الملف الشخصي'),
+                 ),
                 ListTile(
                   onTap: () {context.push(BotScreen());},
                   leading: const Icon(Icons.question_answer_outlined),

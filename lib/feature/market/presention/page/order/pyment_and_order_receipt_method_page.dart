@@ -204,7 +204,7 @@ class _PaymentAndOrderReceiptMethodDialogState extends State<PaymentAndOrderRece
                                 inputController: _cartNumberControllrt,
                                 label: "ادخل رقم بطاقة الدفع الخاصة بك"
                               ),
-                              MySubTitle(textOfSubTitle: "ادخل العنوان المراد توصيل المنتج اليه", startDelay: 0),
+                              MySubTitle(textOfSubTitle: "ادخل العنوان المراد توصيل الطلب اليه", startDelay: 0),
                             TextFormField(
 
                               cursorColor: Colors.grey,
