@@ -213,7 +213,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             leading: CircleAvatar(
                               backgroundColor: Theme.of(context).colorScheme.background,
                               child: MyShaderMask(
-                                toolWidget: Icon(Icons.home_filled,size: 35,),
+                                toolWidget: Icon(Icons.home,size: 35,),
                                 radius: 1,
                               ),
                             ),

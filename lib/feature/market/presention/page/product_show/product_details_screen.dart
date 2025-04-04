@@ -1,10 +1,7 @@
-import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
-
 
 
 import '../../../../../cache/cache_helper.dart';
@@ -203,7 +200,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     },
                                   ),
                                 ),
-                                            
                               ),
                                             
                               Padding(
