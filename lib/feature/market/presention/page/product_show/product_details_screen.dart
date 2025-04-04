@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_apps/core/component/my_custom_image_viewer.dart';
+import 'package:todo_apps/core/component/my_custom_shadermask.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 
@@ -15,6 +16,7 @@ import '../../../../../core/utils/app_constants/blog_app_constants.dart';
 import '../../../../user_login/presention/pages/signup_page.dart';
 import '../../../data/model/product.dart';
 import '../../../data/providers_management/card.dart';
+import 'product_album_screen.dart';
 const kDefaultPadding = 20.0;
 const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);
@@ -96,6 +98,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           topRight: Radius.circular(24),
                         ),
                       ),
+
                       child: SingleChildScrollView(
                         child: Column(
                           children: <Widget>[
@@ -109,55 +112,76 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                  textSize: Theme.of(context).textTheme.labelSmall!.fontSize,
                                ),
                                 SizedBox(height: kDefaultPadding),
-                        SlideFadeTransition(
-                          curve: Curves.elasticInOut,
-                          delayStart: Duration(milliseconds: 50),
-                          animationDuration: const Duration(milliseconds: 1200),
-                          offset: 2.5,
-                          direction: Direction.horizontal,
-                          child:Row(
-                            textDirection: TextDirection.rtl,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: Theme.of(context).textTheme.labelSmall,
-                                      children: [
-                                        TextSpan(text: "السعر\n"),
-                                        TextSpan(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
 
-                                          locale: Locale('ar'),
-                                          text:  ' ${widget.product!.price.toString()}  ',
-
+                            widget.product!.productImageGalleries!.length>0
+                                ?MyButtonNoBackground(
+                                context,
+                              padding: 4,
+                              textButton: "صور اخرى للمنتج",
+                              onPressed: (){
+                                context.push(ProductAlbumScreen(productImageGallery:widget.product!.productImageGalleries!));
+                              }
+                            )
+                                :Container(),
+                            Expanded(
+                              child: Container(
+                                child: SlideFadeTransition(
+                                  curve: Curves.elasticInOut,
+                                  delayStart: Duration(milliseconds: 50),
+                                  animationDuration: const Duration(milliseconds: 1200),
+                                  offset: 2.5,
+                                  direction: Direction.horizontal,
+                                  child:Row(
+                                    textDirection: TextDirection.rtl,
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              style: Theme.of(context).textTheme.labelSmall,
+                                              children: [
+                                                TextSpan(text: "السعر\n"),
+                                                TextSpan(
+                              
+                                                  locale: Locale('ar'),
+                                                  text:  ' ${widget.product!.price.toString()}  ',
+                              
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              
+                                      Container(
+                                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
+                                        child: RichText(
+                                          text: TextSpan(
+                                            style: Theme.of(context).textTheme.labelSmall,
+                              
+                                            children: [
+                                              TextSpan(text: "\n",),
+                                              TextSpan(text: "ريال يمني",),
+                                              /* TextSpan(text:
+                                "${product!.title.substring(product!.title.indexOf('/')
+                                    + 1, product!.title.length)}",
+                              
+                                )*/
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: Theme.of(context).textTheme.labelSmall,
-
-                                    children: [
-                                      TextSpan(text: "\n",),
-                                      TextSpan(text: "ريال يمني",),
-                                      /* TextSpan(text:
-                        "${product!.title.substring(product!.title.indexOf('/')
-                            + 1, product!.title.length)}",
-
-                        )*/
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+
+                          ],
                         )
 
                               ],
