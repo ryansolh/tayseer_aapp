@@ -126,9 +126,22 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               ],
                               shape: BoxShape.circle,
                              ),
-                        child: CustomImageViewer.show(
+                        child: CacheHelper.getData(key: "image")!=null?CustomImageViewer.show(
                           radius: 100,
                             context: context, url: baseUrl+CacheHelper.getData(key: "image")
+                        ):Container(
+
+
+
+                          clipBehavior: Clip.antiAlias,
+                          decoration: const BoxDecoration(
+
+
+                          ),
+                          child: Image.asset(
+                            'assets/images/logo_of_app/TAYSEER.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
       

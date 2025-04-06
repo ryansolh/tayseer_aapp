@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_apps/core/component/my_custom_shimmer.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 import 'package:todo_apps/core/network/remote/remote_dio.dart';
 import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
@@ -8,6 +10,8 @@ import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 import '../../../../core/component/my_custom_image_viewer.dart';
 import '../../../../core/component/my_custom_subtitle.dart';
 import '../../../../core/component/my_custom_title.dart';
+import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
+import '../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../data/data.dart';
 import '../../data/model/flash_sale.dart';
 import '../management/home_screen_bloc/home_screen_cubit.dart';
@@ -26,6 +30,7 @@ class _CarouselSliderWithoutBackgroundState extends State<CarouselSliderWithoutB
 
 
   List<DiscountedProductItem> _flashSaleProducts=[];
+
 
 
 
@@ -60,12 +65,17 @@ class _CarouselSliderWithoutBackgroundState extends State<CarouselSliderWithoutB
   }
 
   Widget _outerBannerSlider(BuildContext context) {
+    List<Widget> shaderMaskList=[
+      MyShimmer(
+          context: context,
+      )
+    ];
     var homeData=BlocProvider.of<HomeScreenCubit>(context);
     return BlocConsumer<HomeScreenCubit,HomeScreenStete>(
         builder: (context,state){
           return Column(
             children: [
-              if(_flashSaleProducts.length>0)
+
               Column(
                 children: const [
                   Align(
@@ -85,7 +95,7 @@ class _CarouselSliderWithoutBackgroundState extends State<CarouselSliderWithoutB
                 ],
 
               ),
-              if(_flashSaleProducts.length>0)
+              _flashSaleProducts.length>0?
               CarouselSlider(
 
                 carouselController: outerCarouselController,
@@ -123,11 +133,60 @@ class _CarouselSliderWithoutBackgroundState extends State<CarouselSliderWithoutB
                     },
                   );
                 }).toList(),
+              )
+              :CarouselSlider(
+
+                carouselController: outerCarouselController,
+
+                /// It's options
+                ///
+                options: CarouselOptions(
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  aspectRatio: 16 / 8,
+                  viewportFraction: .50,
+                  onPageChanged: (index, reason) {
+
+                    homeData.onChangeouterCurrentPage(index);
+
+                  },
+                ),
+
+                /// Items
+                items: shaderMaskList.map((data) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      /// Custom Image Viewer widget
+                      return InkWell(
+                        onTap: (){
+                          showCustomSnackbar(
+                              title: 'يرجى الانتظار قليلا حتى يتم تحليل البيانات!!',
+                            subTitle: ""
+
+                          );
+                        },
+                        child: CachedNetworkImage(
+                          imageUrl: "",
+                          fit: BoxFit.cover,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).dialogBackgroundColor,
+                              borderRadius: BorderRadius.circular(
+                                8,
+                              ),
+
+                            ),
+                            child: Center(child: MyShimmer(context: context,shimmerBorderRadius: 20),) ,
+                          ),
+                          placeholder: (context, url) => Center(child: MyShimmer(context: context,shimmerBorderRadius: 20),),
+                          errorWidget: (context, url, error) => Center(child: MyShimmer(context: context,shimmerBorderRadius: 20),),),
+                      );
+                    },
+                  );
+                }).toList(),
               ),
-              if(_flashSaleProducts.length>0)
-              const SizedBox(
-                height: 10,
-              ),
+
 
             ],
           );

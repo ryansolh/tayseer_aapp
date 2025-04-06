@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 
 import '../../../../core/component/my_custom_subtitle.dart';
-import '../widgets/carousel_slider_with_background.dart';
-import '../widgets/carousel_slider_without_background.dart';
+import '../sections/account_upgrade_announcement.dart';
+import '../sections/carousel_slider_with_background.dart';
+import '../sections/carousel_slider_without_background.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ,startDelay: 700,),
 
             CarouselSliderWithoutBackground(),
-            100.SH
+            AccountUpgradeAnnouncement()
           ],
         ),
       ),

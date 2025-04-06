@@ -1,6 +1,7 @@
 
 String baseUrl="http://192.168.43.93:8080/";
 String apiUrl="api/";
+String checkIsvendorRequstUrl="vendor-request";
 String flashSaleProductsUrl="flash-sale";
 
 

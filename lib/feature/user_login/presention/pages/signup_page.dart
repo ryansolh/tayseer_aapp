@@ -648,7 +648,7 @@ class _SignupPageState extends State<SignupPage> {
 
 
                                 try {
-                                  var uri = Uri.parse("http://192.168.43.93:8080/api/register/");
+                                  var uri = Uri.parse("http://192.168.43.93:8080/api/register");
                                   var request = http.MultipartRequest("POST", uri);
 
                                   // ✅ إضافة الصورة
@@ -718,6 +718,9 @@ class _SignupPageState extends State<SignupPage> {
 
                                   } else {
                                     if(response.statusCode == 400){
+                                      print("////////////////////////");
+                                      print(response);
+                                      print("////////////////////////");
                                       showCustomSnackbar
                                             (
                                               textColor: Colors.white,

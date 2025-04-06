@@ -19,7 +19,7 @@ import 'feature/splash_screen/presention/management/splash_screen_bloc/splash_sc
 import 'feature/splash_screen/presention/pages/splash_screen_page.dart';
 
 
-void main() async{
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -27,10 +27,12 @@ void main() async{
   );
 
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ar',null);
+  await initializeDateFormatting('ar', null);
   await CacheHelper.init();
   await DioHelper.init();
   await GetStorage.init();
+  CacheHelper.getData(key: "role");
+  print(CacheHelper.getData(key: "token")) ;
   runApp(const MyApp());
 }
 

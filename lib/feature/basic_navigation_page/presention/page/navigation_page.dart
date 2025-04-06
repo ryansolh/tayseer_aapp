@@ -3,7 +3,10 @@ import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_apps/core/component/my_custom_loading.dart';
+import 'package:todo_apps/core/network/remote/remote_dio.dart';
+import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 import 'package:todo_apps/feature/reminder/presention/pages/alarm_page.dart';
+import '../../../../cache/cache_helper.dart';
 import '../../../../core/component/my_custom_drawer.dart';
 import '../../../centers/presention/pages/main_page_of_centers_list.dart';
 import '../../../home_page/presention/page/home_screen.dart';
@@ -43,10 +46,39 @@ List<int> indexesOfPages=[
   0,
 ];
 
+void checkIsUserOrVendor()async{
+ if(CacheHelper.getData(key: "token")!=null){
+   if(CacheHelper.getData(key: "role")!="vendor"){
+     try{
+       var response=await DioHelper.get(
+           url: baseUrl+apiUrl+checkIsvendorRequstUrl,
+               authorization: CacheHelper.getData(key: "token")
+       );
+       if(response.statusCode==200||response.statusCode==201){
+         if(response.data["role"].toString()=="vendor"){
+
+           CacheHelper.removeData(key: "role");
+           CacheHelper.saveData(key: "role", value: "vendor");
+
+         }
+       }
+
+     }catch(e){
+       print(e);
+       if(e.toString().contains("403")){
+         CacheHelper.removeData(key: "role");
+         CacheHelper.saveData(key: "role", value: "vendor");
+       }
+     }
+   }
+ }
+}
 
 
 void _savingPagesStateAfterShowingOnTime(int index){
   if(index==1){
+    checkIsUserOrVendor();
+
     if(indexesOfPages.contains(1)==false){
       setState(() {
         _pages[index]=AlarmPage();

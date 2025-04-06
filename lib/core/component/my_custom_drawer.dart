@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo_apps/cache/cache_helper.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 import 'package:todo_apps/core/network/remote/remote_dio.dart';
 import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 import 'package:todo_apps/feature/guidances_service/guidances_service.dart';
 import 'package:todo_apps/feature/user_login/presention/pages/login_screen.dart';
+import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
 
+import '../../feature/account_upgrade_requset/account_upgrade_requset_screen.dart';
 import '../../feature/ai_bot/presention/page/bot_screen.dart';
 import '../../feature/profile/presention/page/profile_page.dart';
 import '../services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
@@ -98,6 +101,25 @@ class _MyDrawerState extends State<MyDrawer> {
                    leading: const Icon(Icons.account_circle_rounded),
                    title: const Text('الملف الشخصي'),
                  ),
+                if(CacheHelper.getData(key: "role")!="vendor")
+                  ListTile(
+                    onTap: () {
+                     if(CacheHelper.getData(key: "token")!=null){
+                       context.push(AccountUpgradeRequsetScreen());
+                     }
+                     else{
+                       showCustomSnackbar
+                         (
+                           title: "يجب ان يكون لديك حساب",
+                           subTitle: "لا يمكن الترقية الا بعد ان يكون لديك حساب لذا يجب ان يكون لديك حساباً اولاً.",
+                           textColor: Colors.black
+                       );
+                       context.push(SignupPage(fromWelcompage: false));
+                     }
+                    },
+                    leading: const Icon(FontAwesomeIcons.crown),
+                    title: const Text('ترقية الحساب'),
+                  ),
                 ListTile(
                   onTap: () {context.push(BotScreen());},
                   leading: const Icon(Icons.question_answer_outlined),
@@ -139,6 +161,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           CacheHelper.removeData(key: "address");
                           CacheHelper.removeData(key: "phone");
                           CacheHelper.removeData(key: "disabilities");
+                          CacheHelper.removeData(key: "role");
                         });
 
                          showCustomSnackbar
