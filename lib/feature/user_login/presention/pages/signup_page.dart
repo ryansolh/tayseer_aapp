@@ -9,6 +9,7 @@ import 'package:todo_apps/core/component/my_custom_loading.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_apps/core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
+import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 import 'package:todo_apps/feature/user_login/presention/pages/welcome_page.dart';
 
 import '../../../../cache/cache_helper.dart';
@@ -689,7 +690,7 @@ class _SignupPageState extends State<SignupPage> {
 
 
                                 try {
-                                  var uri = Uri.parse("http://192.168.43.93:8080/api/register");
+                                  var uri = Uri.parse(baseUrl+"api/register");
                                   var request = http.MultipartRequest("POST", uri);
 
                                   // ✅ إضافة الصورة

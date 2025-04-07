@@ -41,7 +41,7 @@ List<PostModel> parsePosts(List<dynamic> jsonList) {
 
 Future addingComment(String comment,postId)async{
   try{
-    DioHelper.init();
+
     await DioHelper.post(
         url: "$baseUrl$postUrl${postId}/$commentsUrl",
         authorization: 'Bearer $token',
@@ -66,7 +66,7 @@ void putOrDeleteLike(int postId)async{
   //emit(SuccessfullyFetchingPost());
   try{
 
-    DioHelper.init();
+
     var response=await DioHelper.post(
         url: baseUrl+postUrl+"${postId}/"+likeUrl,
         authorization: 'Bearer $token'
@@ -81,9 +81,9 @@ void putOrDeleteLike(int postId)async{
 
 Future gettingAllPosts()async{
   try{
-    DioHelper.init();
+
     var response=await DioHelper.get(
-        url: baseUrl+postUrl,
+        url: baseUrl+apiUrl+postUrl,
         authorization: 'Bearer $token'
     );
    setState(() {
@@ -100,7 +100,7 @@ Future gettingAllPosts()async{
 }
 Future deletingPost(int postId)async{
   try{
-    DioHelper.init();
+
      await DioHelper.delete(
         url: baseUrl+postUrl+"$postId",
         authorization: 'Bearer $token'

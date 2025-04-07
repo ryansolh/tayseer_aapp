@@ -272,18 +272,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context.pop();
                                   }
                                 }
-                               else{
-                                  showCustomSnackbar
-                                    (
-                                      textColor: Colors.white,
-                                      backgroundColor: Colors.red,
-                                      title: "فشل في تسجيل الدخول! ",
-                                      subTitle: "يبدو ان هناك مشكلة ما او انك غير متصل بالانترنت."
-                                  );
-                                  context.pop();
-                                }
+
                               }
                               catch(e){
+                                print(e);
                                 if(e.toString().contains("401")){
                                   showCustomSnackbar
                                     (
