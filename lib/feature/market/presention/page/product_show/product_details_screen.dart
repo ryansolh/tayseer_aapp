@@ -15,7 +15,7 @@ import '../../../../../core/services/market_services/add_or_remove_product_to_ca
 import '../../../../../core/utils/app_constants/blog_app_constants.dart';
 import '../../../../user_login/presention/pages/signup_page.dart';
 import '../../../data/model/product.dart';
-import '../../../data/providers_management/card.dart';
+import '../../../providers_management/card.dart';
 import 'product_album_screen.dart';
 const kDefaultPadding = 20.0;
 const kTextColor = Color(0xFF535353);

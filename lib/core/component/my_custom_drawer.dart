@@ -8,6 +8,7 @@ import 'package:todo_apps/core/utils/app_constants/blog_app_constants.dart';
 import 'package:todo_apps/feature/guidances_service/guidances_service.dart';
 import 'package:todo_apps/feature/user_login/presention/pages/login_screen.dart';
 import 'package:todo_apps/feature/user_login/presention/pages/signup_page.dart';
+import 'package:todo_apps/feature/web_view_container/web_view_container_screen.dart';
 
 import '../../feature/account_upgrade_requset/account_upgrade_requset_screen.dart';
 import '../../feature/ai_bot/presention/page/bot_screen.dart';
@@ -121,6 +122,11 @@ class _MyDrawerState extends State<MyDrawer> {
                     title: const Text('ترقية الحساب'),
                   ),
                 ListTile(
+                  onTap: () {context.push(WebViewScreen());},
+                  leading: const Icon(Icons.dashboard),
+                  title: const Text('لوحة التحكم'),
+                ),
+                ListTile(
                   onTap: () {context.push(BotScreen());},
                   leading: const Icon(Icons.question_answer_outlined),
                   title: const Text('مساعد ذكي'),
@@ -162,6 +168,10 @@ class _MyDrawerState extends State<MyDrawer> {
                           CacheHelper.removeData(key: "phone");
                           CacheHelper.removeData(key: "disabilities");
                           CacheHelper.removeData(key: "role");
+                          CacheHelper.removeData(key: "token2");
+
+                          // CacheHelper.saveData(key: "sentAccountUpgradeRequset", value: CacheHelper.getData(key: "email"));
+
                         });
 
                          showCustomSnackbar
@@ -280,8 +290,41 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 
-   void _handleMenuButtonPressed() {
 
+   void checkIsUserOrVendor()async{
+     if(CacheHelper.getData(key: "token")!=null){
+       if(CacheHelper.getData(key: "role")!="vendor"){
+         try{
+           var response=await DioHelper.get(
+               url: baseUrl+apiUrl+checkIsvendorRequstUrl,
+               authorization: CacheHelper.getData(key: "token")
+           );
+           if(response.statusCode==200||response.statusCode==201){
+             if(response.data["role"].toString()=="vendor"){
+               setState((){
+
+                 CacheHelper.removeData(key: "role");
+                 CacheHelper.saveData(key: "role", value: "vendor");
+               });
+
+             }
+           }
+
+         }catch(e){
+           print(e);
+           if(e.toString().contains("403")){
+             setState(() {
+               CacheHelper.removeData(key: "role");
+               CacheHelper.saveData(key: "role", value: "vendor");
+             });
+           }
+         }
+       }
+     }
+   }
+
+   void _handleMenuButtonPressed() {
+     checkIsUserOrVendor();
 
      _advancedDrawerController.showDrawer();
    }

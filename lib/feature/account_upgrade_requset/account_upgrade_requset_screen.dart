@@ -84,11 +84,12 @@ class _AccountUpgradeRequsetScreenState extends State<AccountUpgradeRequsetScree
         showCustomSnackbar
           (
             title: "تم ارسال الطلب بنجاح",
-            subTitle: "نشكرك على طلبك. تم تسجيل طلبك بنجاح وسنقوم بمراجعته. \n سنبقيك على اطلاع دائم بحالة طلبك.",
+            subTitle: "نشكرك على طلبك. تم تسجيل طلبك بنجاح وسنقوم بمراجعته. \n سنبقيك على اطلاع دائم بحالة طلب ترقيتك.",
             textColor: Colors.black
         );
-        CacheHelper.saveData(key: "sentAccountUpgradeRequset", value: "yes");
-     context.pop();
+        CacheHelper.removeData(key: "sentAccountUpgradeRequset");
+        CacheHelper.saveData(key: "sentAccountUpgradeRequset", value: CacheHelper.getData(key: "email"));
+        context.pop();
         context.pop();
       }
 
@@ -308,7 +309,7 @@ class _AccountUpgradeRequsetScreenState extends State<AccountUpgradeRequsetScree
                         context: context,
                       textButton: "ارسال الطلب",
                       onPressed: (){
-                         if(CacheHelper.getData(key: "sentAccountUpgradeRequset")==null){
+                         if(CacheHelper.getData(key: "sentAccountUpgradeRequset")!=CacheHelper.getData(key: "email")){
                            if(_walletNumber.text.isEmpty){
                              showCustomSnackbar
                                (
@@ -354,13 +355,15 @@ class _AccountUpgradeRequsetScreenState extends State<AccountUpgradeRequsetScree
                            }
                          }
                          else{
+                         if(  CacheHelper.getData(key: "sentAccountUpgradeRequset")==  CacheHelper.getData(key: "email")){
                            showCustomSnackbar
                              (
-
                                title: "لا يمكن ارسال اكثر من طلب",
                                subTitle: "لقد قم بارسال طلب ترقية حساب من قبل من قبل!",
                                textColor: Colors.black
                            );
+                         }
+
                          }
 
                       }

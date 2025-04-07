@@ -89,6 +89,8 @@ dependencies:
   add_to_cart_animation: ^2.0.4
   #flutter_svg: ^2.0.17
   slimy_card_plus:
+  webview_flutter: 3.0.4
+  flutter_inappwebview:
 
 
 #############################

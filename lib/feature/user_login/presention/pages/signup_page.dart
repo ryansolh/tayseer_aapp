@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_apps/core/component/my_custom_loading.dart';
 import 'package:todo_apps/core/my_extention/my_extentions.dart';
@@ -49,6 +50,8 @@ class _SignupPageState extends State<SignupPage> {
   bool isAddressError=false;
   bool isConfirmPassError=false;
   bool _sendButtonClicked=false;
+
+  bool isObSecure=true;
 
 
 
@@ -509,7 +512,7 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                   
-                  
+
                       FadeInUp(
                           duration: const Duration(milliseconds: 1200),
                           child: makeInput(
@@ -523,7 +526,26 @@ class _SignupPageState extends State<SignupPage> {
                                   : double.infinity,
                               label: "كلمة المرور",
                               inputController: _passController,
-                              obscureText: true,
+                              obscureText: isObSecure,
+                            suffixIcon: isObSecure!=true?MyShaderMask(
+                              radius: 1,
+                              toolWidget: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      isObSecure=true;
+                                    });
+                                  }, icon:Icon(FontAwesomeIcons.eyeSlash,size: 20,)
+                              ),
+                            ):MyShaderMask(
+                              radius: 1,
+                              toolWidget: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      isObSecure=false;
+                                    });
+                                  }, icon:Icon(FontAwesomeIcons.eye,size: 20,),
+                              ),
+                            ),
                             onChanged: (value) {
                              setState(() {
                                if(value.isNotEmpty){
@@ -578,7 +600,26 @@ class _SignupPageState extends State<SignupPage> {
                                   : double.infinity,
                               label: "تأكيد كلمة المرور",
                               inputController: _confirmPassController,
-                              obscureText: true,
+                              obscureText: isObSecure,
+                              suffixIcon: isObSecure!=true?MyShaderMask(
+                                radius: 1,
+                                toolWidget: IconButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        isObSecure=true;
+                                      });
+                                    }, icon:Icon(FontAwesomeIcons.eyeSlash,size: 20,)
+                                ),
+                              ):MyShaderMask(
+                                radius: 1,
+                                toolWidget: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      isObSecure=false;
+                                    });
+                                  }, icon:Icon(FontAwesomeIcons.eye,size: 20,),
+                                ),
+                              ),
                               onChanged: (value) {
                                 setState(() {
                                   if(value.isNotEmpty){
@@ -688,6 +729,7 @@ class _SignupPageState extends State<SignupPage> {
                                      setState(() {
 
                                        CacheHelper.saveData(key: "token", value: "Bearer ${userRegisterResponse.user!.accessToken}");
+                                       CacheHelper.saveData(key: "token2", value: userRegisterResponse.user!.accessToken);
                                        CacheHelper.saveData(key: "userId", value:userRegisterResponse.data!.userId );
                                        CacheHelper.saveData(key: "name", value:userRegisterResponse.data!.name );
                                        CacheHelper.saveData(key: "image", value:userRegisterResponse.data!.image );

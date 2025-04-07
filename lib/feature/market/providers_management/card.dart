@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../model/cart.dart';
+import '../data/model/cart.dart';
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};

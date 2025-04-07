@@ -248,6 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     UserResponseModel userRegisterResponse = UserResponseModel.fromJson(response.data);
                                     print(userRegisterResponse);
                                     CacheHelper.saveData(key: "token", value: "Bearer ${userRegisterResponse.user!.accessToken}");
+                                    CacheHelper.saveData(key: "token2", value: userRegisterResponse.user!.accessToken);
                                     CacheHelper.saveData(key: "userId", value:userRegisterResponse.data!.userId );
                                     CacheHelper.saveData(key: "name", value:userRegisterResponse.data!.name );
                                     CacheHelper.saveData(key: "image", value:userRegisterResponse.data!.image );

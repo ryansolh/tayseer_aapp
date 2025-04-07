@@ -12,7 +12,7 @@ import '../../../../core/utils/app_constants/blog_app_constants.dart';
 import '../../../user_login/presention/pages/signup_page.dart';
 import '../../data/model/cart.dart';
 import '../../data/model/product.dart';
-import '../../data/providers_management/card.dart';
+import '../../providers_management/card.dart';
 
 
 

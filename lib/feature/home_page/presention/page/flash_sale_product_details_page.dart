@@ -14,7 +14,7 @@ import '../../../../../core/component/my_custom_slide_fade_transition.dart';
 import '../../../../../core/component/my_custom_subtitle.dart';
 import '../../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../../core/utils/app_constants/blog_app_constants.dart';
-import '../../../market/data/providers_management/card.dart';
+import '../../../market/providers_management/card.dart';
 import '../../../user_login/presention/pages/signup_page.dart';
 import '../../data/model/flash_sale.dart';
 

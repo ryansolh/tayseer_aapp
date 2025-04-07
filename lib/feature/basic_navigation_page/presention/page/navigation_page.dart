@@ -56,9 +56,11 @@ void checkIsUserOrVendor()async{
        );
        if(response.statusCode==200||response.statusCode==201){
          if(response.data["role"].toString()=="vendor"){
+           setState((){
 
-           CacheHelper.removeData(key: "role");
-           CacheHelper.saveData(key: "role", value: "vendor");
+             CacheHelper.removeData(key: "role");
+             CacheHelper.saveData(key: "role", value: "vendor");
+           });
 
          }
        }
@@ -66,8 +68,10 @@ void checkIsUserOrVendor()async{
      }catch(e){
        print(e);
        if(e.toString().contains("403")){
-         CacheHelper.removeData(key: "role");
-         CacheHelper.saveData(key: "role", value: "vendor");
+        setState(() {
+          CacheHelper.removeData(key: "role");
+          CacheHelper.saveData(key: "role", value: "vendor");
+        });
        }
      }
    }

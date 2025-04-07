@@ -13,7 +13,7 @@ import '../../../../../core/component/my_custom_buttons.dart';
 import '../../../../../core/services/confirmed_app_message_sevice/snakbar_message_sevice.dart';
 import '../../../../user_login/presention/pages/signup_page.dart';
 
-import '../../../data/providers_management/card.dart';
+import '../../../providers_management/card.dart';
 import '../../widgets/cart/cart_widget.dart';
 class CartScreen extends StatelessWidget {
   @override

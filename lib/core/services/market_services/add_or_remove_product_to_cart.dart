@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../../../feature/market/data/model/product.dart';
-import '../../../feature/market/data/providers_management/card.dart';
+import '../../../feature/market/providers_management/card.dart';
 
 void addProductToCart(BuildContext context, ProductDataManage product) {
   final cart = Provider.of<Cart>(context, listen: false);
